@@ -1,0 +1,13 @@
+{
+  "plugins": ["lodash"],
+  "extends": ["airbnb/base", "plugin:lodash/recommended"],
+  "env": {
+      "browser": true,
+      "node": true
+  },
+  "rules": {
+    "func-names": ["error", "never"],
+    "no-param-reassign": 0,
+    "class-methods-use-this": 0
+  }
+}
