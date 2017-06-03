@@ -2,7 +2,7 @@ import angular from 'angular';
 
 function theming($mdThemingProvider) {
   $mdThemingProvider.theme('default')
-    .primaryPalette('lime')
+    .primaryPalette('light-blue')
     .accentPalette('grey');
 }
 

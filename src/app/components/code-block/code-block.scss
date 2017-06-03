@@ -1,0 +1,11 @@
+@import '../../styles/colors';
+
+.odCodeBlock {
+  .lineNumbers{
+    margin: 0 8px;
+    color: $color-text-med;
+  }
+  .userCode {
+    margin: 0;
+  }
+}

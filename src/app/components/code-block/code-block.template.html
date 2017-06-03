@@ -1,0 +1,9 @@
+<table class="odCodeBlock">
+  <tbody>
+    <tr ng-repeat="line in $ctrl.codeByLines track by $index">
+      <td><md-icon md-font-icon="fa" class="fa-arrow-right" ng-if="false"></md-icon></td>
+      <td><code><pre class="lineNumbers">{{$index + 1}}</pre></code></td>
+      <td><code highlight-python><pre class="userCode">{{line}}</pre></code></td>
+    </tr>
+  </tbody>
+</table>

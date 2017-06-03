@@ -1,3 +1,7 @@
 <md-card class="home">
   <span class="md-title home-heading">{{$ctrl.title}}</span>
 </md-card>
+
+<md-card ng-show="$ctrl.fileLoaded">
+  <code-block code-string="$ctrl.codeString"></code-block>
+</md-card>

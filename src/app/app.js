@@ -11,6 +11,7 @@ import './app.config';
 import './app.routing';
 
 // All other files
+import './common';
 import './components';
 import './services';
 import './styles';
