@@ -4,6 +4,7 @@ import 'angular-material';
 import 'angular-messages';
 import 'angular-ui-router';
 import 'restangular';
+import 'angular-highlightjs';
 
 angular.module('debugapp', [
   'ngAnimate',
@@ -11,4 +12,5 @@ angular.module('debugapp', [
   'ngMessages',
   'ui.router',
   'restangular',
+  'hljs',
 ]);
