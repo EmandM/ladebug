@@ -1,8 +1,12 @@
 <table class="odCodeBlock">
   <tbody>
-    <tr ng-repeat="line in $ctrl.codeByLines track by $index">
-      <td><md-icon md-font-icon="fa" class="fa-arrow-right" ng-if="false"></md-icon></td>
-      <td><code><pre class="lineNumbers">{{$index + 1}}</pre></code></td>
+    <tr ng-repeat="line in $ctrl.codeByLines track by $index" ng-init="lineNum = $index + 1"
+      ng-class="{'currentLine': $ctrl.currentLine === lineNum}">
+      <td><div ng-class="{'breakpoint': $ctrl.breakpointObj[$index]}" class="spacer" layout="row" layout-align="center center">
+          <i class="fa fa-arrow-right line-icon" ng-show="$ctrl.currentLine === lineNum"></i>
+        </div>
+      </td>
+      <td><code><pre class="lineNumbers">{{lineNum}}</pre></code></td>
       <td><div class="userCode" hljs hljs-language="python" hljs-source="line"></div></td>
     </tr>
   </tbody>

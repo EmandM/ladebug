@@ -9,7 +9,6 @@ import './app.module';
 
 // Config js files
 import './app.config';
-import './app.routing';
 
 // All other files
 import './common';

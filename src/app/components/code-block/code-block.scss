@@ -1,15 +1,29 @@
 @import '../../styles/colors';
 
 .odCodeBlock {
-  .lineNumbers{
-    margin: 0 8px;
+  border-collapse: collapse;
+  width: 100%;
+
+
+  .currentLine {
+    background-color: $color-primary-light-4;
+  }
+
+  .spacer {
+    width: 18px;
+  }
+  .line-icon {
+    font-size: 12px;
     color: $color-text-med;
+  }
+  .lineNumbers{
+    margin: 0;
   }
   .userCode {
     pre {
       margin: 0;
       code {
-        padding: 0;
+        padding: 0 8px;
       }
     }
   }

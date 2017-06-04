@@ -1,12 +1,15 @@
-.home {
-  padding: 24px;
-  .home-heading {
-    padding-bottom: 12px;
+@import '../../styles/colors';
+
+.odDebug {
+  height: 100%;
+
+  .codeBlock {
+    overflow: scroll;
+    padding: 10px 0;
   }
 
-  .personCard {
-    height: 40px;
-    width: 150px;
-    text-transform: none;
+  .debugButton {
+    min-width: 0;
+    background-color: $color-white;
   }
 }
