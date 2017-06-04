@@ -6,23 +6,21 @@ import template from './code-block.template.html';
 import './code-block.scss';
 
 class codeBlockController {
-  constructor() {
-    // Object for breakpoints => faster lookup than array.
-    this.breakpointObj = {};
-  }
+  // constructor() {
+  // }
 
   $onChanges(changesObj) {
     if (changesObj.codeString) {
       // Split the code by newline characters to have reference to each line.
       this.codeByLines = split(this.codeString, '\n');
     }
-    if (changesObj.breakpoints) {
-      // Transform array into obj
-      this.breakpointObj = keyBy(this.breakpoints, (line => line));
-    }
     if (changesObj.currentLine) {
       this.currentLineIndex = this.currentLine - 1;
     }
+  }
+
+  toggleBreakpoint(lineNum) {
+    this.breakpointAction({ line: lineNum });
   }
 }
 

@@ -1,5 +1,6 @@
 import angular from 'angular';
-import remove from 'lodash/remove';
+import findIndex from 'lodash/findIndex';
+import drop from 'lodash/drop';
 import template from './home.template.html';
 import './home.scss';
 
@@ -8,7 +9,8 @@ class homeController {
     this.$mdDialog = $mdDialog;
     this.title = 'Hello World';
     this.fileLoaded = false;
-    this.breakpoints = [];
+    // Object for breakpoints => faster lookup than array.
+    this.breakpoints = {};
     this.launchFilePicker(false);
   }
 
@@ -31,12 +33,20 @@ class homeController {
   stepForward() { this.currentTraceIndex += 1; }
   goToEnd() { this.currentTraceIndex = this.codeTrace.length - 1; }
 
-  toggleBreakpoint(lineNumber) {
-    if (lineNumber in this.breakpoints) {
-      remove(this.breakpoints, (breakpoint => lineNumber === breakpoint));
-    } else {
-      this.breakpoints.push(lineNumber);
+  run() {
+    // drop all lines before the currentIndex
+    // search through all following lines for breakpoints that are set
+    const newIndex = findIndex(
+      drop(this.codeTrace, this.currentTraceIndex + 1), (trace => this.breakpoints[trace.line]));
+    if (newIndex < 0) {
+      this.goToEnd();
+      return;
     }
+    this.currentTraceIndex = newIndex + this.currentTraceIndex + 1;
+  }
+
+  toggleBreakpoint(lineNumber) {
+    this.breakpoints[lineNumber] = !this.breakpoints[lineNumber];
   }
 }
 

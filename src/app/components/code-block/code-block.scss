@@ -9,12 +9,25 @@
     background-color: $color-primary-light-4;
   }
 
+  .codeLine:focus {
+    outline: none;
+  }
   .spacer {
     width: 18px;
+    position: relative;
+  }
+  .breakpoint {
+    font-size: 12px;
+    color: $color-error-red;
+    position: absolute;
+  }
+  .breakpoint.fade {
+    opacity: 0.4;
   }
   .line-icon {
     font-size: 12px;
     color: $color-text-med;
+    z-index: 100;
   }
   .lineNumbers{
     margin: 0;

@@ -1,5 +1,5 @@
 <div layout="row" class="odDebug" ng-if="$ctrl.fileLoaded">
-  <md-card flex="80" flex-gt-md="60" class="codeBlock">
+  <md-card flex="80" flex-gt-md="60" class="codeBlock" id="codeBlock">
     <code-block code-string="$ctrl.codeString" current-line="$ctrl.codeTrace[$ctrl.currentTraceIndex].line"
       breakpoints="$ctrl.breakpoints" breakpoint-action="$ctrl.toggleBreakpoint(line)"></code-block>
   </md-card>
@@ -14,7 +14,7 @@
       <md-icon md-font-icon="fa" class="fa-step-backward"></md-icon>
       <md-tooltip md-direction="bottom">Step Backward</md-tooltip>
     </md-button>
-    <md-button class="md-raised debugButton" flex ng-disabled="true" ng-click="$ctrl.run()">
+    <md-button class="md-raised debugButton" flex ng-click="$ctrl.run()">
       <md-icon md-font-icon="fa" class="fa-play"></md-icon>
       <md-tooltip md-direction="bottom">Run</md-tooltip>
     </md-button>
