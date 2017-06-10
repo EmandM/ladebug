@@ -4,4 +4,12 @@
   .page-content {
     padding: 36px;
   }
+  .code-block {
+    pre {
+      margin: 0;
+      code {
+        padding: 0 8px;
+      }
+    }
+  }
 }

@@ -1,6 +1,5 @@
 import angular from 'angular';
 import split from 'lodash/split';
-import keyBy from 'lodash/keyBy';
 
 import template from './code-block.template.html';
 import './code-block.scss';
