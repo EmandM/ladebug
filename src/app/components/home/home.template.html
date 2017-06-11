@@ -28,6 +28,10 @@
         <md-tooltip md-direction="bottom">Go To End</md-tooltip>
       </md-button>
     </div>
+    <md-card class="memory">
+      <div class="md-card-content code-block" hljs hljs-source={{$ctrl.memoryVarsToString()}}>
+      </div>
+    </md-card>
     <md-card class="sd-out">
       <div class="md-card-content code-block" hljs hljs-source="$ctrl.codeTrace[$ctrl.currentTraceIndex].stdout">
       </div>
