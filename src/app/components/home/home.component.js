@@ -1,6 +1,7 @@
 import angular from 'angular';
 import findIndex from 'lodash/findIndex';
 import drop from 'lodash/drop';
+import forEach from 'lodash/forEach'
 import template from './home.template.html';
 import './home.scss';
 
@@ -58,23 +59,22 @@ class homeController {
     //    add separating ; to memoryString
     // add separating \n to memoryString
 
-    var memoryString = "";
-    var currentHeap = this.codeTrace[this.currentTraceIndex].heap;
-    var currentGlobalVars = this.codeTrace[this.currentTraceIndex].ordered_globals;
-    var currentVar;
+    var memoryString = "MEMORY\n";
+    var heap = this.codeTrace[this.currentTraceIndex].heap;
+    var globalVars = this.codeTrace[this.currentTraceIndex].ordered_globals;
 
-    //problem starts here - currentHeap has no length as it is an object
-    console.log("heap", currentHeap);
-
-    for (var i = 0; i < currentHeap.length; i++) {
-      currentVar = currentHeap[i];
-      console.log("what the heap object is: " + currentVar[0]);
-      if (currentVar[0] != "FUNCTION") {
-        for (var j = 1; j < currentVar.length; j++) {
-          memoryString.concat(currentVar[j].toString());
+    forEach(heap, (currentHeapObject => {
+      forEach(currentHeapObject, (heapObjectItem => {
+        if (heapObjectItem != null) {
+          forEach(heapObjectItem, (item => {
+            //omit first item?
+            //i.e. 'Function', 'Dict'
+            memoryString = memoryString + item.toString() + " ";
+          }));
         }
-      }
-    }
+        memoryString = memoryString + "\n";
+      }));
+    }));
 
     return memoryString;
   }
