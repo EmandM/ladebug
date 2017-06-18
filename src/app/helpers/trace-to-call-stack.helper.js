@@ -1,6 +1,7 @@
 import forEach from 'lodash/forEach';
 import map from 'lodash/map';
 import isArray from 'lodash/isArray';
+import toLower from 'lodash/toLower';
 import drop from 'lodash/drop';
 
 export default class TraceToCallStack {
@@ -39,21 +40,22 @@ export default class TraceToCallStack {
     const callStack = map(frame.stack_to_render, (stackItem) => {
       const name = stackItem.func_name;
       return {
-        name,
+        name: name + '()',
         variables: TraceToCallStack.matchReferences(frame.heap, stackItem.encoded_locals),
+        id: stackItem.unique_hash,
       };
     });
 
-    callStack.push({
-      name: frame.func_name,
+    callStack.unshift({
+      name: 'Globals',
       variables: TraceToCallStack.matchReferences(frame.heap, frame.globals),
+      id: 0,
     });
     return callStack;
   }
 
   static matchReferences(heap, variableNames) {
-    const variables = {};
-    forEach(variableNames, (variableValue, variableName) => {
+    return map(variableNames, (variableValue, variableName) => {
       let type;
       let value;
       if (!isArray(variableValue)) {
@@ -63,16 +65,16 @@ export default class TraceToCallStack {
         if (variableValue[0] !== 'REF') {
           console.log('VariableValue is not REF. NEED TO CHECK THIS');
         }
-        const heapItem = variableValue[1];
+        const heapItem = heap[variableValue[1]];
         type = heapItem[0];
         value = TraceToCallStack.getHeapValue(heapItem);
       }
-      variables[variableName] = {
-        type,
+      return {
+        name: variableName,
+        type: toLower(type),
         value,
       };
     });
-    return variables;
   }
 
   static getHeapValue(heapItem) {
@@ -84,11 +86,10 @@ export default class TraceToCallStack {
       forEach(varValues, (valueArray) => {
         result[valueArray[0]] = valueArray[1];
       });
-    } else if (varType === 'TUPLE') {
-      result = [];
-      forEach(varValues, (value) => {
-        result.push(value);
-      })
+    } else if (varType === 'FUNCTION') {
+      result = varValues[0];
+    } else {
+      result = varValues;
     }
     return result;
   }

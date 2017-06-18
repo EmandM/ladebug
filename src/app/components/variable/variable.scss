@@ -1,0 +1,26 @@
+@import '../../styles/colors';
+
+.odVariable {
+  min-height: 28px;
+
+  .vIcon {
+    text-align: center;
+    font-size: 12px;
+  }
+  .vValue {
+    text-transform: capitalize;
+    margin: 0 4px;
+    color: $color-text-med;
+  }
+  .pName {
+    margin-left: 24px;
+  }
+  .pValue {
+    margin: 0 4px;
+    color: $color-purple;
+  }
+
+  .vText {
+    font-size: 14px;
+  }
+}

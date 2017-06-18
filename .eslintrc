@@ -8,6 +8,7 @@
   "rules": {
     "func-names": ["error", "never"],
     "no-param-reassign": 0,
-    "class-methods-use-this": 0
+    "class-methods-use-this": 0,
+    "prefer-template": 0
   }
 }

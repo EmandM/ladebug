@@ -6,12 +6,13 @@ function keepInViewDescription() {
       const scrollingElement = document.getElementById('codeBlock');
 
       $scope.$watch(() => $scope.keepInView, (newVal) => {
-        if (newVal) {
-          const elementOffset = element[0].offsetTop;
-          if (elementOffset < scrollingElement.scrollTop ||
-            elementOffset > scrollingElement.scrollTop + scrollingElement.offsetHeight) {
-            scrollingElement.scrollTop = element[0].offsetTop;
-          }
+        if (!newVal) { // If newVal is undefined
+          return;
+        }
+        const elementOffset = element[0].offsetTop;
+        if (elementOffset < scrollingElement.scrollTop ||
+          elementOffset > scrollingElement.scrollTop + scrollingElement.offsetHeight) {
+          scrollingElement.scrollTop = element[0].offsetTop;
         }
       });
     },

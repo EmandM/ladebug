@@ -29,10 +29,27 @@ class homeController {
     });
   }
 
-  goToStart() { this.currentTraceIndex = 0; }
-  stepBack() { this.currentTraceIndex -= 1; }
-  stepForward() { this.currentTraceIndex += 1; }
-  goToEnd() { this.currentTraceIndex = this.codeTrace.length - 1; }
+  updateTraceIndex() {
+    this.memory = TraceToCallStack.toStack(this.codeTrace[this.currentTraceIndex]);
+    this.visibleFrameId = this.memory[this.memory.length - 1].id;
+  }
+
+  goToStart() {
+    this.currentTraceIndex = 0;
+    this.updateTraceIndex();
+  }
+  stepBack() {
+    this.currentTraceIndex -= 1;
+    this.updateTraceIndex();
+  }
+  stepForward() {
+    this.currentTraceIndex += 1;
+    this.updateTraceIndex();
+  }
+  goToEnd() {
+    this.currentTraceIndex = this.codeTrace.length - 1;
+    this.updateTraceIndex();
+  }
 
   run() {
     // drop all lines before the currentIndex
@@ -44,14 +61,19 @@ class homeController {
       return;
     }
     this.currentTraceIndex = newIndex + this.currentTraceIndex + 1;
+    this.updateTraceIndex();
   }
 
   toggleBreakpoint(lineNumber) {
     this.breakpoints[lineNumber] = !this.breakpoints[lineNumber];
   }
 
-  memoryVarsToString() {
-    return TraceToCallStack.toStack(this.codeTrace[this.currentTraceIndex]);
+  openStackFrame(id) {
+    if (this.visibleFrameId === id) {
+      this.visibleFrameId = undefined;
+    } else {
+      this.visibleFrameId = id;
+    }
   }
 }
 

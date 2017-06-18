@@ -1,0 +1,18 @@
+<div ng-if="$ctrl.variable.type !== 'primitive'" class="odVariable">
+  <div layout="row" layout-align="start center">
+    <md-icon md-font-icon="fa" class="vIcon" ng-class="$ctrl.visible ? 'fa-chevron-down' : 'fa-chevron-right'"
+      ng-click="$ctrl.toggleVisibility()"></md-icon>
+    <code class="vText"><pre>{{$ctrl.variable.name}}:</pre></code>
+    <span class="vValue vText">{{$ctrl.variable.type}}</span>
+    <span flex></span>
+  </div>
+  <div class="children" ng-show="$ctrl.visible" ng-repeat="(key, variable) in $ctrl.variable.value">
+    TEST
+    <variable variable="$ctrl.makeVariable(key, variable)"></variable>
+</div>
+
+<div layout="row" layout-align="start center" ng-if="$ctrl.variable.type === 'primitive'" class="odVariable">
+  <code class="pName vText"><pre>{{$ctrl.variable.name}}:</pre></code>
+  <code class="pValue vText"><pre>{{$ctrl.variable.value}}</pre></code>
+  <span flex></span>
+</div>
