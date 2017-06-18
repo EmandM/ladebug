@@ -28,14 +28,14 @@
         <md-tooltip md-direction="bottom">Go To End</md-tooltip>
       </md-button>
     </div>
-    <md-card class="memory">
+    <md-card class="memory display-card">
       <div class="md-card-content code-block">{{$ctrl.memoryVarsToString()}}</div>
     </md-card>
-    <md-card class="errors">
+    <md-card class="exceptions display-card">
       <div class="md-card-content code-block" hljs hljs-source="$ctrl.codeTrace[$ctrl.currentTraceIndex].exception_msg">
       </div>
     </md-card>
-    <md-card class="sd-out">
+    <md-card class="sd-out display-card">
       <div class="md-card-content code-block" hljs hljs-source="$ctrl.codeTrace[$ctrl.currentTraceIndex].stdout">
       </div>
     </md-card>
