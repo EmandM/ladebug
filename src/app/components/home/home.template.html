@@ -31,6 +31,10 @@
     <md-card class="memory">
       <div class="md-card-content code-block">{{$ctrl.memoryVarsToString()}}</div>
     </md-card>
+    <md-card class="errors">
+      <div class="md-card-content code-block" hljs hljs-source="$ctrl.codeTrace[$ctrl.currentTraceIndex].exception_msg">
+      </div>
+    </md-card>
     <md-card class="sd-out">
       <div class="md-card-content code-block" hljs hljs-source="$ctrl.codeTrace[$ctrl.currentTraceIndex].stdout">
       </div>
