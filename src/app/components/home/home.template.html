@@ -1,9 +1,9 @@
 <div layout="row" class="odDebug" ng-if="$ctrl.fileLoaded">
-  <md-card flex="50" flex-gt-md="60" class="codeBlock" id="codeBlock">
-    <code-block code-string="$ctrl.codeString" current-line="$ctrl.codeTrace[$ctrl.currentTraceIndex].line"
-      breakpoints="$ctrl.breakpoints" breakpoint-action="$ctrl.toggleBreakpoint(line)"></code-block>
-  </md-card>
-  <div flex>
+  <div layout="column" flex="50" flex-gt-md="60">
+    <md-card class="codeBlock" id="codeBlock">
+      <code-block code-string="$ctrl.codeString" current-line="$ctrl.codeTrace[$ctrl.currentTraceIndex].line"
+        breakpoints="$ctrl.breakpoints" breakpoint-action="$ctrl.toggleBreakpoint(line)"></code-block>
+    </md-card>
     <div layout="row">
       <md-button class="md-raised debugButton" flex ng-click="$ctrl.goToStart()">
         <md-icon md-font-icon="fa" class="fa-fast-backward"></md-icon>
@@ -28,6 +28,8 @@
         <md-tooltip md-direction="bottom">Go To End</md-tooltip>
       </md-button>
     </div>
+  </div>
+  <div flex>
     <md-card class="memory display-card">
       <div class="md-card-content code-block">{{$ctrl.memoryVarsToString()}}</div>
     </md-card>
