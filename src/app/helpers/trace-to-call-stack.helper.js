@@ -1,8 +1,6 @@
-import forEach from 'lodash/forEach';
 import map from 'lodash/map';
 import isArray from 'lodash/isArray';
 import toLower from 'lodash/toLower';
-import drop from 'lodash/drop';
 
 export default class TraceToCallStack {
   /*
@@ -54,43 +52,43 @@ export default class TraceToCallStack {
     return callStack;
   }
 
-  static matchReferences(heap, variableNames) {
-    return map(variableNames, (variableValue, variableName) => {
-      let type;
-      let value;
-      if (!isArray(variableValue)) {
-        type = 'primitive';
-        value = variableValue;
-      } else {
-        if (variableValue[0] !== 'REF') {
-          console.log('VariableValue is not REF. NEED TO CHECK THIS');
-        }
-        const heapItem = heap[variableValue[1]];
-        type = heapItem[0];
-        value = TraceToCallStack.getHeapValue(heapItem);
-      }
-      return {
-        name: variableName,
-        type: toLower(type),
-        value,
-      };
+  static matchReferences(heap, variables) {
+    return map(variables, (variableValue, variableName) => {
+      // The top level will always be a dictionary. Build values and then append name.
+      const topValue = TraceToCallStack.getValue(variableValue, heap);
+      topValue.name = variableName;
+      return topValue;
     });
   }
 
-  static getHeapValue(heapItem) {
-    let result;
-    const varType = heapItem[0];
-    const varValues = drop(heapItem, 1);
-    if (varType === 'DICT') {
-      result = {};
-      forEach(varValues, (valueArray) => {
-        result[valueArray[0]] = valueArray[1];
-      });
-    } else if (varType === 'FUNCTION') {
-      result = varValues[0];
-    } else {
-      result = varValues;
+  static getValue(value, heap) {
+    if (!isArray(value)) {
+      return {
+        type: 'primitive',
+        value,
+      };
     }
-    return result;
+
+    if (value[0] === 'REF') {
+      value = heap[value[1]];
+    }
+
+    let finalValue;
+    const type = value[0];
+    const values = value.slice(1, value.length);
+    if (type === 'DICT') {
+      finalValue = map(values, (valueArray) => {
+        const typeValue = TraceToCallStack.getValue(valueArray[1], heap);
+        typeValue.name = valueArray[0];
+        return typeValue;
+      });
+    } else {
+      finalValue = map(values, varValue => TraceToCallStack.getValue(varValue, heap));
+    }
+
+    return {
+      type: toLower(type),
+      value: finalValue,
+    };
   }
 }
