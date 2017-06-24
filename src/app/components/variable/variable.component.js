@@ -6,16 +6,13 @@ import './variable.scss';
 class variableController {
   // constructor() { }
 
-  toggleVisibility() {
-    this.visible = !this.visible;
+  $onInit() {
+    this.isPrimitive = (this.variable.type === 'primitive');
+    this.hasName = (this.variable.name !== undefined);
   }
 
-  makeVariable(key, variable) {
-    return {
-      name: key,
-      type: 'primitive',
-      value: variable,
-    };
+  toggleVisibility() {
+    this.visible = !this.visible;
   }
 }
 

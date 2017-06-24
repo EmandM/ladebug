@@ -53,12 +53,8 @@ export default class TraceToCallStack {
   }
 
   static matchReferences(heap, variables) {
-    return map(variables, (variableValue, variableName) => {
-      // The top level will always be a dictionary. Build values and then append name.
-      const topValue = TraceToCallStack.getValue(variableValue, heap);
-      topValue.name = variableName;
-      return topValue;
-    });
+    return map(variables, (variableValue, variableName) =>
+      TraceToCallStack.addNameToVariable(variableName, variableValue, heap));
   }
 
   static getValue(value, heap) {
@@ -75,13 +71,19 @@ export default class TraceToCallStack {
 
     let finalValue;
     const type = value[0];
-    const values = value.slice(1, value.length);
+    let values = value.slice(1, value.length);
+
+    if (type === 'FUNCTION') {
+      // Grab the first value for the function => second value is null
+      values = values.slice(0, 1);
+    }
+
     if (type === 'DICT') {
-      finalValue = map(values, (valueArray) => {
-        const typeValue = TraceToCallStack.getValue(valueArray[1], heap);
-        typeValue.name = valueArray[0];
-        return typeValue;
-      });
+      finalValue = map(values,
+        (valueArray => TraceToCallStack.addNameToVariable(valueArray[0], valueArray[1], heap)));
+    } else if (type === 'LIST' || type === 'TUPLE') { // Add index as key
+      finalValue = map(values, (variable, index) =>
+        TraceToCallStack.addNameToVariable(index, variable, heap));
     } else {
       finalValue = map(values, varValue => TraceToCallStack.getValue(varValue, heap));
     }
@@ -90,5 +92,11 @@ export default class TraceToCallStack {
       type: toLower(type),
       value: finalValue,
     };
+  }
+
+  static addNameToVariable(name, variable, heap) {
+    const result = TraceToCallStack.getValue(variable, heap);
+    result.name = name;
+    return result;
   }
 }
