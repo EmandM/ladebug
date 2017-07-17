@@ -1,7 +1,6 @@
-import forEach from 'lodash/forEach';
 import map from 'lodash/map';
 import isArray from 'lodash/isArray';
-import drop from 'lodash/drop';
+import toLower from 'lodash/toLower';
 
 export default class TraceToCallStack {
   /*
@@ -39,57 +38,65 @@ export default class TraceToCallStack {
     const callStack = map(frame.stack_to_render, (stackItem) => {
       const name = stackItem.func_name;
       return {
-        name,
+        name: name + '()',
         variables: TraceToCallStack.matchReferences(frame.heap, stackItem.encoded_locals),
+        id: stackItem.unique_hash,
       };
     });
 
-    callStack.push({
-      name: frame.func_name,
+    callStack.unshift({
+      name: 'Globals',
       variables: TraceToCallStack.matchReferences(frame.heap, frame.globals),
+      id: 0,
     });
     return callStack;
   }
 
-  static matchReferences(heap, variableNames) {
-    const variables = {};
-    forEach(variableNames, (variableValue, variableName) => {
-      let type;
-      let value;
-      if (!isArray(variableValue)) {
-        type = 'primitive';
-        value = variableValue;
-      } else {
-        if (variableValue[0] !== 'REF') {
-          console.log('VariableValue is not REF. NEED TO CHECK THIS');
-        }
-        const heapItem = variableValue[1];
-        type = heapItem[0];
-        value = TraceToCallStack.getHeapValue(heapItem);
-      }
-      variables[variableName] = {
-        type,
-        value,
-      };
-    });
-    return variables;
+  static matchReferences(heap, variables) {
+    return map(variables, (variableValue, variableName) =>
+      TraceToCallStack.addNameToVariable(variableName, variableValue, heap));
   }
 
-  static getHeapValue(heapItem) {
-    let result;
-    const varType = heapItem[0];
-    const varValues = drop(heapItem, 1);
-    if (varType === 'DICT') {
-      result = {};
-      forEach(varValues, (valueArray) => {
-        result[valueArray[0]] = valueArray[1];
-      });
-    } else if (varType === 'TUPLE') {
-      result = [];
-      forEach(varValues, (value) => {
-        result.push(value);
-      })
+  static getValue(value, heap) {
+    if (!isArray(value)) {
+      return {
+        type: 'primitive',
+        value,
+      };
     }
+
+    if (value[0] === 'REF') {
+      value = heap[value[1]];
+    }
+
+    let finalValue;
+    const type = value[0];
+    let values = value.slice(1, value.length);
+
+    if (type === 'FUNCTION') {
+      // Grab the first value for the function => second value is null
+      values = values.slice(0, 1);
+    }
+
+    if (type === 'DICT') {
+      finalValue = map(values,
+        (valueArray => TraceToCallStack.addNameToVariable(valueArray[0], valueArray[1], heap)));
+    } else if (type === 'LIST' || type === 'TUPLE') { // Add index as key
+      finalValue = map(values, (variable, index) =>
+        TraceToCallStack.addNameToVariable(index, variable, heap));
+    } else {
+      finalValue = map(values, varValue => TraceToCallStack.getValue(varValue, heap));
+    }
+
+    return {
+      type: toLower(type),
+      value: finalValue,
+    };
+  }
+
+  static addNameToVariable(name, variable, heap) {
+    const result = TraceToCallStack.getValue(variable, heap);
+    result.name = name;
     return result;
   }
 }

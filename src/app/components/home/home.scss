@@ -13,8 +13,25 @@
     background-color: $color-white;
   }
 
-  .display-card {
-    padding: 24px;
+  .sd-out {
+    padding: 12px;
+    .outHeading {
+      margin-bottom: 12px;
+    }
+  }
+
+  .frameHeading {
+    padding: 4px 8px;
+    background: $color-primary-light-4;
+    border: 1px solid $color-primary;
+    outline: none;
+
+    .frameIcon {
+      color: $color-text;
+    }
+  }
+  .frameHeading.no-border-bottom {
+    border-bottom: none;
   }
 
   .exceptions {
