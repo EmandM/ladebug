@@ -2,10 +2,10 @@ import angular from 'angular';
 import findIndex from 'lodash/findIndex';
 import drop from 'lodash/drop';
 import TraceToCallStack from '../../helpers/trace-to-call-stack.helper';
-import template from './home.template.html';
-import './home.scss';
+import template from './debug.template.html';
+import './debug.scss';
 
-class homeController {
+class debugController {
   constructor($mdDialog) {
     this.$mdDialog = $mdDialog;
     this.title = 'Hello World';
@@ -77,11 +77,11 @@ class homeController {
   }
 }
 
-homeController.$inject = ['$mdDialog'];
+debugController.$inject = ['$mdDialog'];
 
 angular.module('debugapp')
-  .component('home', {
+  .component('debug', {
     template,
-    controller: homeController,
+    controller: debugController,
     bindings: {},
   });

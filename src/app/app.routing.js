@@ -1,12 +1,16 @@
 import angular from 'angular';
 
 function routing($urlRouterProvider, $stateProvider) {
-  $urlRouterProvider.otherwise('/');
+  $urlRouterProvider.otherwise('/sandbox');
 
   $stateProvider
-    .state('home', {
-      url: '/',
-      template: '<home></home>',
+    .state('debug', {
+      url: '/debug',
+      template: '<debug></debug>',
+    })
+    .state('sandbox', {
+      url: '/sandbox',
+      template: '<sandbox></sandbox>',
     });
 }
 
