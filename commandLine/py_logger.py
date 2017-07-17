@@ -1488,14 +1488,21 @@ def exec_str_with_user_ns(script_str, user_ns, finalizer_func):
   finally:
     return logger.finalize()
 
-if __name__ == '__main__':
+'''
+the command line thingo
+'''
+def call_me(inputFile):
+  output = ''
   outputfile = open(os.getcwd() + "/py_output.json", "w")
 
   def json_finalizer(input_code, output_trace):
+    nonlocal output
     ret = dict(code=input_code, trace=output_trace)
     json_output = json.dumps(ret, indent=None) # use indent=None for most compact repr
-    outputfile.write(json_output)
-    
-  with open (sys.argv[1], "r") as myfile:
+    output += json_output
+
+  with open (inputFile, "r") as myfile:
     script_str = myfile.read()
-  exec_script_str(script_str, "", '{"cumulative_mode":false,"heap_primitives":false,"show_only_outputs":false,"origin":"opt-frontend.js"}', json_finalizer)
+    exec_script_str(script_str, "", '{"cumulative_mode":false,"heap_primitives":false,"show_only_outputs":false,"origin":"opt-frontend.js"}', json_finalizer)
+
+  return output
