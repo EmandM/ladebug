@@ -3,6 +3,7 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const codemirror = require('codemirror');
 
 /**
  * Env
@@ -33,6 +34,8 @@ module.exports = (function () {
       'angular-animate',
       'angular-material',
       'angular-messages',
+      'angular-ui-codemirror',
+      'codemirror',
       'lodash',
       'moment',
       'restangular',
@@ -163,6 +166,9 @@ module.exports = (function () {
         // { from: 'src/index.html', to: '.' },
         { from: 'node_modules/font-awesome/fonts/**', to: '.' },
     ]),
+    new webpack.ProvidePlugin({
+        'window.CodeMirror': codemirror
+    }),
   ];
 
   // Skip rendering index.html in test mode

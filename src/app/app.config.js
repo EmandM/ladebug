@@ -3,7 +3,7 @@ import angular from 'angular';
 function theming($mdThemingProvider) {
   $mdThemingProvider.theme('default')
     .primaryPalette('light-blue')
-    .accentPalette('grey');
+    .accentPalette('blue-grey');
 }
 
 theming.$inject = ['$mdThemingProvider'];
