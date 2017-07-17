@@ -1,12 +1,12 @@
 import angular from 'angular';
 
 function routing($urlRouterProvider, $stateProvider) {
-  $urlRouterProvider.otherwise('/');
+  $urlRouterProvider.otherwise('/debug');
 
   $stateProvider
-    .state('home', {
-      url: '/',
-      template: '<home></home>',
+    .state('debug', {
+      url: '/debug',
+      template: '<debug></debug>',
     });
 }
 
