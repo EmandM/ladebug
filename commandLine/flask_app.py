@@ -1,13 +1,14 @@
 from flask import Flask, request
-from flask_restful import Resource, Api
+from flask_restful import reqparse, abort, Api, Resource
 import debug_output
 import os
 
 app = Flask(__name__)
 api = Api(app)
+parser = reqparse.RequestParser()
+parser.add_argument('codeString')
 
 programs = {}
-#programs["program0"] = "hola"
 
 class ExercisesGet(Resource):
     def get(self, program_id):
@@ -19,12 +20,19 @@ class ExercisesPut(Resource):
         programs[program_id] = debug_output.pythonFileToJson(os.getcwd() + "/" + inputFile)
         return "Inserted"
 
+class ExercisesPost(Resource):
+    def post(self):
+        args = parser.parse_args()
+        response = debug_output.pythonStringToJson(args['codeString'])
+        return response
+
 #class Sandbox(Resource):
 #    def post(self, inputString):
 #        return sandBoxConvert(inputString)
 
 api.add_resource(ExercisesGet, '/<string:program_id>')
 api.add_resource(ExercisesPut, '/<string:program_id>/<string:inputFile>')
+api.add_resource(ExercisesPost, '/get-output')
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, use_debugger=False, use_reloader=False)

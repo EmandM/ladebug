@@ -1,4 +1,5 @@
 import py_logger
+import json
 
 '''
 converts python file (sent in as string name of file) to JSON and returns this
@@ -26,14 +27,15 @@ converts python code (sent in as string) to JSON and returns this
 as a string
 '''
 def pythonStringToJson(inputString):
-  output = ''
+  output = {}
 
   def json_finalizer(input_code, output_trace):
     nonlocal output
     ret = dict(code=input_code, trace=output_trace)
-    json_output = json.dumps(ret, indent=None)
-    output += json_output
+    output = ret
 
   py_logger.exec_script_str(inputString, "", '{"cumulative_mode":false,"heap_primitives":false,"show_only_outputs":false,"origin":"opt-frontend.js"}', json_finalizer)
-
   return output
+
+if __name__ == '__main__':
+  print(pythonStringToJson('print("hello world")'))
