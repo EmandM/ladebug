@@ -1,1 +1,11 @@
-<h1>Hello World</h1>
+<div class="codeContainer">
+    <form ng-submit="$ctrl.submit()">
+    <md-card class="odSandbox">
+      <textarea ui-codemirror ui-codemirror-opts="$ctrl.opts" ng-model="$ctrl.code"></textarea>
+    </md-card>
+    <div layout="row" layout-align="end center">
+      <md-button type="button" class="md-raised md-accent" aria-label="clear" ng-click="$ctrl.clear()">Clear</md-button>
+      <md-button type="submit" class="md-raised md-primary" aria-label="debug">Debug</md-button>
+    </div>
+  </form>
+</div>

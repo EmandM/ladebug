@@ -4,8 +4,17 @@ import template from './sandbox.template.html';
 import './sandbox.scss';
 
 class sandboxController {
-  // constructor() {
-  // }
+  constructor() {
+    this.text = "hello world";
+
+    this.opts = {
+      lineNumbers: true,
+      lineWrapping: false,
+      mode: 'python',
+    }
+
+    this.focus = true;
+  }
 }
 
 sandboxController.$inject = ['$mdDialog'];
