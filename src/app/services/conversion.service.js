@@ -4,6 +4,14 @@ class ConversionService {
   constructor(restangular) {
     this.restangular = restangular;
   }
+
+  postRequest(pythonString) {
+    //restangularr wowee
+    console.log('ye', pythonString);
+  
+    //var code = Restangular.all('sandbox');
+  }
+
 }
 
 ConversionService.$inject = ['Restangular'];
