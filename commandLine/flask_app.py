@@ -1,6 +1,6 @@
 from flask import Flask, request
 from flask_restful import Resource, Api
-import py_logger
+import debug_output
 import os
 
 app = Flask(__name__)
@@ -16,7 +16,7 @@ class ExercisesGet(Resource):
 class ExercisesPut(Resource):
     def put(self, program_id, inputFile):
         #hardcoded for local files - will not work
-        programs[program_id] = py_logger.pythonFileToJson(os.getcwd() + "/" + inputFile)
+        programs[program_id] = debug_output.pythonFileToJson(os.getcwd() + "/" + inputFile)
         return "Inserted"
 
 #class Sandbox(Resource):
