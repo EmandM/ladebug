@@ -33,8 +33,8 @@ module.exports = (function () {
       'angular-animate',
       'angular-material',
       'angular-messages',
-      // 'angular-ui-codemirror',
-      // 'codemirror',
+      'angular-ui-codemirror',
+      'codemirror',
       'lodash',
       'moment',
       'restangular',
@@ -133,6 +133,12 @@ module.exports = (function () {
       // Allow loading html through js
       test: /\.html$/,
       loader: 'raw-loader',
+    },{
+      test: require.resolve('codemirror'),
+      use: [{
+        loader: 'expose-loader',
+        options: 'CodeMirror'
+      }]
     }],
   };
 
@@ -166,7 +172,7 @@ module.exports = (function () {
         { from: 'node_modules/font-awesome/fonts/**', to: '.' },
     ]),
     new webpack.ProvidePlugin({
-        // 'window.CodeMirror': require('codemirror'),
+        'window.CodeMirror': 'codemirror',
     }),
   ];
 

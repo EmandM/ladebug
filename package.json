@@ -42,6 +42,7 @@
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-jsx-a11y": "^4.0.0",
     "eslint-plugin-lodash": "^2.4.0",
+    "expose-loader": "^0.7.3",
     "extract-text-webpack-plugin": "2.0.0-beta.5",
     "file-loader": "^0.11.1",
     "html-webpack-plugin": "^2.7.1",
