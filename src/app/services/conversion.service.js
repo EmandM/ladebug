@@ -5,11 +5,13 @@ class ConversionService {
     this.restangular = restangular;
   }
 
-  postRequest(pythonString) {
-    console.log('yo');
-  
-    //restangularr wowee
-    //var code = Restangular.all('sandbox');
+  postRequest(codeInput) {
+    if (codeInput) {
+      this.restangular.one('get-output').customPOST({codestring: codeInput}).then((response) => { console.log(response); });
+    } else {
+      //create a modal saying something? or make button click have no action
+      console.log('No code entered');
+    }
   }
 
 }

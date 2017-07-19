@@ -25,6 +25,7 @@ class ExercisesPost(Resource):
         args = parser.parse_args()
         response = debug_output.pythonStringToJson(args['codeString'])
         return response
+        #return jsonify(response)
 
 #class Sandbox(Resource):
 #    def post(self, inputString):
