@@ -6,6 +6,7 @@ function routing($urlRouterProvider, $stateProvider) {
   $stateProvider
     .state('debug', {
       url: '/debug',
+      //params: { outputID: -1 }
       template: '<debug></debug>',
     })
     .state('sandbox', {

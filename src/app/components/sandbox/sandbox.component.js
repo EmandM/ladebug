@@ -4,7 +4,8 @@ import template from './sandbox.template.html';
 import './sandbox.scss';
 
 class sandboxController {
-  constructor() {
+  constructor(conversionService) {
+    this.conversionService = conversionService;
     this.text = "hello world";
 
     this.opts = {
@@ -15,9 +16,13 @@ class sandboxController {
 
     this.focus = true;
   }
+
+  submit() {
+    this.conversionService.postRequest(this.code);
+  }
 }
 
-sandboxController.$inject = ['$mdDialog'];
+sandboxController.$inject = ['ConversionService'];
 
 angular.module('debugapp')
   .component('sandbox', {
