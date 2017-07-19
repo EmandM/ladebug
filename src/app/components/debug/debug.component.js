@@ -6,27 +6,19 @@ import template from './debug.template.html';
 import './debug.scss';
 
 class debugController {
-  constructor($mdDialog) {
-    this.$mdDialog = $mdDialog;
-    this.title = 'Hello World';
-    this.fileLoaded = false;
+  constructor(conversionService) {
+    this.conversionService = conversionService;
+
     // Object for breakpoints => faster lookup than array.
     this.breakpoints = {};
-    this.launchFilePicker(false);
   }
 
-  launchFilePicker(canClose, $event) {
-    this.$mdDialog.show({
-      template: `<choose-file can-close="${canClose}"></choose-file>`,
-      targetEvent: $event,
-      clickOutsideToClose: canClose,
-      escapeToClose: canClose,
-    }).then((fileContents) => {
-      this.fileLoaded = true;
-      this.codeString = fileContents.code;
-      this.codeTrace = fileContents.trace;
-      this.goToStart();
-    });
+  $onInit() {
+    const output = this.conversionService.getOutputById(this.outputId);
+    this.codeString = output.code;
+    this.codeTrace = output.trace;
+    this.goToStart();
+    this.outputLoaded = true;
   }
 
   updateTraceIndex() {
@@ -77,11 +69,13 @@ class debugController {
   }
 }
 
-debugController.$inject = ['$mdDialog'];
+debugController.$inject = ['ConversionService'];
 
 angular.module('debugapp')
   .component('debug', {
     template,
     controller: debugController,
-    bindings: {},
+    bindings: {
+      outputId: '@',
+    },
   });
