@@ -1,17 +1,33 @@
 import angular from 'angular';
+import GuidHelper from '../helpers/guid.helper';
 
 class ConversionService {
   constructor(restangular) {
     this.restangular = restangular;
+
+    this.JsonResponses = {};
   }
 
-  postRequest(codeInput) {
-    if (codeInput) {
-      this.restangular.one('get-output').customPOST({codestring: codeInput}).then((response) => { console.log(response); });
-    } else {
-      //create a modal saying something? or make button click have no action
-      console.log('No code entered');
+  postRequest(pythonString) {
+    if (pythonString) {
+      return this.restangular.one('get-output').customPOST({
+        codeString: pythonString
+      }).then((response) => {
+        const responseId = GuidHelper.createGuid();
+        this.JsonResponses[responseId] = response.data;
+        return {
+          id: responseId,
+          data: response.data,
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
     }
+  }
+
+  getOutputById(id) {
+    return this.JsonResponses[id];
   }
 
 }

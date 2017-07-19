@@ -4,25 +4,27 @@ import template from './sandbox.template.html';
 import './sandbox.scss';
 
 class sandboxController {
-  constructor(conversionService) {
+  constructor(conversionService, $state) {
     this.conversionService = conversionService;
-    this.text = "hello world";
+    this.$state = $state;
 
     this.opts = {
       lineNumbers: true,
       lineWrapping: false,
       mode: 'python',
     }
-
-    this.focus = true;
   }
 
   submit() {
-    this.conversionService.postRequest(this.code);
+    this.submitted = true;
+    this.conversionService.postRequest(this.code)
+      .then((response) => {
+        this.$state.go('debug', { outputID: response.id })
+      });
   }
 }
 
-sandboxController.$inject = ['ConversionService'];
+sandboxController.$inject = ['ConversionService', '$state'];
 
 angular.module('debugapp')
   .component('sandbox', {

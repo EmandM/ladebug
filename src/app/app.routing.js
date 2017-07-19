@@ -6,8 +6,16 @@ function routing($urlRouterProvider, $stateProvider) {
   $stateProvider
     .state('debug', {
       url: '/debug',
-      //params: { outputID: -1 }
-      template: '<debug></debug>',
+      params: { outputID: null },
+      template: '<debug output-id="{{$ctrl.outputID}}"></debug>',
+      controller: ['$state', function ($state) {
+        if (!$state.params.outputID) {
+          $state.go('sandbox');
+          return;
+        }
+        this.outputID = $state.params.outputID;
+      }],
+      controllerAs: '$ctrl',
     })
     .state('sandbox', {
       url: '/sandbox',

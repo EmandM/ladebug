@@ -1,9 +1,11 @@
 from flask import Flask, request
 from flask_restful import reqparse, abort, Api, Resource
+from flask_cors import CORS
 import debug_output
 import os
 
 app = Flask(__name__)
+CORS(app)
 api = Api(app)
 parser = reqparse.RequestParser()
 parser.add_argument('codeString')
@@ -24,8 +26,7 @@ class ExercisesPost(Resource):
     def post(self):
         args = parser.parse_args()
         response = debug_output.pythonStringToJson(args['codeString'])
-        return response
-        #return jsonify(response)
+        return { 'data': response }
 
 #class Sandbox(Resource):
 #    def post(self, inputString):
@@ -36,4 +37,4 @@ api.add_resource(ExercisesPut, '/<string:program_id>/<string:inputFile>')
 api.add_resource(ExercisesPost, '/get-output')
 
 if __name__ == '__main__':
-    app.run(debug=True, use_debugger=False, use_reloader=False)
+    app.run(debug=True)
