@@ -31,12 +31,7 @@ class ConversionService {
     return (id in this.JsonResponses) ? this.$q.when(this.JsonResponses[id]) : 
       this.restangular.one('get-exercise').customGET({
         exerciseId: id
-      }).then((response) => {
-        return {
-          data: response.data
-        }
-      })
-    //this.$q.when() is a promise
+      }).then(response => response.data);
   }
 
 }
