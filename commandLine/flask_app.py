@@ -1,6 +1,7 @@
 from flask import Flask, request
 from flask_restful import reqparse, abort, Api, Resource
 from flask_cors import CORS
+from pymongo import MongoClient
 import debug_output
 import os
 
@@ -10,17 +11,24 @@ api = Api(app)
 parser = reqparse.RequestParser()
 parser.add_argument('codeString')
 
-programs = {}
+client = MongoClient()
+db = client.debuggerTest #TODO don't forget to change this for deployment
 
-class ExercisesGet(Resource):
-    def get(self, program_id):
-        return {program_id : programs[program_id]}
+class ExercisesGetAll(Resource):
+    def get(self):
+        output = ''
+        exercises = db.exercisesCollection.find()
+        for exercise in exercises:
+            output += exercise.get('exercise_id')
+            output += ', '
+            output += exercise.get('data')
+            output += '; '
+        return output
 
 class ExercisesPut(Resource):
-    def put(self, program_id, inputFile):
-        #hardcoded for local files - will not work
-        programs[program_id] = debug_output.pythonFileToJson(os.getcwd() + "/" + inputFile)
-        return "Inserted"
+    def put(self):
+        result = db.exercisesCollection.insert_one({"exercise_id": "1", "data": "hello"})
+        return "Insert"
 
 class ExercisesPost(Resource):
     def post(self):
@@ -28,12 +36,8 @@ class ExercisesPost(Resource):
         response = debug_output.pythonStringToJson(args['codeString'])
         return { 'data': response }
 
-#class Sandbox(Resource):
-#    def post(self, inputString):
-#        return sandBoxConvert(inputString)
-
-api.add_resource(ExercisesGet, '/<string:program_id>')
-api.add_resource(ExercisesPut, '/<string:program_id>/<string:inputFile>')
+api.add_resource(ExercisesGetAll, '/get-exercises')
+api.add_resource(ExercisesPut, '/insert-exercise')
 api.add_resource(ExercisesPost, '/get-output')
 
 if __name__ == '__main__':
