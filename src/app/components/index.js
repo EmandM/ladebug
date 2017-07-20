@@ -4,3 +4,4 @@ import './choose-file';
 import './code-block';
 import './sandbox';
 import './variable';
+import './exercises-list';
