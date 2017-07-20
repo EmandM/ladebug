@@ -28,11 +28,15 @@ class ConversionService {
   }
 
   getOutputById(id) {
-    //return (id in this.JsonResponses) ? this.$q.when(this.JsonResponses[id]) : false //send request to server for retrieval from database!
-    
+    return (id in this.JsonResponses) ? this.$q.when(this.JsonResponses[id]) : 
+      this.restangular.one('get-exercise').customGET({
+        exerciseId: id
+      }).then((response) => {
+        return {
+          data: response.data
+        }
+      })
     //this.$q.when() is a promise
-
-    return this.JsonResponses[id];
   }
 
 }

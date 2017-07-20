@@ -25,10 +25,17 @@ class ExercisesGetAll(Resource):
             output += '; '
         return output
 
+class ExercisesGetOne(Resource):
+    def get(self):
+        args = parser.parse_args()
+        response = db.exercisesCollection.find({'_id': args['exerciseId']})
+        #TODO check if response is undefined
+        return { 'data': response }
+
 class ExercisesPut(Resource):
     def put(self):
-        result = db.exercisesCollection.insert_one({"exercise_name": "1", "data": "hello", "bug_line": "3"})
-        return "Insert"
+        result = db.exercisesCollection.insert_one({'exercise_name': '1', 'data': 'hello', 'bug_line': '3'})
+        return "Inserted " + str(result.inserted_id)
 
 class ExercisesPost(Resource):
     def post(self):
@@ -37,11 +44,12 @@ class ExercisesPost(Resource):
         return { 'data': response }
 
 class ExercisesDeleteAll(Resource):
-    def put(self):
+    def delete(self):
         result = db.exercisesCollection.delete_many({})
-        return "Deleted " + result.deleted_count
+        return "Deleted " + str(result.deleted_count)
 
 api.add_resource(ExercisesGetAll, '/get-exercises')
+api.add_resource(ExercisesGetOne, '/get-exercise')
 api.add_resource(ExercisesPut, '/insert-exercise')
 api.add_resource(ExercisesPost, '/get-output')
 api.add_resource(ExercisesDeleteAll, '/delete-exercises')
