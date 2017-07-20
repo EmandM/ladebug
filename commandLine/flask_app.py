@@ -27,7 +27,7 @@ class ExercisesGetAll(Resource):
 
 class ExercisesPut(Resource):
     def put(self):
-        result = db.exercisesCollection.insert_one({"exercise_id": "1", "data": "hello"})
+        result = db.exercisesCollection.insert_one({"exercise_name": "1", "data": "hello", "bug_line": "3"})
         return "Insert"
 
 class ExercisesPost(Resource):
