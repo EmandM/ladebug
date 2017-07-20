@@ -19,7 +19,7 @@ class ExercisesGetAll(Resource):
         output = ''
         exercises = db.exercisesCollection.find()
         for exercise in exercises:
-            output += exercise.get('exercise_id')
+            output += exercise.get('exercise_name')
             output += ', '
             output += exercise.get('data')
             output += '; '
@@ -34,7 +34,7 @@ class ExercisesGetOne(Resource):
 
 class ExercisesPut(Resource):
     def put(self):
-        result = db.exercisesCollection.insert_one({'exercise_name': '1', 'data': 'hello', 'bug_line': '3'})
+        result = db.exercisesCollection.insert_one({'exercise_name': 'exercise A', 'data': 'hello', 'bug_line': '3'})
         return "Inserted " + str(result.inserted_id)
 
 class ExercisesPost(Resource):
