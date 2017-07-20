@@ -36,9 +36,15 @@ class ExercisesPost(Resource):
         response = debug_output.pythonStringToJson(args['codeString'])
         return { 'data': response }
 
+class ExercisesDeleteAll(Resource):
+    def put(self):
+        result = db.exercisesCollection.delete_many({})
+        return "Deleted " + result.deleted_count
+
 api.add_resource(ExercisesGetAll, '/get-exercises')
 api.add_resource(ExercisesPut, '/insert-exercise')
 api.add_resource(ExercisesPost, '/get-output')
+api.add_resource(ExercisesDeleteAll, '/delete-exercises')
 
 if __name__ == '__main__':
     app.run(debug=True)
