@@ -1,4 +1,5 @@
 import angular from 'angular';
+import './exercises-list.scss';
 
 import template from './exercises-list.template.html';
 

@@ -19,7 +19,7 @@ function routing($urlRouterProvider, $stateProvider) {
     })
     .state('exercisesList', {
       url: '/exercises-list',
-      template: '<exercisesList></exercisesList>',
+      template: '<exercises-list></exercises-list>',
     })
     .state('sandbox', {
       url: '/sandbox',
