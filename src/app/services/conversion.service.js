@@ -34,6 +34,11 @@ class ConversionService {
       }).then(response => response.data);
   }
 
+  getAllExercises() {
+    return this.restangular.one('exercises-list').get({
+      }).then(response => response.exercises);
+  }
+
 }
 
 ConversionService.$inject = ['Restangular', '$q'];

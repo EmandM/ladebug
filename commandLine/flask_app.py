@@ -16,14 +16,9 @@ db = client.debuggerTest #TODO don't forget to change this for deployment
 
 class ExercisesGetAll(Resource):
     def get(self):
-        output = ''
-        exercises = db.exercisesCollection.find()
-        for exercise in exercises:
-            output += exercise.get('exercise_name')
-            output += ', '
-            output += exercise.get('data')
-            output += '; '
-        return output
+        response = db.exercisesCollection.find({})
+        #TODO check if response is undefined
+        return { 'data': response }
 
 class ExercisesGetOne(Resource):
     def get(self):
@@ -48,7 +43,7 @@ class ExercisesDeleteAll(Resource):
         result = db.exercisesCollection.delete_many({})
         return "Deleted " + str(result.deleted_count)
 
-api.add_resource(ExercisesGetAll, '/get-exercises')
+api.add_resource(ExercisesGetAll, '/exercises-list')
 api.add_resource(ExercisesGetOne, '/get-exercise')
 api.add_resource(ExercisesPut, '/insert-exercise')
 api.add_resource(ExercisesPost, '/get-output')
