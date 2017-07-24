@@ -18,6 +18,7 @@ class ExercisesGetAll(Resource):
     def get(self):
         response = db.exercisesCollection.find({})
         #TODO check if response is undefined
+        print(response)
         return { 'data': response }
 
 class ExercisesGetOne(Resource):
@@ -29,8 +30,10 @@ class ExercisesGetOne(Resource):
 
 class ExercisesPut(Resource):
     def put(self):
-        result = db.exercisesCollection.insert_one({'exercise_name': 'exercise A', 'data': 'hello', 'bug_line': '3'})
-        return "Inserted " + str(result.inserted_id)
+        resultA = db.exercisesCollection.insert_one({'name': 'exercise A', 'data': 'hello', 'bug_line': '1'})
+        resultB = db.exercisesCollection.insert_one({'name': 'exercise B', 'data': 'helo', 'bug_line': '2'})
+        resultC = db.exercisesCollection.insert_one({'name': 'exercise C', 'data': 'hi', 'bug_line': '3'})
+        return "Inserted " + str(resultA.inserted_id) + ", " + str(resultB.inserted_id)  + ", " + str(resultC.inserted_id)
 
 class ExercisesPost(Resource):
     def post(self):
