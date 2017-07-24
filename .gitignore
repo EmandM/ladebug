@@ -3,3 +3,4 @@ dist
 coverage
 *.DS_Store
 commandLine/__pycache__/py_logger.cpython-36.pyc
+commandLine/__pycache__/debug_output.cpython-36.pyc
