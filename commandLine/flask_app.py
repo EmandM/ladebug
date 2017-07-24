@@ -1,7 +1,9 @@
 from flask import Flask, request
 from flask_restful import reqparse, abort, Api, Resource
 from flask_cors import CORS
-from pymongo import MongoClient
+import pymongo
+#from pymongo import MongoClient
+from bson.json_util import dumps
 import debug_output
 import os
 
@@ -11,15 +13,15 @@ api = Api(app)
 parser = reqparse.RequestParser()
 parser.add_argument('codeString')
 
-client = MongoClient()
+client = pymongo.MongoClient()
 db = client.debuggerTest #TODO don't forget to change this for deployment
 
 class ExercisesGetAll(Resource):
     def get(self):
         response = db.exercisesCollection.find({})
         #TODO check if response is undefined
-        print(response)
-        return { 'data': response }
+        #exercise.get('_id').str
+        return { 'data': dumps(response) }
 
 class ExercisesGetOne(Resource):
     def get(self):
