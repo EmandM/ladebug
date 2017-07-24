@@ -20,12 +20,14 @@ class exercisesListController {
     }
   }
 
+  /*
   $onInit() {
     this.conversionService.getAllExercises()
       .then((response) => {
         this.exerciseList = response.exercises;
       });
   }
+  */
 
 }
 
