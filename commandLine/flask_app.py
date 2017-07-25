@@ -1,8 +1,7 @@
 from flask import Flask, request
 from flask_restful import reqparse, abort, Api, Resource
 from flask_cors import CORS
-import pymongo
-#from pymongo import MongoClient
+from pymongo import MongoClient
 from bson.json_util import dumps
 import debug_output
 import os
@@ -13,26 +12,29 @@ api = Api(app)
 parser = reqparse.RequestParser()
 parser.add_argument('codeString')
 
-client = pymongo.MongoClient()
+client = MongoClient()
 db = client.debuggerTest #TODO don't forget to change this for deployment
 
 class ExercisesGetAll(Resource):
     def get(self):
         response = db.exercisesCollection.find({})
-        #TODO check if response is undefined
-        #exercise.get('_id').str
+        #TODO what to do if response is null
+        #if (response) {
         return { 'data': dumps(response) }
 
 class ExercisesGetOne(Resource):
     def get(self):
         args = parser.parse_args()
         response = db.exercisesCollection.find({'_id': args['exerciseId']})
-        #TODO check if response is undefined
+        #TODO check if response is null
+        #if (response) {
         return { 'data': response }
 
 class ExercisesPut(Resource):
     def put(self):
-        resultA = db.exercisesCollection.insert_one({'name': 'exercise A', 'data': 'hello', 'bug_line': '1'})
+        #args = parser.parse_args()
+        #result = db.exercisesCollection.insert_one({'name': args['name'], etc}) TODO
+        resultA = db.exercisesCollection.insert_one({'name': 'exercise Awatermelondreableepblopbleepbadadoom', 'data': 'hello', 'bug_line': '1'})
         resultB = db.exercisesCollection.insert_one({'name': 'exercise B', 'data': 'helo', 'bug_line': '2'})
         resultC = db.exercisesCollection.insert_one({'name': 'exercise C', 'data': 'hi', 'bug_line': '3'})
         return "Inserted " + str(resultA.inserted_id) + ", " + str(resultB.inserted_id)  + ", " + str(resultC.inserted_id)

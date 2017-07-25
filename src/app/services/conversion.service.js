@@ -36,17 +36,7 @@ class ConversionService {
 
   getAllExercises() {
     return this.restangular.one('exercises-list').get({
-      }).then((response) => {
-        var responseJSON = JSON.parse(response.data);
-        /*
-        var responseDictionary = {};
-        for (var i = 0, exercise; i < responseJSON.length; i++) {
-          exercise = responseJSON[i];
-          responseDictionary[ exercise._id ] = exercise;
-        }
-        */
-        return responseJSON;
-      });
+      }).then(response => JSON.parse(response.data));
   }
 
 }
