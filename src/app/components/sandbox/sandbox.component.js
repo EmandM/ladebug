@@ -20,6 +20,10 @@ class sandboxController {
     this.conversionService.postRequest(this.code)
       .then((response) => {
         this.$state.go('debug', { outputID: response.id })
+      })
+      .catch((error) => {
+        console.log(error);
+        this.submitted = false;
       });
   }
 }
