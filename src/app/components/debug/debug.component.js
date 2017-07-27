@@ -14,11 +14,13 @@ class debugController {
   }
 
   $onInit() {
-    const output = this.conversionService.getOutputById(this.outputId);
-    this.codeString = output.code;
-    this.codeTrace = output.trace;
-    this.goToStart();
-    this.outputLoaded = true;
+    this.conversionService.getOutputById(this.outputId)
+      .then((response) => {
+        this.codeString = response.code;
+        this.codeTrace = response.trace;
+        this.goToStart();
+        this.outputLoaded = true;
+      });
   }
 
   updateTraceIndex() {

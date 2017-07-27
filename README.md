@@ -1,4 +1,4 @@
-# angularjs-seed
+# Online Debugger
 
 [![Dependency Status](https://david-dm.org/EmandM/learnToDebug/status.svg)](https://david-dm.org/EmandM/learnToDebug#info=dependencies) [![devDependency Status](https://david-dm.org/EmandM/learnToDebug/dev-status.svg)](https://david-dm.org/EmandM/learnToDebug#info=devDependencies)
 

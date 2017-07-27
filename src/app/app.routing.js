@@ -17,6 +17,10 @@ function routing($urlRouterProvider, $stateProvider) {
       }],
       controllerAs: '$ctrl',
     })
+    .state('exercisesList', {
+      url: '/exercises-list',
+      template: '<exercises-list></exercises-list>',
+    })
     .state('sandbox', {
       url: '/sandbox',
       template: '<sandbox></sandbox>',
