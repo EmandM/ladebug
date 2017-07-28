@@ -35,6 +35,7 @@ class ConversionService {
   }
 
   getAllExercises() {
+     //TODO make it so only the id and name are given back?
     return this.restangular.one('exercises-list').get({
       }).then(response => JSON.parse(response.data));
   }

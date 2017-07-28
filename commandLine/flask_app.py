@@ -34,9 +34,9 @@ class ExercisesPut(Resource):
     def put(self):
         #args = parser.parse_args()
         #result = db.exercisesCollection.insert_one({'name': args['name'], etc}) TODO
-        resultA = db.exercisesCollection.insert_one({'name': 'exercise Awatermelondreableepblopbleepbadadoom', 'data': 'hello', 'bug_line': '1'})
-        resultB = db.exercisesCollection.insert_one({'name': 'exercise B', 'data': 'helo', 'bug_line': '2'})
-        resultC = db.exercisesCollection.insert_one({'name': 'exercise C', 'data': 'hi', 'bug_line': '3'})
+        resultA = db.exercisesCollection.insert_one({'name': 'exercise A', 'code': 'print(hello A)', 'trace': '', 'bug_line': '1'})
+        resultB = db.exercisesCollection.insert_one({'name': 'exercise B', 'code': 'print(helo B)', 'trace': '', 'bug_line': '2'})
+        resultC = db.exercisesCollection.insert_one({'name': 'exercise C', 'code': 'print(hi C)', 'trace': '', 'bug_line': '3'})
         return "Inserted " + str(resultA.inserted_id) + ", " + str(resultB.inserted_id)  + ", " + str(resultC.inserted_id)
 
 class ExercisesPost(Resource):

@@ -1,7 +1,7 @@
 import angular from 'angular';
-import './exercises-list.scss';
 
 import template from './exercises-list.template.html';
+import './exercises-list.scss';
 
 class exercisesListController {
   constructor(conversionService) {
@@ -14,16 +14,22 @@ class exercisesListController {
     this.conversionService.getAllExercises()
       .then((response) => {
         this.exerciseList = response;
-        console.log(this.exerciseList);
         if (this.exerciseList.length == 0) {
           document.getElementById("exercisesTitle").innerHTML = "There are currently no available exercises.";
         }
       });
   }
 
+  getExerciseById(id) {
+    this.conversionService.getOutputById(id)
+      .then((response) => {
+        this.$state.go('debug', { outputID: response[_id] })
+      });
+  }
+
 }
 
-exercisesListController.$inject = ['ConversionService'];
+exercisesListController.$inject = ['ConversionService', '$state'];
 
 angular.module('debugapp')
   .component('exercisesList', {
