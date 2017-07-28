@@ -18,6 +18,10 @@ class debugController {
       .then((response) => {
         this.codeString = response.debugInfo.code;
         this.codeTrace = response.debugInfo.trace;
+        if (response.name) {
+          this.existingExercise = true;
+          this.pageName = response.name;
+        }
         this.goToStart();
         this.outputLoaded = true;
       });

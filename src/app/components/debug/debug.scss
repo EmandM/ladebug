@@ -1,12 +1,14 @@
 @import '../../styles/colors';
 
+.pageName {
+  margin: 0 8px 12px;
+}
 .odDebug {
   height: 100%;
 
   .codeBlock {
     overflow: scroll;
     padding: 10px 0;
-    min-height: 450px;
   }
 
   .debugButton {
