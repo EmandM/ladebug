@@ -4,43 +4,47 @@ import template from './choose-file.template.html';
 import './choose-file.scss';
 
 class chooseFileController {
-  constructor($mdDialog) {
-    this.$mdDialog = $mdDialog;
+  constructor(exerciseService) {
+    this.exerciseService = exerciseService;
   }
 
   /*
    * When a folder is chosen by the user
    * Close the dialog and return the files to the file-viewer component
    */
-  readFile() {
+  submit() {
     if (!this.chosenFile) {
       this.showError();
+      return;
     }
+
+    if (!this.chooseFileForm.$valid) {
+      return;
+    }
+    this.submitted = true;
     const reader = new FileReader();
     reader.readAsText(this.chosenFile, 'UTF-8');
     reader.onload = (evt) => {
-      const fileContents = JSON.parse(evt.target.result);
-      this.$mdDialog.hide(fileContents);
+      this.exerciseService.createExercise(this.name, evt.target.result, this.errorLine)
+        .then(() => this.save())
     };
     reader.onerror = this.showError.bind(this);
   }
 
   showError() {
     this.errorMessage = 'Error Reading File';
-  }
-
-  close() {
-    this.$mdDialog.cancel();
+    this.submitted = false;
   }
 }
 
-chooseFileController.$inject = ['$mdDialog'];
+chooseFileController.$inject = ['ExerciseService'];
 
 angular.module('debugapp')
   .component('chooseFile', {
     template,
     controller: chooseFileController,
     bindings: {
-      canClose: '<',
+      cancel: '&',
+      save: '&',
     },
   });

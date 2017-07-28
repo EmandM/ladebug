@@ -1,12 +1,40 @@
-<div class="odEditExercise">
-    <form ng-submit="$ctrl.submit()">
+<div class="odEditExercise" ng-if="$ctrl.create || $ctrl.exerciseLoaded">
+  <form ng-submit="$ctrl.submit()" name="$ctrl.codeEntryForm" novalidate>
     <md-card>
       <textarea ui-codemirror ui-codemirror-opts="$ctrl.opts" ng-model="$ctrl.code"></textarea>
     </md-card>
+    <md-card layout="row" class="inputCard">
+      <div class="nameContainer" flex="60">
+        <md-input-container class="textInput">
+          <label>Exercise Name</label>
+          <input ng-model="$ctrl.name" aria-label="exercise name" name="exerciseName" required autocomplete="off"/>
+          <div ng-messages="$ctrl.codeEntryForm.exerciseName.$error">
+            <div ng-message="required">Name is required.</div>
+          </div>
+        </md-input-container>
+      </div>
+      <div class="errorContainer" flex>
+        <md-input-container class="textInput">
+          <label>Line containing error</label>
+          <input ng-model="$ctrl.errorLine" aria-label="line containing error"
+            name="errorLine" required autocomplete="off" />
+          <div ng-messages="$ctrl.codeEntryForm.errorLine.$error">
+            <div ng-message="required">Error line is required.</div>
+          </div>
+        </md-input-container>
+      </div>
+    </md-card>
     <div layout="row" layout-align="end center">
-      <md-button type="button" class="md-raised md-accent" aria-label="clear" ui-sref="editexercise">Cancel</md-button>
+      <span class="errorMessage" ng-show="!$ctrl.code">{{$ctrl.errorMessage}}</span>
+    </div>
+    <div layout="row" layout-align="end center">
+      <md-button type="button" class="md-raised md-accent" aria-label="clear" ui-sref="admin">Cancel</md-button>
       <md-button type="submit" class="md-primary" ng-disabled="$ctrl.submitted"
         ng-class="{'md-raised': !$ctrl.submitted}" aria-label="debug">Save</md-button>
     </div>
   </form>
+</div>
+
+<div ng-show="!$ctrl.exerciseLoaded && !$ctrl.create">
+  <md-progress-circular md-mode="indeterminate"></md-progress-circular>
 </div>

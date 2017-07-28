@@ -21,9 +21,21 @@ function routing($urlRouterProvider, $stateProvider) {
       }],
       controllerAs: '$ctrl',
     })
-    .state('editexercise', {
-      url: '/edit',
+    .state('addexercise', {
+      url: '/add',
       template: '<edit-exercise></edit-exercise>',
+    })
+    .state('editexercise', {
+      url: '/edit/:id',
+      template: '<edit-exercise exercise-id="{{$ctrl.exerciseId}}"></edit-exercise>',
+      controller: ['$state', function ($state) {
+        if (!$state.params.id) {
+          $state.go('admin');
+          return;
+        }
+        this.exerciseId = $state.params.id;
+      }],
+      controllerAs: '$ctrl',
     })
     .state('admin', {
       url: '/admin',

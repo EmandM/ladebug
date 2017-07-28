@@ -1,0 +1,32 @@
+@import "../../styles/colors";
+
+.odAddExercise {
+  .header {
+    margin: 4px;
+
+    .logo-icon {
+      height: 30px;
+      width: 30px;
+      margin: 0 4px;
+    }
+
+    .logo-text {
+      margin: 0 4px;
+    }
+
+    .close-button {
+      font-size: 20px;
+    }
+  }
+
+  .content {
+    .dialog-title {
+      margin-bottom: 12px;
+    }
+
+    .error {
+      color: $color-error-red;
+    }
+  }
+}
+
