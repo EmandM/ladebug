@@ -8,7 +8,7 @@ function routing($urlRouterProvider, $stateProvider) {
       url: '/',
       template: '<exercises-list></exercises-list>',
     })
-    .state('debug', {
+    .state('debugsandbox', {
       url: '/debug',
       params: { outputID: null },
       template: '<debug output-id="{{$ctrl.outputID}}"></debug>',
@@ -18,6 +18,18 @@ function routing($urlRouterProvider, $stateProvider) {
           return;
         }
         this.outputID = $state.params.outputID;
+      }],
+      controllerAs: '$ctrl',
+    })
+    .state('debugexisting', {
+      url: '/debug/:id',
+      template: '<debug output-id="{{$ctrl.outputID}}"></debug>',
+      controller: ['$state', function ($state) {
+        if (!$state.params.id) {
+          $state.go('sandbox');
+          return;
+        }
+        this.outputID = $state.params.id;
       }],
       controllerAs: '$ctrl',
     })

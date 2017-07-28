@@ -3,5 +3,5 @@
     <p ng-show="$ctrl.exerciseList.length === 0">There are currently no available exercises.</p>
     <p ng-show="$ctrl.exerciseList.length > 0">Choose an exercise:</p>
     <md-button class="exerciseButton md-raised" ng-repeat="exercise in $ctrl.exerciseList" 
-    ng-click="$ctrl.getExerciseById(exercise[&quot;_id&quot;])">{{exercise["name"]}}</md-button>
+      ui-sref="debugexisting({ id: exercise.id })">{{exercise.name}}</md-button>
 </div>
