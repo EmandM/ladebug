@@ -1,9 +1,13 @@
 import angular from 'angular';
 
 function routing($urlRouterProvider, $stateProvider) {
-  $urlRouterProvider.otherwise('/sandbox');
+  $urlRouterProvider.otherwise('/');
 
   $stateProvider
+    .state('home', {
+      url: '/',
+      template: '<exercises-list></exercises-list>',
+    })
     .state('debug', {
       url: '/debug',
       params: { outputID: null },
@@ -17,9 +21,13 @@ function routing($urlRouterProvider, $stateProvider) {
       }],
       controllerAs: '$ctrl',
     })
-    .state('exercisesList', {
-      url: '/exercises-list',
-      template: '<exercises-list></exercises-list>',
+    .state('editexercise', {
+      url: '/edit',
+      template: '<edit-exercise></edit-exercise>',
+    })
+    .state('admin', {
+      url: '/admin',
+      template: '<admin></admin>',
     })
     .state('sandbox', {
       url: '/sandbox',

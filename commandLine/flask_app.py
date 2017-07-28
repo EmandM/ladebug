@@ -15,46 +15,46 @@ parser.add_argument('codeString')
 client = MongoClient()
 db = client.debuggerTest #TODO don't forget to change this for deployment
 
-class ExercisesGetAll(Resource):
+class ExercisesList(Resource):
     def get(self):
         response = db.exercisesCollection.find({})
         #TODO what to do if response is null
         #if (response) {
         return { 'data': dumps(response) }
 
-class ExercisesGetOne(Resource):
-    def get(self):
-        args = parser.parse_args()
-        response = db.exercisesCollection.find({'_id': args['exerciseId']})
+    # DELETES ALL
+    def delete(self):
+        result = db.exercisesCollection.delete_many({})
+        return "Deleted " + str(result.deleted_count)
+
+
+class SavedExercise(Resource):
+    def get(self, exercise_id):
+        response = db.exercisesCollection.find({'_id': exercise_id})
         #TODO check if response is null
-        #if (response) {
         return { 'data': response }
 
-class ExercisesPut(Resource):
+
     def put(self):
-        #args = parser.parse_args()
+        args = parser.parse_args()
         #result = db.exercisesCollection.insert_one({'name': args['name'], etc}) TODO
         resultA = db.exercisesCollection.insert_one({'name': 'exercise Awatermelondreableepblopbleepbadadoom', 'data': 'hello', 'bug_line': '1'})
         resultB = db.exercisesCollection.insert_one({'name': 'exercise B', 'data': 'helo', 'bug_line': '2'})
         resultC = db.exercisesCollection.insert_one({'name': 'exercise C', 'data': 'hi', 'bug_line': '3'})
         return "Inserted " + str(resultA.inserted_id) + ", " + str(resultB.inserted_id)  + ", " + str(resultC.inserted_id)
 
-class ExercisesPost(Resource):
+
+
+class Sandbox(Resource):
     def post(self):
         args = parser.parse_args()
         response = debug_output.pythonStringToJson(args['codeString'])
-        return { 'data': response }
+        return {'data': response}
 
-class ExercisesDeleteAll(Resource):
-    def delete(self):
-        result = db.exercisesCollection.delete_many({})
-        return "Deleted " + str(result.deleted_count)
 
-api.add_resource(ExercisesGetAll, '/exercises-list')
-api.add_resource(ExercisesGetOne, '/get-exercise')
-api.add_resource(ExercisesPut, '/insert-exercise')
-api.add_resource(ExercisesPost, '/get-output')
-api.add_resource(ExercisesDeleteAll, '/delete-exercises')
+api.add_resource(ExercisesList, '/exercises-list')
+api.add_resource(SavedExercise, '/exercise/<string:exercise_id>')
+api.add_resource(Sandbox, '/get-output')
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -1,7 +1,9 @@
-import './debug';
-import './page-header';
+import './admin';
 import './choose-file';
 import './code-block';
+import './debug';
+import './edit-exercise';
+import './exercises-list';
+import './page-header';
 import './sandbox';
 import './variable';
-import './exercises-list';

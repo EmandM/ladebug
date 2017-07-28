@@ -1,7 +1,7 @@
 import angular from 'angular';
 import GuidHelper from '../helpers/guid.helper';
 
-class ConversionService {
+class ExerciseService {
   constructor(restangular, $q) {
     this.restangular = restangular;
     this.$q = $q;
@@ -41,7 +41,7 @@ class ConversionService {
 
 }
 
-ConversionService.$inject = ['Restangular', '$q'];
+ExerciseService.$inject = ['Restangular', '$q'];
 
 angular.module('debugapp')
-  .service('ConversionService', ConversionService);
+  .service('ExerciseService', ExerciseService);

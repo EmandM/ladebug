@@ -1,0 +1,6 @@
+<md-button class="md-raised md-primary" aria-label="create new" ui-sref="editexercise">Create New</md-button>
+
+<div layout="column">
+    <h1 class="exercisesTitle md-heading">Edit Existing</h1>
+    <md-button class="exerciseButton md-raised" ng-repeat="exercise in $ctrl.exerciseList">{{exercise.name}}</md-button>
+</div>
