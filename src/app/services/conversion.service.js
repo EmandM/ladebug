@@ -29,7 +29,7 @@ class ConversionService {
 
   getOutputById(id) {
     return (id in this.JsonResponses) ? this.$q.when(this.JsonResponses[id]) : 
-      this.restangular.one('get-exercise').customGET({
+      this.restangular.one('exercise/<string:exercise_id>').customGET({
         exerciseId: id
       }).then(response => response.data);
   }

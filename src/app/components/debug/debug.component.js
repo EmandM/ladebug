@@ -6,18 +6,18 @@ import template from './debug.template.html';
 import './debug.scss';
 
 class debugController {
-  constructor(conversionService) {
-    this.conversionService = conversionService;
+  constructor(exerciseService) {
+    this.exerciseService = exerciseService;
 
     // Object for breakpoints => faster lookup than array.
     this.breakpoints = {};
   }
 
   $onInit() {
-    this.conversionService.getOutputById(this.outputId)
+    this.exerciseService.getOutputById(this.outputId)
       .then((response) => {
-        this.codeString = response.code;
-        this.codeTrace = response.trace;
+        this.codeString = response.debugInfo.code;
+        this.codeTrace = response.debugInfo.trace;
         this.goToStart();
         this.outputLoaded = true;
       });
@@ -71,7 +71,7 @@ class debugController {
   }
 }
 
-debugController.$inject = ['ConversionService'];
+debugController.$inject = ['ExerciseService'];
 
 angular.module('debugapp')
   .component('debug', {

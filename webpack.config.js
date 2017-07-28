@@ -171,9 +171,6 @@ module.exports = (function () {
         // { from: 'src/index.html', to: '.' },
         { from: 'node_modules/font-awesome/fonts/**', to: '.' },
     ]),
-    new webpack.ProvidePlugin({
-        'window.CodeMirror': 'codemirror',
-    }),
   ];
 
   // Skip rendering index.html in test mode

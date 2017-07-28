@@ -1,0 +1,22 @@
+@import "../../styles/colors";
+
+.odEditExercise {
+  .inputCard {
+    padding: 12px 24px 0;
+    margin: 24px 8px;
+
+    .nameContainer {
+      margin-right: 24px;
+    }
+
+    .textInput {
+      width: 100%
+    }
+  }
+
+  .errorMessage {
+    color: $color-error-red;
+    font-size: 14px;
+    margin: 0 8px;
+  }
+}

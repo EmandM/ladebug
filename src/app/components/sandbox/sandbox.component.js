@@ -4,8 +4,8 @@ import template from './sandbox.template.html';
 import './sandbox.scss';
 
 class sandboxController {
-  constructor(conversionService, $state) {
-    this.conversionService = conversionService;
+  constructor(exerciseService, $state) {
+    this.exerciseService = exerciseService;
     this.$state = $state;
 
     this.opts = {
@@ -17,14 +17,17 @@ class sandboxController {
 
   submit() {
     this.submitted = true;
-    this.conversionService.postRequest(this.code)
+    this.exerciseService.postRequest(this.code)
       .then((response) => {
         this.$state.go('debug', { outputID: response.id })
+      })
+      .catch((error) => {
+        this.submitted = false;
       });
   }
 }
 
-sandboxController.$inject = ['ConversionService', '$state'];
+sandboxController.$inject = ['ExerciseService', '$state'];
 
 angular.module('debugapp')
   .component('sandbox', {

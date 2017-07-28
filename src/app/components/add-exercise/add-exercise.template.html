@@ -1,0 +1,36 @@
+<div class="odAddExercise">
+  <md-toolbar class="md-primary" layout="row" layout-align="center center">
+    <div class="header" layout="row" layout-align="center center">
+      <img src="/img/logo.png" class="logo-icon">
+      <span class="logo-text">Save New Exercise</span>
+    </div>
+    <span flex></span>
+    <md-button ng-click="$ctrl.close()" ng-show="$ctrl.canClose" aria-label="close modal"
+      class="md-icon-button close-button">
+      <md-icon md-font-icon="fa" class="fa-close"></md-icon>
+    </md-button>
+  </md-toolbar>
+
+  <div ng-show="!$ctrl.choosingFile">
+    <md-dialog-content class="content">
+      <div class="md-dialog-content" layout="row" layout-align="center center">
+        <md-button class="md-raised" ng-click="$ctrl.chooseFile()" aria-label="upload code from file" md-autofocus>
+          Upload python file
+        </md-button>
+        <span class="md-title">or</span>
+        <md-button class="md-raised" ui-sref="editexercise" ng-click="$ctrl.save()" aria-label="edit code in browser">
+          Enter source code
+        </md-button>
+      </div>
+    </md-dialog-content>
+
+    <md-dialog-actions>
+      <md-button type="button" ng-click="$ctrl.close()" aria-label="cancel">Cancel</md-button>
+    </md-dialog-actions>
+  </div>
+
+
+<!--Dialog contents for choosing a file-->
+  <choose-file cancel="$ctrl.undo()" save="$ctrl.save()" ng-if="$ctrl.choosingFile"></choose-file>
+<!--end-->
+</div>

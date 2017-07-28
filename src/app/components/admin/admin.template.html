@@ -1,0 +1,13 @@
+<md-button class="md-raised md-primary" aria-label="create new" ng-click="$ctrl.addNew()">Create New</md-button>
+
+<div layout="column" ng-show="$ctrl.exercisesLoaded">
+    <h1 class="exercisesTitle md-heading" ng-show="$ctrl.exerciseList">Edit Existing</h1>
+    <span>
+      <md-button class="exerciseButton md-raised" ng-repeat="exercise in $ctrl.exerciseList"
+        ui-sref="editexercise({ id: exercise.id })">{{exercise.name}}</md-button>
+    </span>
+</div>
+
+<div ng-show="!$ctrl.exercisesLoaded">
+  <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+</div>
