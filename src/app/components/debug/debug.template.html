@@ -45,12 +45,14 @@
         </div>
       </div>
     </md-card>
-    <md-card class="exceptions display-card">
-      <div class="md-title outHeading">Errors</div>
-      <code><pre>{{$ctrl.codeTrace[$ctrl.currentTraceIndex].exception_msg}}</pre></code>
+    <md-card class="displayCard exceptions" ng-show="$ctrl.codeTrace[$ctrl.currentTraceIndex].exception_msg">
+      <div class="md-title cardHeading">Error</div>
+      <div class="code-block">
+        <code><pre>{{$ctrl.codeTrace[$ctrl.currentTraceIndex].exception_msg}}</pre></code>
+      </div>
     </md-card>
-    <md-card class="sd-out">
-      <div class="md-title outHeading">Output</div>
+    <md-card class="displayCard">
+      <div class="md-title cardHeading outHeading">Output</div>
       <div class="md-card-content code-block" hljs hljs-source="$ctrl.codeTrace[$ctrl.currentTraceIndex].stdout">
       </div>
     </md-card>

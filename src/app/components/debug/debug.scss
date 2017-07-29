@@ -9,6 +9,7 @@
   .codeBlock {
     overflow: scroll;
     padding: 10px 0;
+    min-height: 105px;
   }
 
   .debugButton {
@@ -16,10 +17,17 @@
     background-color: $color-white;
   }
 
-  .sd-out {
+  .displayCard {
     padding: 12px;
-    .outHeading {
+    .cardHeading {
       margin-bottom: 12px;
+    }
+    .outHeading {
+      color: $color-text-med;
+    }
+
+    .code-block pre code {
+      padding: 0;
     }
   }
 
@@ -38,6 +46,11 @@
   }
 
   .exceptions {
-    color: red;
+    .cardHeading {
+      color: $color-red;
+    }
+    .code-block {
+      color: $color-red-error;
+    }
   }
 }
