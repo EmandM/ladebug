@@ -4,8 +4,9 @@ import template from './exercises-list.template.html';
 import './exercises-list.scss';
 
 class exercisesListController {
-  constructor(exerciseService) {
+  constructor(exerciseService, $state) {
     this.exerciseService = exerciseService;
+    this.$state = $state;
     
     this.exerciseList = {};
 
