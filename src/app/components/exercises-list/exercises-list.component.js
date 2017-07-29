@@ -16,13 +16,6 @@ class exercisesListController {
       });
   }
 
-  getExerciseById(id) {
-    this.exerciseService.getOutputById(id)
-      .then((response) => {
-        this.$state.go('debug', { outputID: response.id })
-      });
-  }
-
 }
 
 exercisesListController.$inject = ['ExerciseService', '$state'];

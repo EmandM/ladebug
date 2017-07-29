@@ -19,7 +19,7 @@ class sandboxController {
     this.submitted = true;
     this.exerciseService.postRequest(this.code)
       .then((response) => {
-        this.$state.go('debug', { outputID: response.id })
+        this.$state.go('debugsandbox', { outputID: response.id })
       })
       .catch((error) => {
         this.submitted = false;
