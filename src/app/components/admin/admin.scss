@@ -1,6 +1,9 @@
 .odAdmin {
   padding: 24px;
-  .adminTitle {
-    margin-top: 0;
+  .adminHeading {
+    margin-bottom: 12px;
+    .adminTitle {
+      margin: 0;
+    }
   }
 }
