@@ -73,6 +73,17 @@ class debugController {
       this.visibleFrameId = id;
     }
   }
+
+  submit() {
+    if(!this.errorLine) {
+      return;
+    }
+    if (!this.errorLineForm.$valid) {
+      return;
+    }
+
+    this.submitted = true;
+  }
 }
 
 debugController.$inject = ['ExerciseService'];

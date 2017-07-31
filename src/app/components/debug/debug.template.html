@@ -56,5 +56,25 @@
       <div class="md-card-content code-block" hljs hljs-source="$ctrl.codeTrace[$ctrl.currentTraceIndex].stdout">
       </div>
     </md-card>
+
+    <div flex></div>
+
+    <md-card layout="column" class="displayCard">
+      <div class="md-title cardHeading">Enter the error line:</div>
+
+      <form layout="row" name="$ctrl.errorLineForm" ng-submit="$ctrl.submit()">
+        <md-input-container>
+          <label>Line containing the error</label>
+          <input ng-model="$ctrl.errorLine" aria-label="line containing the error"
+            name="errorLine" required autocomplete="off"/>
+          <div ng-messages="$ctrl.errorLineForm.errorLine.$error">
+            <div ng-message="required">Error line is required.</div>
+          </div>
+        </md-input-container>
+        <div flex></div>
+        <md-button type="submit" aria-label="check" class="md-primary" ng-disabled="$ctrl.submitted">Check</md-button>
+      </form>
+
+    </md-card>
   </div>
 </div>
