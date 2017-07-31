@@ -15,6 +15,7 @@ class debugController {
     this.breakpoints = {};
     //this.startTime = moment();
     this.incorrectGuesses = 0;
+
   }
 
   $onInit() {
@@ -114,7 +115,6 @@ class debugController {
     //incorrect line modal
     this.$mdDialog.show(
       this.$mdDialog.alert()
-        .parent(angular.element(document.querySelector('#popupContainer')))
         .clickOutsideToClose(true)
         .title('Incorrect Line')
         .textContent('Please try again.')
@@ -122,6 +122,8 @@ class debugController {
         .ok('OK')
         .targetEvent($event)
     );
+
+    //TODO: moment for date, more stats, move correct modal out
   }
 }
 
