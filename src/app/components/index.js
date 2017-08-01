@@ -8,3 +8,4 @@ import './exercises-list';
 import './page-header';
 import './sandbox';
 import './variable';
+import './correct-line';

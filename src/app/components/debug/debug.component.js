@@ -15,6 +15,7 @@ class debugController {
     this.breakpoints = {};
     //this.startTime = moment();
     this.incorrectGuesses = 0;
+
   }
 
   $onInit() {
@@ -95,7 +96,15 @@ class debugController {
       //timeTaken = this.endTime - this.startTime;
       var timeTaken = '11 seconds';
       var statistics = 'Time taken: ' + timeTaken + '; ' + 'Incorrect guesses: ' + this.incorrectGuesses.toString();
+      
       //correct line modal
+      /*
+      this.$mdDialog.show({
+        template: `<correct-line></correct-line>`,
+        targetEvent: $event,
+      });
+      */
+
       this.$mdDialog.show(
       this.$mdDialog.alert()
         .parent(angular.element(document.querySelector('#popupContainer')))
@@ -106,7 +115,7 @@ class debugController {
         .ok('OK')
         .targetEvent($event)
       );
-      
+
       return;
     }
 
@@ -114,7 +123,6 @@ class debugController {
     //incorrect line modal
     this.$mdDialog.show(
       this.$mdDialog.alert()
-        .parent(angular.element(document.querySelector('#popupContainer')))
         .clickOutsideToClose(true)
         .title('Incorrect Line')
         .textContent('Please try again.')
@@ -122,6 +130,8 @@ class debugController {
         .ok('OK')
         .targetEvent($event)
     );
+
+    //TODO: moment for date, more stats, move correct modal out
   }
 }
 
