@@ -59,7 +59,7 @@
 
     <div flex></div>
 
-    <md-card layout="column" class="displayCard">
+    <md-card layout="column" class="displayCard" ng-if="$ctrl.existingExercise">
       <div class="md-title cardHeading">Enter the error line</div>
 
       <form layout="row" name="$ctrl.errorLineForm" ng-submit="$ctrl.submit()" novalidate>
