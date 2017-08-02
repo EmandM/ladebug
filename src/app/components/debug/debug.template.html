@@ -3,7 +3,8 @@
   <div layout="column" flex="50" flex-gt-md="60">
     <md-card class="codeBlock" id="codeBlock" flex>
       <code-block code-string="$ctrl.codeString" current-line="$ctrl.codeTrace[$ctrl.currentTraceIndex].line"
-        breakpoints="$ctrl.breakpoints" breakpoint-action="$ctrl.toggleBreakpoint(line)"></code-block>
+        breakpoints="$ctrl.breakpoints" breakpoint-action="$ctrl.toggleBreakpoint(line)" flags="$ctrl.flags"
+        flag-action="$ctrl.toggleFlag(line)"></code-block>
     </md-card>
     <div layout="row">
       <md-button class="md-raised debugButton" flex ng-click="$ctrl.goToStart()">

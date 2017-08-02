@@ -11,11 +11,13 @@ class debugController {
     this.exerciseService = exerciseService;
     this.$mdDialog = $mdDialog;
 
-    // Object for breakpoints => faster lookup than array.
+    // Object for breakpoints and flags => faster lookup than array.
     this.breakpoints = {};
+    this.flags = {};
+
+    // Variables for stats collection
     //this.startTime = moment();
     this.incorrectGuesses = 0;
-
   }
 
   $onInit() {
@@ -72,6 +74,10 @@ class debugController {
     this.breakpoints[lineNumber] = !this.breakpoints[lineNumber];
   }
 
+  toggleFlag(lineNumber) {
+    this.flags[lineNumber] = !this.flags[lineNumber];
+  }
+
   openStackFrame(id) {
     if (this.visibleFrameId === id) {
       this.visibleFrameId = undefined;
@@ -102,19 +108,6 @@ class debugController {
         template: `<correct-line></correct-line>`,
         targetEvent: $event,
       });
-
-      /*
-      this.$mdDialog.show(
-      this.$mdDialog.alert()
-        .parent(angular.element(document.querySelector('#popupContainer')))
-        .clickOutsideToClose(true)
-        .title('Good Work!')
-        .textContent('You entered the correct line, ' + this.errorLine + '! ' + statistics)
-        .ariaLabel('Correct Line Alert Dialog')
-        .ok('OK')
-        .targetEvent($event)
-      );
-      */
 
       return;
     }

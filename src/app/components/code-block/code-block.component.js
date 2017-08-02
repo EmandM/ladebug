@@ -21,6 +21,10 @@ class codeBlockController {
   toggleBreakpoint(lineNum) {
     this.breakpointAction({ line: lineNum });
   }
+
+  toggleFlag(lineNum) {
+    this.flagAction({ line: lineNum });
+  }
 }
 
 codeBlockController.$inject = [];
@@ -33,6 +37,8 @@ angular.module('debugapp')
       codeString: '<', // String representation of executed code
       currentLine: '<', // current execution line
       breakpoints: '<', // Array of breakpoints
+      flags: '<', //Array of flags
       breakpointAction: '&', // callback to toggle breakpoints
+      flagAction: '&' //callback to toggle flags
     },
   });

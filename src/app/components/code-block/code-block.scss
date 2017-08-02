@@ -15,7 +15,7 @@
 
   .codeLine {
 
-    .leftCol {
+    .iconCol {
       width: 18px; //Width of arrow icon
     }
     .midCol {
@@ -25,6 +25,11 @@
 
   .spacer {
     position: relative;
+  }
+  .flag {
+    font-size: 12px;
+    color: $color-red-error;
+    position: absolute;
   }
   .breakpoint {
     font-size: 12px;
