@@ -28,7 +28,7 @@ class exercisesListController {
   }
 
   getExerciseLink(exercise) {
-    return this.$state.href(this.editState, { id: exercise.id });
+    return `${this.editState}({ id: ${exercise.id} })`;
   }
 
 }

@@ -1,9 +1,18 @@
-<div layout="column" ng-if="$ctrl.exercisesLoaded" layout-align="start start">
+<div layout="column" ng-if="$ctrl.exercisesLoaded" layout-align="start start" class="odExercisesList">
   <h3 class="exercisesTitle md-title" ng-show="$ctrl.exerciseList">Saved Exercises</h3>
-  <span>
-    <md-button class="exerciseButton md-raised" ng-repeat="exercise in $ctrl.exerciseList"
-      ui-sref="{{$ctrl.getExerciseLink(exercise)}}">{{exercise.name}}</md-button>
-  </span>
+  <div ng-repeat="exercise in $ctrl.exerciseList" ui-sref="{{$ctrl.editState}}({ id: exercise.id })"
+    layout="row" layout-align="start center" class="exercise">
+    <span>{{exercise.name}}</span>
+    <span flex></span>
+    <div class="rightButtons" ng-if="$ctrl.isAdmin" layout="row" layout-align="center center">
+      <md-button class="md-icon-button actionButton md-accent" ng-click="$ctrl.showInfo" stop-propagation>
+        <md-icon md-font-icon="fa" class="fa-info-circle"></md-icon>
+      </md-button>
+      <md-button class="md-icon-button actionButton" ng-click="$ctrl.delete(exercise)" stop-propagation>
+        <md-icon md-font-icon="fa" class="fa-trash"></md-icon>
+      </md-button>
+    </div>
+  </div>
 </div>
 
 <div ng-if="!$ctrl.exercisesLoaded">
