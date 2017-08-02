@@ -1,18 +1,9 @@
 <md-card class="odAdmin">
   <div layout="row" layout-align="start center" class="adminHeading">
-    <h1 class="md-display-1 adminTitle">Saved Exercises</h1>
+    <h1 class="md-display-1 adminTitle">Edit Exercises</h1>
     <span flex></span>
     <md-button class="md-primary" aria-label="create new" ng-click="$ctrl.addNew()">Create New</md-button>
   </div>
-  <div layout="column" ng-show="$ctrl.exercisesLoaded" layout-align="start start">
-    <h3 class="exercisesTitle md-title" ng-show="$ctrl.exerciseList">Edit Existing</h3>
-    <span>
-      <md-button class="exerciseButton md-raised" ng-repeat="exercise in $ctrl.exerciseList"
-        ui-sref="editexercise({ id: exercise.id })">{{exercise.name}}</md-button>
-    </span>
-  </div>
-
-  <div ng-show="!$ctrl.exercisesLoaded">
-    <md-progress-circular md-mode="indeterminate"></md-progress-circular>
-  </div>
+  <exercises-list is-admin="true" exercises-loaded="$ctrl.exercisesLoaded"
+    exercise-list="$ctrl.exerciseList"></exercises-list>
 </md-card>

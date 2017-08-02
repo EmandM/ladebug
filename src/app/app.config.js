@@ -3,7 +3,7 @@ import angular from 'angular';
 function theming($mdThemingProvider, restangularProvider) {
   $mdThemingProvider.theme('default')
     .primaryPalette('light-blue')
-    .accentPalette('blue-grey');
+    .accentPalette('red');
 
   restangularProvider.setBaseUrl('http://127.0.0.1:5000');
 }

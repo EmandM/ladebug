@@ -6,7 +6,7 @@ function routing($urlRouterProvider, $stateProvider) {
   $stateProvider
     .state('home', {
       url: '/',
-      template: '<exercises-list></exercises-list>',
+      template: '<home></home>',
     })
     .state('debugsandbox', {
       url: '/debug',
