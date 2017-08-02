@@ -18,12 +18,8 @@ class codeBlockController {
     }
   }
 
-  toggleBreakpoint(lineNum) {
-    this.breakpointAction({ line: lineNum });
-  }
-
-  toggleFlag(lineNum) {
-    this.flagAction({ line: lineNum });
+  toggleIcon(lineNum, iconType) {
+    this.iconAction({ line: lineNum, icon: iconType });
   }
 }
 
@@ -38,7 +34,6 @@ angular.module('debugapp')
       currentLine: '<', // current execution line
       breakpoints: '<', // Array of breakpoints
       flags: '<', //Array of flags
-      breakpointAction: '&', // callback to toggle breakpoints
-      flagAction: '&' //callback to toggle flags
+      iconAction: '&', // callback to toggle breakpoints and flags
     },
   });

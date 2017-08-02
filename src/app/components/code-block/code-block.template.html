@@ -2,14 +2,14 @@
   <tbody>
     <tr ng-repeat="line in $ctrl.codeByLines track by $index" ng-init="lineNum = $index + 1"
       ng-class="{'currentLine': $ctrl.currentLine === lineNum}" keep-in-view="$ctrl.currentLine === lineNum" class="codeLine">
-      <td class="iconCol" ng-click="$ctrl.toggleFlag(lineNum)">
+      <td class="iconCol" ng-click="$ctrl.toggleIcon(lineNum, &quot;flag&quot;)">
         <div class="spacer" layout="row" layout-align="center center">
-          <i class="fa fa-flag flag" ng-show="$ctrl.flags[lineNum]"></i>
+          <i class="fa fa-flag icon" ng-show="$ctrl.flags[lineNum]"></i>
         </div>
       </td>
-      <td class="iconCol" ng-click="$ctrl.toggleBreakpoint(lineNum)">
+      <td class="iconCol" ng-click="$ctrl.toggleIcon(lineNum, &quot;breakpoint&quot;)">
         <div class="spacer" layout="row" layout-align="center center">
-          <i class="fa fa-circle breakpoint" ng-show="$ctrl.breakpoints[lineNum]" ng-class="{'fade': $ctrl.currentLine === lineNum}"></i>
+          <i class="fa fa-circle icon" ng-show="$ctrl.breakpoints[lineNum]" ng-class="{'fade': $ctrl.currentLine === lineNum}"></i>
           <i class="fa fa-arrow-right line-icon" ng-show="$ctrl.currentLine === lineNum"></i>
         </div>
       </td>

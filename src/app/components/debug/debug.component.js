@@ -70,12 +70,13 @@ class debugController {
     this.updateTraceIndex();
   }
 
-  toggleBreakpoint(lineNumber) {
-    this.breakpoints[lineNumber] = !this.breakpoints[lineNumber];
-  }
-
-  toggleFlag(lineNumber) {
-    this.flags[lineNumber] = !this.flags[lineNumber];
+  toggleIcon(lineNumber, iconType) {
+    if (iconType === 'breakpoint') {
+      this.breakpoints[lineNumber] = !this.breakpoints[lineNumber];
+    }
+    if (iconType === 'flag') {
+      this.flags[lineNumber] = !this.flags[lineNumber];
+    }
   }
 
   openStackFrame(id) {

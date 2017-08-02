@@ -26,17 +26,12 @@
   .spacer {
     position: relative;
   }
-  .flag {
+  .icon {
     font-size: 12px;
     color: $color-red-error;
     position: absolute;
   }
-  .breakpoint {
-    font-size: 12px;
-    color: $color-red-error;
-    position: absolute;
-  }
-  .breakpoint.fade {
+  .icon.fade {
     opacity: 0.4;
   }
   .line-icon {
