@@ -56,12 +56,9 @@
       <div class="md-card-content code-block" hljs hljs-source="$ctrl.codeTrace[$ctrl.currentTraceIndex].stdout">
       </div>
     </md-card>
-
     <div flex></div>
-
     <md-card layout="column" class="displayCard" ng-if="$ctrl.existingExercise">
-      <div class="md-title cardHeading">Enter the error line</div>
-
+      <div class="md-title cardHeading">Enter the line containing the fault:</div>
       <form layout="row" name="$ctrl.errorLineForm" ng-submit="$ctrl.submit()" novalidate>
         <md-input-container class="cardInput" flex-gt-md="60" flex>
           <label>Line containing error</label>
@@ -76,7 +73,6 @@
           <md-button type="submit" aria-label="check" class="md-primary" ng-disabled="$ctrl.submitted">Check</md-button>
         </span>
       </form>
-
     </md-card>
   </div>
 </div>
