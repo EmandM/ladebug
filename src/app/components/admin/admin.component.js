@@ -8,6 +8,7 @@ class adminController {
     this.exerciseService = exerciseService;
     this.$state = $state;
     this.$mdDialog = $mdDialog;
+    this.exerciseList = [];
 
     this.loadExercises();
   }
@@ -23,8 +24,6 @@ class adminController {
         this.exercisesLoaded = true;
       });
   }
-
-
 
   addNew($event) {
     this.$mdDialog.show({

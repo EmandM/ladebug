@@ -1,7 +1,11 @@
-<md-button class="md-raised md-primary" aria-label="go to sandbox" ui-sref="sandbox">Sandbox</md-button>
-<div layout="column" class="odExercisesList">
-    <p ng-show="$ctrl.exerciseList.length === 0">There are currently no available exercises.</p>
-    <p ng-show="$ctrl.exerciseList.length > 0">Choose an exercise:</p>
-    <md-button class="exerciseButton md-raised" ng-repeat="exercise in $ctrl.exerciseList" 
-      ui-sref="debugexisting({ id: exercise.id })">{{exercise.name}}</md-button>
+<div layout="column" ng-if="$ctrl.exercisesLoaded" layout-align="start start">
+  <h3 class="exercisesTitle md-title" ng-show="$ctrl.exerciseList">Saved Exercises</h3>
+  <span>
+    <md-button class="exerciseButton md-raised" ng-repeat="exercise in $ctrl.exerciseList"
+      ui-sref="{{$ctrl.getExerciseLink(exercise)}}">{{exercise.name}}</md-button>
+  </span>
+</div>
+
+<div ng-if="!$ctrl.exercisesLoaded">
+  <md-progress-circular md-mode="indeterminate"></md-progress-circular>
 </div>
