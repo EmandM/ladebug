@@ -6,7 +6,10 @@ import './correct-line.scss';
 class correctLineController {
   constructor($mdDialog) {
     this.$mdDialog = $mdDialog;
-    
+  }
+
+  close() {
+    this.$mdDialog.cancel();
   }
 }
 
