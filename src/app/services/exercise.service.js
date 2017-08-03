@@ -42,6 +42,11 @@ class ExerciseService {
 
         // Parse debugInfo as it is saved in the server as a string
         output.debugInfo = JSON.parse(output.debug_info);
+        if (output.bug_lines) {
+          output.errorLines = JSON.parse(output.bug_lines)
+        } else if (output.bug_line) {
+          output.errorLines = [output.bug_line];
+        }
         this.JsonResponses[id] = output;
         return output;
       });
@@ -59,20 +64,22 @@ class ExerciseService {
       .then(response => JSON.parse(response.data));
   }
 
-  createExercise(name, codeString, errorLine) {
+  createExercise(name, codeString, errorLines) {
+    const bugLines = `[${errorLines.toString()}]`;
     return this.restangular.one('exercise').customPUT({
       name,
       codeString,
-      errorLine,
+      errorLines: bugLines,
     })
   }
 
-  updateExercise(id, name, codeString, errorLine) {
+  updateExercise(id, name, codeString, errorLines) {
     delete this.JsonResponses[id];
+    const bugLines = `[${errorLines.toString()}]`;
     return this.restangular.one('exercise', id).customPOST({
       name,
       codeString,
-      errorLine,
+      errorLines: bugLines,
     })
   }
 
