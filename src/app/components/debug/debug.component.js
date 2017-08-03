@@ -88,23 +88,28 @@ class debugController {
   }
 
   submit($event) {
-    if(!this.errorLine) {
-      return;
-    }
-    if (!this.errorLineForm.$valid) {
-      return;
-    }
+    //console.log("entered: " +  + ", actual: " + );
 
-    //this.endTime = moment();
-    console.log("entered: " + this.errorLine + ", actual: " + this.bug_line);
+    //for every line in bug_line string (is it a string? convert this?)
+    //check if (!this.flags[lineNum])
+    //if not true change a bool to false
+    //break out of loop
+    //go to incorrect modal
 
-    if(this.errorLine == this.bug_line) {
-      this.submitted = true;
+    //if safely traverse through bug_line
+    //bool stays true
+    //go to correct modal
+
+    //old code
+    /*
+    if (this.errorLine == this.bug_line) {
+      //correct lines
+      //this.endTime = moment();
+      this.correctLines = true;
       //timeTaken = this.endTime - this.startTime;
       var timeTaken = '11 seconds';
       var statistics = 'Time taken: ' + timeTaken + '; ' + 'Incorrect guesses: ' + this.incorrectGuesses.toString();
       
-      //correct line modal
       this.$mdDialog.show({
         template: `<correct-line></correct-line>`,
         targetEvent: $event,
@@ -112,9 +117,10 @@ class debugController {
 
       return;
     }
+    */
 
+    //incorrect lines
     this.incorrectGuesses += 1;
-    //incorrect line modal
     this.$mdDialog.show(
       this.$mdDialog.alert()
         .clickOutsideToClose(true)
@@ -124,8 +130,6 @@ class debugController {
         .ok('OK')
         .targetEvent($event)
     );
-
-    //TODO: moment for date, more stats, move correct modal out
   }
 }
 
