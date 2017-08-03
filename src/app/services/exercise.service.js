@@ -47,6 +47,13 @@ class ExerciseService {
       });
   }
 
+  deleteExercise(id) {
+    return this.restangular.one('exercise', id).remove()
+      .then((response) => {
+        console.log(response);
+      });
+  }
+
   getAllExercises() {
     return this.restangular.one('exercises-list').get()
       .then(response => JSON.parse(response.data));

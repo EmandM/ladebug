@@ -56,6 +56,11 @@ class SavedExercise(Resource):
         })
         return { 'updated': exercise_id}
 
+    # delete single exercise by id
+    def delete(self, exercise_id):
+        response = db.exercisesCollection.delete_one({'_id': ObjectId(exercise_id)})
+        return "Deleted " + str(response.deleted_count)
+
 
 class SaveExercise(Resource):
     def put(self):
