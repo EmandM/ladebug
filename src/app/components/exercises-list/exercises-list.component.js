@@ -31,6 +31,12 @@ class exercisesListController {
     return `${this.editState}({ id: ${exercise.id} })`;
   }
 
+  delete(exercise) {
+    this.exercisesLoaded = false;
+    this.exerciseService.deleteExercise(exercise.id)
+      .then(() => this.loadExercises());
+  }
+
 }
 
 exercisesListController.$inject = ['ExerciseService', '$state'];

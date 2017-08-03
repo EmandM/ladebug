@@ -13,4 +13,16 @@
       }
     }
   }
+
+  .md-chips md-chip .md-chip-remove md-icon {
+    min-width: 0;
+    width: 14px;
+  }
+
+  .textLabelRequired:after {
+    content: ' *';
+    font-size: 13px;
+    vertical-align: top;
+
+  }
 }

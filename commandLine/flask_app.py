@@ -14,7 +14,7 @@ api = Api(app)
 parser = reqparse.RequestParser()
 parser.add_argument('codeString')
 parser.add_argument('name')
-parser.add_argument('errorLine')
+parser.add_argument('errorLines')
 
 client = MongoClient()
 db = client.debuggerTest #TODO don't forget to change this for deployment
@@ -49,12 +49,17 @@ class SavedExercise(Resource):
         }, {
             '$set': {
                 'name': args['name'],
-                'bug_line': args['errorLine'],
+                'bug_lines': args['errorLines'],
                 'debug_info': jsonOutput,
                 'last_updated': datetime.datetime.now().isoformat()
             }
         })
         return { 'updated': exercise_id}
+
+    # delete single exercise by id
+    def delete(self, exercise_id):
+        response = db.exercisesCollection.delete_one({'_id': ObjectId(exercise_id)})
+        return "Deleted " + str(response.deleted_count)
 
 
 class SaveExercise(Resource):
@@ -63,7 +68,7 @@ class SaveExercise(Resource):
         jsonOutput = debug_output.pythonStringToJson(args['codeString'])
         result = db.exercisesCollection.insert_one({
             'name': args['name'],
-            'bug_line': args['errorLine'],
+            'bug_lines': args['errorLines'],
             'debug_info': jsonOutput,
             'created_on': datetime.datetime.now().isoformat(),
             'last_updated': datetime.datetime.now().isoformat()
