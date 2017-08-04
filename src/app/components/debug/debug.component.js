@@ -90,6 +90,7 @@ class debugController {
   submit($event) {
     var allCorrect = true;
 
+    //no lines flagged
     var flagsLength = Object.keys(this.flags).length;
     if (flagsLength < 1) {
       //this.incorrectGuess($event); TODO show incorrect modal? or button click does nothing?
@@ -102,7 +103,6 @@ class debugController {
         allCorrect = false;
       }
     }
-
     //check that all error lines are in flagged lines array
     //i.e. check for any non flagged error lines
     if (allCorrect) {
@@ -112,33 +112,6 @@ class debugController {
         }
       }
     }
-
-
-/*
-    for (var i = 1; i < flagsLength+1; i++) {
-      console.log("i = " + i);
-      var flagSet = this.flags[i];
-      console.log("flagSet = " + flagSet);
-      for (var j = 0; j < this.errorLines.length; j++) {
-        console.log("j = " + j);
-        console.log("this.errorLines[j] = " + this.errorLines[j]);
-        if (this.errorLines[j] == i) {
-          console.log("IF LOOP 1: computer thinks this.errorLines[j] == i");
-          match = true;
-        }
-      }
-      console.log("match (true if IF LOOP 1) = " + match);
-      if (match != flagSet) {
-        console.log("IF LOOP 2: computer thinks match and flagSet are not the same, allCorrect set to false");
-        allCorrect = false;
-        break;
-      }
-      match = false;
-      console.log("match (false if IF LOOP 2 not entered) = " + match);
-    }
-*/
-
-    console.log("allCorrect final = " + allCorrect);
 
     if (allCorrect) {
       //this.endTime = moment();
@@ -151,7 +124,6 @@ class debugController {
       return;
     }
 
-    //incorrect lines
     this.incorrectGuess($event);
   }
 
