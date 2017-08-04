@@ -25,7 +25,7 @@ class debugController {
       .then((response) => {
         this.codeString = response.debugInfo.code;
         this.codeTrace = response.debugInfo.trace;
-        this.bug_line = response.bug_line;
+        this.errorLines = response.errorLines;
         if (response.name) {
           this.existingExercise = true;
           this.pageName = response.name;
@@ -88,27 +88,60 @@ class debugController {
   }
 
   submit($event) {
-    //console.log("entered: " +  + ", actual: " + );
+    var allCorrect = true;
 
-    //for every line in bug_line string (is it a string? convert this?)
-    //check if (!this.flags[lineNum])
-    //if not true change a bool to false
-    //break out of loop
-    //go to incorrect modal
+    var flagsLength = Object.keys(this.flags).length;
+    if (flagsLength < 1) {
+      //this.incorrectGuess($event); TODO show incorrect modal? or button click does nothing?
+      return;
+    }
+    
+    //check that all flagged lines are in error lines array
+    for (var flagLine in this.flags) {
+      if (this.errorLines.indexOf(flagLine) == -1) {
+        allCorrect = false;
+      }
+    }
 
-    //if safely traverse through bug_line
-    //bool stays true
-    //go to correct modal
+    //check that all error lines are in flagged lines array
+    //i.e. check for any non flagged error lines
+    if (allCorrect) {
+      for (var i = 0; i < this.errorLines.length; i++) {
+        if (!(this.errorLines[i] in this.flags)) {
+          allCorrect = false;
+        }
+      }
+    }
 
-    //old code
-    /*
-    if (this.errorLine == this.bug_line) {
-      //correct lines
+
+/*
+    for (var i = 1; i < flagsLength+1; i++) {
+      console.log("i = " + i);
+      var flagSet = this.flags[i];
+      console.log("flagSet = " + flagSet);
+      for (var j = 0; j < this.errorLines.length; j++) {
+        console.log("j = " + j);
+        console.log("this.errorLines[j] = " + this.errorLines[j]);
+        if (this.errorLines[j] == i) {
+          console.log("IF LOOP 1: computer thinks this.errorLines[j] == i");
+          match = true;
+        }
+      }
+      console.log("match (true if IF LOOP 1) = " + match);
+      if (match != flagSet) {
+        console.log("IF LOOP 2: computer thinks match and flagSet are not the same, allCorrect set to false");
+        allCorrect = false;
+        break;
+      }
+      match = false;
+      console.log("match (false if IF LOOP 2 not entered) = " + match);
+    }
+*/
+
+    console.log("allCorrect final = " + allCorrect);
+
+    if (allCorrect) {
       //this.endTime = moment();
-      this.correctLines = true;
-      //timeTaken = this.endTime - this.startTime;
-      var timeTaken = '11 seconds';
-      var statistics = 'Time taken: ' + timeTaken + '; ' + 'Incorrect guesses: ' + this.incorrectGuesses.toString();
       
       this.$mdDialog.show({
         template: `<correct-line></correct-line>`,
@@ -117,16 +150,19 @@ class debugController {
 
       return;
     }
-    */
 
     //incorrect lines
+    this.incorrectGuess($event);
+  }
+
+  incorrectGuess($event) {
     this.incorrectGuesses += 1;
     this.$mdDialog.show(
       this.$mdDialog.alert()
         .clickOutsideToClose(true)
-        .title('Incorrect Line')
+        .title('Incorrect')
         .textContent('Please try again.')
-        .ariaLabel('Incorrect Line Alert Dialog')
+        .ariaLabel('Incorrect Alert Dialog')
         .ok('OK')
         .targetEvent($event)
     );
