@@ -1,0 +1,51 @@
+@import "../../styles/colors";
+
+.odNumberChips {
+  transform: translateY(-20px);
+  height: 61px;
+
+  .errorLabel {
+    font-size: 13px;
+    color: $color-text-med;
+    padding-left: 4px;
+  }
+
+  .errorLabel.hasError {
+    color: $color-red-error;
+  }
+
+  .chipErrors {
+    font-size: 12px;
+    color: $color-red-error;
+    padding: 5px 0 0 4px;
+  }
+
+  .errorChips {
+    .md-chips {
+      display: flex;
+      padding: 0;
+
+      md-chip {
+        margin: 0px 4px 2px;
+      }
+
+      .md-chip-input-container {
+        flex: 1;
+        margin: 0 4px 0;
+      }
+
+      .chipInput {
+        width: 100%;
+      }
+    }
+  }
+
+  .errorChips.hasError {
+    .md-chips {
+      box-shadow: 0 1px $color-red-error;
+    }
+    .md-chips.md-focused {
+      box-shadow: 0 2px $color-red-error;
+    }
+  }
+}

@@ -6,6 +6,7 @@ import './debug';
 import './edit-exercise';
 import './exercises-list';
 import './home';
+import './number-chips';
 import './page-header';
 import './sandbox';
 import './variable';

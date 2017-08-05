@@ -60,25 +60,9 @@ class editExerciseController {
     }).catch(() => {
       this.submitted = false;
     });
-  }
-
-  validateErrorLines() {
-    const isRequireValid = this.errorLines.length > 0;
-    const isChipValid = this.validateChips()
-    this.codeEntryForm.errorLines.$setValidity('required', isRequireValid);
-    this.codeEntryForm.errorLines.$setValidity('out-of-range', isChipValid);
-    this.errorLineError = !(isRequireValid && isChipValid);
-  }
-
-  validateChips() {
-    const lineCount = this.getLineCount();
-    return every(this.errorLines, (line) => {
-      const lineNum = parseInt(line);
-      return (lineNum <= lineCount &&  lineNum > 0);
-    });
-  }
 }
 
+  }  
 editExerciseController.$inject = ['ExerciseService', '$state'];
 
 angular.module('debugapp')

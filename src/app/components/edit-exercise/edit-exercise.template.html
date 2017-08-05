@@ -15,16 +15,8 @@
         </md-input-container>
       </div>
       <div class="errorContainer" flex>
-        <span class="errorLabel textLabelRequired" ng-class="{'hasError': $ctrl.errorLineError}">Errors in Code</span>
-        <md-chips ng-model="$ctrl.errorLines" class="errorChips" name="errorLines" md-chips-as-numbers
-          ng-class="{'hasError': $ctrl.errorLineError}"
-          md-on-add="$ctrl.validateErrorLines($index)" md-on-remove="$ctrl.validateErrorLines($index)">
-          <input type="number" class="chipInput" placeholder="Enter a line number" min="1">
-        </md-chips>
-        <div ng-messages="$ctrl.codeEntryForm.errorLines.$error" class="chipErrors">
-          <div ng-message="required">An error is required.</div>
-          <div ng-message="out-of-range">Error out of range.</div>
-        </div>
+        <number-chips ng-model="$ctrl.errorLines" max-chip-num="$ctrl.getLineCount()"
+          form="$ctrl.codeEntryForm"></number-chips>
       </div>
     </md-card>
     <div layout="row" layout-align="end center">

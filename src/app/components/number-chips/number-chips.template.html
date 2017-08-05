@@ -1,0 +1,12 @@
+<div class="odNumberChips">
+  <span class="errorLabel textLabelRequired" ng-class="{'hasError': $ctrl.errorLineError()}">Errors in Code</span>
+  <md-chips ng-model="$ctrl.ngModel" class="errorChips" name="errorLines" md-chips-as-numbers
+    ng-class="{'hasError': $ctrl.errorLineError()}"
+    md-on-add="$ctrl.validateErrorLines($index)" md-on-remove="$ctrl.validateErrorLines($index)">
+    <input type="number" class="chipInput" placeholder="Enter a line number" min="1">
+  </md-chips>
+  <div ng-messages="$ctrl.form.errorLines.$error" class="chipErrors">
+    <div ng-message="required">An error is required.</div>
+    <div ng-message="out-of-range">Error out of range.</div>
+  </div>
+</div>
