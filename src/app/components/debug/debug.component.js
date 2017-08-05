@@ -25,7 +25,7 @@ class debugController {
       .then((response) => {
         this.codeString = response.debugInfo.code;
         this.codeTrace = response.debugInfo.trace;
-        this.bug_line = response.bug_line;
+        this.errorLines = response.errorLines;
         if (response.name) {
           this.existingExercise = true;
           this.pageName = response.name;
@@ -88,23 +88,34 @@ class debugController {
   }
 
   submit($event) {
-    if(!this.errorLine) {
+    var allCorrect = true;
+
+    //no lines flagged
+    var flagsLength = Object.keys(this.flags).length;
+    if (flagsLength < 1) {
+      //this.incorrectGuess($event); TODO show incorrect modal? or button click does nothing?
       return;
     }
-    if (!this.errorLineForm.$valid) {
-      return;
+    
+    //check that all flagged lines are in error lines array
+    for (var flagLine in this.flags) {
+      if (this.errorLines.indexOf(flagLine) == -1) {
+        allCorrect = false;
+      }
+    }
+    //check that all error lines are in flagged lines array
+    //i.e. check for any non flagged error lines
+    if (allCorrect) {
+      for (var i = 0; i < this.errorLines.length; i++) {
+        if (!(this.errorLines[i] in this.flags)) {
+          allCorrect = false;
+        }
+      }
     }
 
-    //this.endTime = moment();
-    console.log("entered: " + this.errorLine + ", actual: " + this.bug_line);
-
-    if(this.errorLine == this.bug_line) {
-      this.submitted = true;
-      //timeTaken = this.endTime - this.startTime;
-      var timeTaken = '11 seconds';
-      var statistics = 'Time taken: ' + timeTaken + '; ' + 'Incorrect guesses: ' + this.incorrectGuesses.toString();
+    if (allCorrect) {
+      //this.endTime = moment();
       
-      //correct line modal
       this.$mdDialog.show({
         template: `<correct-line></correct-line>`,
         targetEvent: $event,
@@ -113,19 +124,20 @@ class debugController {
       return;
     }
 
+    this.incorrectGuess($event);
+  }
+
+  incorrectGuess($event) {
     this.incorrectGuesses += 1;
-    //incorrect line modal
     this.$mdDialog.show(
       this.$mdDialog.alert()
         .clickOutsideToClose(true)
-        .title('Incorrect Line')
+        .title('Incorrect')
         .textContent('Please try again.')
-        .ariaLabel('Incorrect Line Alert Dialog')
+        .ariaLabel('Incorrect Alert Dialog')
         .ok('OK')
         .targetEvent($event)
     );
-
-    //TODO: moment for date, more stats, move correct modal out
   }
 }
 
