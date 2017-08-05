@@ -1,11 +1,16 @@
 import angular from 'angular';
+import some from 'lodash/some';
 
 import template from './choose-file.template.html';
 import './choose-file.scss';
 
 class chooseFileController {
-  constructor(exerciseService) {
+  constructor(exerciseService, $scope) {
     this.exerciseService = exerciseService;
+    this.errorLines = [];
+
+    // Define applyScope as a function that runs $scope.$apply()
+    this.applyScope = (() => $scope.$apply)();
   }
 
   /*
@@ -25,8 +30,20 @@ class chooseFileController {
     const reader = new FileReader();
     reader.readAsText(this.chosenFile, 'UTF-8');
     reader.onload = (evt) => {
-      this.exerciseService.createExercise(this.name, evt.target.result, this.errorLine)
+      const fileText = evt.target.result;
+      const numLines = fileText.split('\n').length;
+
+      // Check that all the error lines are smaller than the number of lines in the file
+      if (some(this.errorLines, (line => line > numLines || line <= 0))) {
+        this.chooseFileForm.errorLines.$setValidity('out-of-range', false);
+        this.submitted = false;
+        this.applyScope(true)
+        return;
+      }
+
+      this.exerciseService.createExercise(this.name, fileText, this.errorLines)
         .then(() => this.save())
+        .catch(() => this.showError())
     };
     reader.onerror = this.showError.bind(this);
   }
@@ -37,7 +54,7 @@ class chooseFileController {
   }
 }
 
-chooseFileController.$inject = ['ExerciseService'];
+chooseFileController.$inject = ['ExerciseService', '$scope'];
 
 angular.module('debugapp')
   .component('chooseFile', {
