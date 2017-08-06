@@ -1,7 +1,7 @@
 import angular from 'angular';
 import findIndex from 'lodash/findIndex';
 import drop from 'lodash/drop';
-//import moment from 
+//import moment;
 import TraceToCallStack from '../../helpers/trace-to-call-stack.helper';
 import template from './debug.template.html';
 import './debug.scss';
@@ -16,8 +16,17 @@ class debugController {
     this.flags = {};
 
     // Variables for stats collection
-    //this.startTime = moment();
-    this.incorrectGuesses = 0;
+    this.statistics = {};
+    this.statistics['incorrectGuesses'] = 0;
+    this.statistics['run'] = 0;
+    this.statistics['stepForward'] = 0;
+    this.statistics['stepBack'] = 0;
+    this.statistics['goToEnd'] = 0;
+    this.statistics['goToStart'] = 0;
+    this.statistics['breakpointsSet'] = 0;
+    this.statistics['timeToCorrectlyGuessErrorLines'] = 0;
+    this.statistics['timeToCorrectlyEditErrorLines'] = 0;
+    //this.startTime = moment(startTimeStampInMS).format("L LT");
   }
 
   $onInit() {
@@ -43,18 +52,22 @@ class debugController {
   goToStart() {
     this.currentTraceIndex = 0;
     this.updateTraceIndex();
+    this.statistics.goToStart += 1; 
   }
   stepBack() {
     this.currentTraceIndex -= 1;
     this.updateTraceIndex();
+    this.statistics.stepBack += 1;
   }
   stepForward() {
     this.currentTraceIndex += 1;
     this.updateTraceIndex();
+    this.statistics.stepForward += 1;
   }
   goToEnd() {
     this.currentTraceIndex = this.codeTrace.length - 1;
     this.updateTraceIndex();
+    this.statistics.goToEnd += 1;
   }
 
   run() {
@@ -68,11 +81,13 @@ class debugController {
     }
     this.currentTraceIndex = newIndex + this.currentTraceIndex + 1;
     this.updateTraceIndex();
+    this.statistics.run += 1;
   }
 
   toggleIcon(lineNumber, iconType) {
     if (iconType === 'breakpoint') {
       this.breakpoints[lineNumber] = !this.breakpoints[lineNumber];
+      this.statistics.breakpointsSet += 1;
     }
     if (iconType === 'flag') {
       this.flags[lineNumber] = !this.flags[lineNumber];
@@ -87,48 +102,35 @@ class debugController {
     }
   }
 
-  submit($event) {
-    var allCorrect = true;
-
+  checkFlags() {
     //no lines flagged
     var flagsLength = Object.keys(this.flags).length;
     if (flagsLength < 1) {
       //this.incorrectGuess($event); TODO show incorrect modal? or button click does nothing?
-      return;
+      return false;
     }
     
     //check that all flagged lines are in error lines array
     for (var flagLine in this.flags) {
-      if (this.errorLines.indexOf(flagLine) == -1) {
-        allCorrect = false;
+      if (this.flags[flagLine]) {
+        if (this.errorLines.indexOf(flagLine) == -1) {
+          return false;
+        }
       }
     }
     //check that all error lines are in flagged lines array
     //i.e. check for any non flagged error lines
-    if (allCorrect) {
-      for (var i = 0; i < this.errorLines.length; i++) {
-        if (!(this.errorLines[i] in this.flags)) {
-          allCorrect = false;
-        }
+    for (var i = 0; i < this.errorLines.length; i++) {
+      if (!(this.errorLines[i] in this.flags)) {
+        return false;
       }
     }
 
-    if (allCorrect) {
-      //this.endTime = moment();
-      
-      this.$mdDialog.show({
-        template: `<correct-line></correct-line>`,
-        targetEvent: $event,
-      });
-
-      return;
-    }
-
-    this.incorrectGuess($event);
+    return true;
   }
 
   incorrectGuess($event) {
-    this.incorrectGuesses += 1;
+    this.statistics.incorrectGuesses += 1;
     this.$mdDialog.show(
       this.$mdDialog.alert()
         .clickOutsideToClose(true)
@@ -138,6 +140,28 @@ class debugController {
         .ok('OK')
         .targetEvent($event)
     );
+  }
+
+  submit($event) {
+    var allCorrect = this.checkFlags();
+
+    if (allCorrect) {
+      /* MOMENT
+      this.endTime = moment(endTimeStampInMS).format("L LT");
+      var differenceMs = this.endTime.diff(this.startTime);
+      var duration = moment.duration(differenceMs);
+      console.log("duration = " + duration);
+      */
+
+      this.$mdDialog.show({
+        template: `<correct-line></correct-line>`,
+        targetEvent: $event,
+      });
+
+      return;
+    }
+
+    this.incorrectGuess($event);
   }
 }
 

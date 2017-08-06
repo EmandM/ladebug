@@ -19,5 +19,7 @@ angular.module('debugapp')
   .component('correctLine', {
     template,
     controller: correctLineController,
-    bindings: {},
+    bindings: {
+      statistics: '<', //Object containing all stats for display
+    },
   });
