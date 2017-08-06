@@ -18,14 +18,7 @@
         </md-input-container>
       </div>
       <div layout="row" >
-        <md-input-container class="errorInput textInput">
-          <label>Line containing error</label>
-          <input ng-model="$ctrl.errorLine" aria-label="line containing error"
-            name="errorLine" required autocomplete="off" />
-          <div ng-messages="$ctrl.chooseFileForm.errorLine.$error">
-            <div ng-message="required">Error line is required.</div>
-          </div>
-        </md-input-container>
+        <number-chips ng-model="$ctrl.errorLines" form="$ctrl.chooseFileForm"></number-chips>
       </div>
     </div>
   </md-dialog-content>
