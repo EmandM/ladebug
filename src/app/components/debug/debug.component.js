@@ -27,7 +27,7 @@ class debugController {
     this.statistics.breakpointsSet = 0;
     this.statistics.timeToCorrectlyGuessErrorLines = 0;
     this.statistics.timeToCorrectlyEditErrorLines = 0;
-    //this.startTime = moment(startTimeStampInMS).format("L LT");
+    //this.startTime = moment();
   }
 
   $onInit() {
@@ -109,7 +109,6 @@ class debugController {
     //no lines flagged
     var flagsLength = Object.keys(this.flags).length;
     if (flagsLength !== this.errorlines) {
-      //this.incorrectGuess($event); TODO show incorrect modal? or button click does nothing?
       return false;
     }
     
@@ -149,12 +148,12 @@ class debugController {
     var allCorrect = this.checkFlags();
 
     if (allCorrect) {
-      /* MOMENT
-      this.endTime = moment(endTimeStampInMS).format("L LT");
-      var differenceMs = this.endTime.diff(this.startTime);
-      var duration = moment.duration(differenceMs);
-      console.log("duration = " + duration);
-      */
+      var now  = "04/09/2013 15:00:00";
+      var then = "02/09/2013 14:20:30";
+
+      var ms = moment(now,"DD/MM/YYYY HH:mm:ss").diff(moment(then,"DD/MM/YYYY HH:mm:ss"));
+      var d = moment.duration(ms);
+      var s = Math.floor(d.asHours()) + moment.utc(ms).format(":mm:ss");
 
       const statisticsPass = this.statistics;
       this.$mdDialog.show({
