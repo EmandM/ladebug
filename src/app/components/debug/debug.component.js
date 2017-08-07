@@ -1,7 +1,9 @@
 import angular from 'angular';
 import findIndex from 'lodash/findIndex';
 import drop from 'lodash/drop';
-import forEach from 'lodash/forEach';
+import keys from 'lodash/keys';
+import every from 'lodash/every';
+import indexOf from 'lodash/indexOf';
 import moment from 'moment';
 import TraceToCallStack from '../../helpers/trace-to-call-stack.helper';
 import template from './debug.template.html';
@@ -27,7 +29,7 @@ class debugController {
     this.statistics.breakpointsSet = 0;
     this.statistics.timeToCorrectlyGuessErrorLines = 0;
     this.statistics.timeToCorrectlyEditErrorLines = 0;
-    //this.startTime = moment(startTimeStampInMS).format("L LT");
+    this.startTime = moment();
   }
 
   $onInit() {
@@ -106,30 +108,20 @@ class debugController {
   }
 
   checkFlags() {
-    //no lines flagged
-    var flagsLength = Object.keys(this.flags).length;
-    if (flagsLength !== this.errorlines) {
-      //this.incorrectGuess($event); TODO show incorrect modal? or button click does nothing?
+    // no lines flagged
+    const flagArray = keys(this.flags);
+    if (flagArray.length !== this.errorLines.length) {
+      // this.incorrectGuess($event); TODO show incorrect modal? or button click does nothing?
       return false;
     }
-    
-    //check that all flagged lines are in error lines array
-    for (var flagLine in this.flags) {
-      if (this.flags[flagLine]) {
-        if (this.errorLines.indexOf(flagLine) == -1) {
-          return false;
-        }
-      }
-    }
-    //check that all error lines are in flagged lines array
-    //i.e. check for any non flagged error lines
-    forEach(this.errorLines, (lineNum) => {
-      if (!this.flags[lineNum]) {
-        return false;
-      }
-    })
+    // check that every errorLine has a corresponding flag
+    // i.e. check for any non flagged error lines
+    const allErrorsFlagged = every(this.errorLines, (lineNum => this.flags[lineNum]));
 
-    return true;
+    // check that every flag has a corresponding error
+    const allFlagsErrors = every(flagArray, (flagLine => indexOf(this.errorLines, flagLine) >= 0));
+
+    return allErrorsFlagged && allFlagsErrors;
   }
 
   incorrectGuess($event) {
@@ -141,35 +133,31 @@ class debugController {
         .textContent('Please try again.')
         .ariaLabel('Incorrect Alert Dialog')
         .ok('OK')
-        .targetEvent($event)
+        .targetEvent($event),
     );
   }
 
   submit($event) {
-    var allCorrect = this.checkFlags();
-
-    if (allCorrect) {
-      /* MOMENT
-      this.endTime = moment(endTimeStampInMS).format("L LT");
-      var differenceMs = this.endTime.diff(this.startTime);
-      var duration = moment.duration(differenceMs);
-      console.log("duration = " + duration);
-      */
-
-      const statisticsPass = this.statistics;
-      this.$mdDialog.show({
-        template: `<correct-line statistics="$ctrl.statistics"></correct-line>`,
-        targetEvent: $event,
-        controller: [function () {
-          this.statistics = statisticsPass;
-        }],
-        controllerAs: '$ctrl',
-      });
-
+    if (!this.checkFlags()) {
+      this.incorrectGuess($event);
       return;
     }
 
-    this.incorrectGuess($event);
+    /* MOMENT */
+    this.endTime = moment();
+    const differenceMs = this.endTime.diff(this.startTime);
+    const duration = moment.duration(differenceMs);
+    console.log("duration = " + duration);
+
+    const statisticsPass = this.statistics;
+    this.$mdDialog.show({
+      template: '<correct-line statistics="$ctrl.statistics"></correct-line>',
+      targetEvent: $event,
+      controller: [function () {
+        this.statistics = statisticsPass;
+      }],
+      controllerAs: '$ctrl',
+    });
   }
 }
 
