@@ -1,11 +1,11 @@
 <h1 class="md-display-1 pageName" ng-if="$ctrl.existingExercise">{{$ctrl.pageName}}</h1>
 <div layout="row" class="odDebug" ng-if="$ctrl.outputLoaded">
   <div layout="column" flex="50" flex-gt-md="60">
-    <md-card class="codeBlock" id="codeBlock" flex>
+    <div class="codeBlock" id="codeBlock" flex>
       <code-block code-string="$ctrl.codeString" current-line="$ctrl.codeTrace[$ctrl.currentTraceIndex].line"
         breakpoints="$ctrl.breakpoints" flags="$ctrl.flags"
         icon-action="$ctrl.toggleIcon(line, icon)" is-editing-mode="$ctrl.isEditing"></code-block>
-    </md-card>
+    </div>
     <div layout="row">
       <md-button class="md-raised debugButton" flex ng-click="$ctrl.goToStart()">
         <md-icon md-font-icon="fa" class="fa-fast-backward"></md-icon>

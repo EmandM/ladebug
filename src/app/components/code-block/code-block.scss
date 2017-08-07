@@ -1,9 +1,18 @@
 @import '../../styles/colors';
 
 .odCodeBlock {
-  border-collapse: collapse;
-  width: 100%;
 
+  .blockCard {
+    margin: 0;
+  }
+  .flagCard {
+    margin-right: 12px;
+  }
+
+  .blockTable {
+    border-collapse: collapse;
+    width: 100%;
+  }
 
   .currentLine {
     background-color: $color-primary-light-4;
@@ -14,7 +23,6 @@
   }
 
   .codeLine {
-
     .iconCol {
       width: 18px; //Width of arrow icon
     }
@@ -25,6 +33,8 @@
 
   .spacer {
     position: relative;
+    width: 18px;
+    height: 17px;
   }
   .icon {
     font-size: 12px;

@@ -1,9 +1,8 @@
 import angular from 'angular';
 import findIndex from 'lodash/findIndex';
 import drop from 'lodash/drop';
-import keys from 'lodash/keys';
 import every from 'lodash/every';
-import includes from 'lodash/includes';
+import reduce from 'lodash/reduce';
 import moment from 'moment';
 import TraceToCallStack from '../../helpers/trace-to-call-stack.helper';
 import template from './debug.template.html';
@@ -108,20 +107,15 @@ class debugController {
   }
 
   checkFlags() {
-    // no lines flagged
-    const flagArray = keys(this.flags);
-    if (flagArray.length !== this.errorLines.length) {
-      // this.incorrectGuess($event); TODO show incorrect modal? or button click does nothing?
+    // Count the number of flags that are currently active (see lodash reduce)
+    const numFlags = reduce(this.flags, (sum, value) => (sum + (value) ? 1 : 0), 0);
+
+    // same number of flags as there are errors
+    if (numFlags.length !== this.errorLines.length) {
       return false;
     }
-    // check that every errorLine has a corresponding flag
-    // i.e. check for any non flagged error lines
-    const allErrorsFlagged = every(this.errorLines, (lineNum => this.flags[lineNum]));
-
-    // check that every flag has a corresponding error
-    const allFlagsErrors = every(flagArray, (flagLine => includes(this.errorLines, flagLine)));
-
-    return allErrorsFlagged && allFlagsErrors;
+    // check that every error has a corresponding flag
+    return every(this.errorLines, (lineNum => this.flags[lineNum]));
   }
 
   incorrectGuess($event) {
