@@ -155,9 +155,14 @@ class debugController {
       console.log("duration = " + duration);
       */
 
+      const statisticsPass = this.statistics;
       this.$mdDialog.show({
-        template: `<correct-line></correct-line>`,
+        template: `<correct-line statistics="$ctrl.statistics"></correct-line>`,
         targetEvent: $event,
+        controller: [function () {
+          this.statistics = statisticsPass;
+        }],
+        controllerAs: '$ctrl',
       });
 
       return;
