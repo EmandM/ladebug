@@ -37,13 +37,13 @@ class chooseFileController {
       if (some(this.errorLines, (line => line > numLines || line <= 0))) {
         this.chooseFileForm.errorLines.$setValidity('out-of-range', false);
         this.submitted = false;
-        this.applyScope(true)
+        this.applyScope(true);
         return;
       }
 
       this.exerciseService.createExercise(this.name, fileText, this.errorLines)
         .then(() => this.save())
-        .catch(() => this.showError())
+        .catch(() => this.showError());
     };
     reader.onerror = this.showError.bind(this);
   }

@@ -15,7 +15,7 @@ class editExerciseController {
       lineNumbers: true,
       lineWrapping: false,
       mode: 'python',
-    }
+    };
   }
 
   $onInit() {
@@ -30,7 +30,7 @@ class editExerciseController {
         this.name = response.name;
         this.errorLines = response.errorLines;
         this.exerciseLoaded = true;
-      })
+      });
   }
 
   codeMirrorLoaded(editor) {
@@ -54,15 +54,15 @@ class editExerciseController {
     const promise = (this.create) ?
       this.exerciseService.createExercise(this.name, this.code, this.errorLines) :
       this.exerciseService.updateExercise(this.exerciseId, this.name, this.code, this.errorLines);
-    
+
     promise.then(() => {
       this.$state.go('admin');
     }).catch(() => {
       this.submitted = false;
     });
-}
+  }
 
-  }  
+  }
 editExerciseController.$inject = ['ExerciseService', '$state'];
 
 angular.module('debugapp')

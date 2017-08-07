@@ -55,7 +55,7 @@ class debugController {
   goToStart() {
     this.currentTraceIndex = 0;
     this.updateTraceIndex();
-    this.statistics.goToStart += 1; 
+    this.statistics.goToStart += 1;
   }
   stepBack() {
     this.currentTraceIndex -= 1;
@@ -147,7 +147,7 @@ class debugController {
     this.endTime = moment();
     const differenceMs = this.endTime.diff(this.startTime);
     const duration = moment.duration(differenceMs);
-    console.log("duration = " + duration);
+    console.log('duration = ' + duration);
 
     const statisticsPass = this.statistics;
     this.$mdDialog.show({

@@ -14,13 +14,13 @@ class ExerciseService {
       return;
     }
     return this.restangular.one('get-output').customPOST({
-      codeString: pythonString
+      codeString: pythonString,
     }).then((response) => {
       const responseId = GuidHelper.createGuid();
       const cachedOutput = {
         id: responseId,
         debugInfo: JSON.parse(response.data),
-      }
+      };
       this.JsonResponses[responseId] = cachedOutput;
       return cachedOutput;
     })
@@ -31,7 +31,7 @@ class ExerciseService {
 
   getOutputById(id) {
     return (id in this.JsonResponses) ?
-      this.$q.when(this.JsonResponses[id]) : 
+      this.$q.when(this.JsonResponses[id]) :
       this.getExerciseById(id);
   }
 
@@ -43,7 +43,7 @@ class ExerciseService {
         // Parse debugInfo as it is saved in the server as a string
         output.debugInfo = JSON.parse(output.debug_info);
         if (output.bug_lines) {
-          output.errorLines = JSON.parse(output.bug_lines)
+          output.errorLines = JSON.parse(output.bug_lines);
         } else if (output.bug_line) {
           output.errorLines = [output.bug_line];
         }
@@ -70,7 +70,7 @@ class ExerciseService {
       name,
       codeString,
       errorLines: bugLines,
-    })
+    });
   }
 
   updateExercise(id, name, codeString, errorLines) {
@@ -80,7 +80,7 @@ class ExerciseService {
       name,
       codeString,
       errorLines: bugLines,
-    })
+    });
   }
 
 }

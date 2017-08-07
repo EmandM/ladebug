@@ -33,7 +33,7 @@ angular.module('debugapp')
       codeString: '<', // String representation of executed code
       currentLine: '<', // current execution line
       breakpoints: '<', // Array of breakpoints
-      flags: '<', //Array of flags
+      flags: '<', // Array of flags
       iconAction: '&', // callback to toggle breakpoints and flags
       isEditing: '<',
     },

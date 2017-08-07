@@ -48,6 +48,6 @@ angular.module('debugapp')
     bindings: {
       isAdmin: '<',
       exercisesLoaded: '<',
-      exerciseList: '<'
+      exerciseList: '<',
     },
   });

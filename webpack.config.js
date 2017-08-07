@@ -133,12 +133,12 @@ module.exports = (function () {
       // Allow loading html through js
       test: /\.html$/,
       loader: 'raw-loader',
-    },{
+    }, {
       test: require.resolve('codemirror'),
       use: [{
         loader: 'expose-loader',
-        options: 'CodeMirror'
-      }]
+        options: 'CodeMirror',
+      }],
     }],
   };
 

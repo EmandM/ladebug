@@ -12,14 +12,14 @@ class sandboxController {
       lineNumbers: true,
       lineWrapping: false,
       mode: 'python',
-    }
+    };
   }
 
   submit() {
     this.submitted = true;
     this.exerciseService.postRequest(this.code)
       .then((response) => {
-        this.$state.go('debugsandbox', { outputID: response.id })
+        this.$state.go('debugsandbox', { outputID: response.id });
       })
       .catch((error) => {
         this.submitted = false;
