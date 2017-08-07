@@ -1,6 +1,4 @@
 import angular from 'angular';
-import parseInt from 'lodash/parseInt';
-import every from 'lodash/every';
 import template from './edit-exercise.template.html';
 import './edit-exercise.scss';
 

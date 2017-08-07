@@ -4,7 +4,7 @@ import 'roboto-fontface/css/roboto/sass/roboto-fontface-regular.scss';
 import 'font-awesome/css/font-awesome.css';
 import 'highlight.js/styles/googlecode.css';
 import 'codemirror/lib/codemirror.css';
-import 'codemirror/mode/python/python.js';
+import 'codemirror/mode/python/python';
 
 // Always import app.module first -> it sets up the angular app
 import './app.module';

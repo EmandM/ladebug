@@ -21,7 +21,7 @@ class sandboxController {
       .then((response) => {
         this.$state.go('debugsandbox', { outputID: response.id });
       })
-      .catch((error) => {
+      .catch(() => {
         this.submitted = false;
       });
   }

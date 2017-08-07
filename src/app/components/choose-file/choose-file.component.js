@@ -1,4 +1,5 @@
 import angular from 'angular';
+import split from 'lodash/split';
 import some from 'lodash/some';
 
 import template from './choose-file.template.html';
@@ -31,7 +32,7 @@ class chooseFileController {
     reader.readAsText(this.chosenFile, 'UTF-8');
     reader.onload = (evt) => {
       const fileText = evt.target.result;
-      const numLines = fileText.split('\n').length;
+      const numLines = split(fileText, '\n').length;
 
       // Check that all the error lines are smaller than the number of lines in the file
       if (some(this.errorLines, (line => line > numLines || line <= 0))) {

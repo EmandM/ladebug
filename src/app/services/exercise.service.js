@@ -10,9 +10,6 @@ class ExerciseService {
   }
 
   postRequest(pythonString) {
-    if (!pythonString) {
-      return;
-    }
     return this.restangular.one('get-output').customPOST({
       codeString: pythonString,
     }).then((response) => {

@@ -5,8 +5,8 @@
   import './number-chips.scss';
 
   class numberChipsController {
-    constructor() {
-    }
+    // constructor() {
+    // }
 
     validateErrorLines() {
       const isRequireValid = this.ngModel.length > 0;
@@ -16,7 +16,8 @@
     }
 
     errorLineError() {
-      return ((this.form.$submitted || this.form.errorLines.$dirty) && this.form.errorLines.$invalid);
+      return ((this.form.$submitted || this.form.errorLines.$dirty) &&
+        this.form.errorLines.$invalid);
     }
 
     validateChips() {
