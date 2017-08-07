@@ -112,10 +112,10 @@ class debugController {
 
   checkFlags() {
     // Count the number of flags that are currently active (see lodash reduce)
-    const numFlags = reduce(this.flags, (sum, value) => (sum + (value) ? 1 : 0), 0);
+    const numFlags = reduce(this.flags, (sum, value) => sum + (value ? 1 : 0), 0);
 
     // same number of flags as there are errors
-    if (numFlags.length !== this.errorLines.length) {
+    if (numFlags !== this.errorLines.length) {
       return false;
     }
     // check that every error has a corresponding flag
@@ -137,7 +137,7 @@ class debugController {
 
   formatAsMinutes(msDuration) {
     const duration = moment.utc(msDuration); // This breaks if the duration is longer than 24 hours
-    return duration.format(duration.hours() ? 'h:mm:ss' : 'm:ss');
+    return duration.format(duration.hours() ? 'h[h] m[m] ss[s]' : 'm[m] ss[s]');
   }
 
   submit($event) {
