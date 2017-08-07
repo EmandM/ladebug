@@ -3,7 +3,7 @@ import findIndex from 'lodash/findIndex';
 import drop from 'lodash/drop';
 import keys from 'lodash/keys';
 import every from 'lodash/every';
-import indexOf from 'lodash/indexOf';
+import includes from 'lodash/includes';
 import moment from 'moment';
 import TraceToCallStack from '../../helpers/trace-to-call-stack.helper';
 import template from './debug.template.html';
@@ -119,7 +119,7 @@ class debugController {
     const allErrorsFlagged = every(this.errorLines, (lineNum => this.flags[lineNum]));
 
     // check that every flag has a corresponding error
-    const allFlagsErrors = every(flagArray, (flagLine => indexOf(this.errorLines, flagLine) >= 0));
+    const allFlagsErrors = every(flagArray, (flagLine => includes(this.errorLines, flagLine)));
 
     return allErrorsFlagged && allFlagsErrors;
   }
@@ -137,6 +137,11 @@ class debugController {
     );
   }
 
+  formatAsMinutes(msDuration) {
+    const duration = moment.utc(msDuration); // This breaks if the duration is longer than 24 hours
+    return duration.format(duration.hours() ? 'h:mm:ss' : 'm:ss');
+  }
+
   submit($event) {
     if (!this.checkFlags()) {
       this.incorrectGuess($event);
@@ -144,17 +149,15 @@ class debugController {
     }
 
     /* MOMENT */
-    this.endTime = moment();
-    const differenceMs = this.endTime.diff(this.startTime);
-    const duration = moment.duration(differenceMs);
-    console.log('duration = ' + duration);
+    const endTime = moment();
+    this.statistics.timeTaken = this.formatAsMinutes(endTime.diff(this.startTime));
 
-    const statisticsPass = this.statistics;
+    const statsObj = this.statistics;
     this.$mdDialog.show({
       template: '<correct-line statistics="$ctrl.statistics"></correct-line>',
       targetEvent: $event,
       controller: [function () {
-        this.statistics = statisticsPass;
+        this.statistics = statsObj;
       }],
       controllerAs: '$ctrl',
     });
