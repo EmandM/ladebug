@@ -52,22 +52,22 @@ class debugController {
   goToStart() {
     this.currentTraceIndex = 0;
     this.updateTraceIndex();
-    this.statistics['goToStart'] += 1; 
+    this.statistics.goToStart += 1; 
   }
   stepBack() {
     this.currentTraceIndex -= 1;
     this.updateTraceIndex();
-    this.statistics['stepBack'] += 1;
+    this.statistics.stepBack += 1;
   }
   stepForward() {
     this.currentTraceIndex += 1;
     this.updateTraceIndex();
-    this.statistics['stepForward'] += 1;
+    this.statistics.stepForward += 1;
   }
   goToEnd() {
     this.currentTraceIndex = this.codeTrace.length - 1;
     this.updateTraceIndex();
-    this.statistics['goToEnd'] += 1;
+    this.statistics.goToEnd += 1;
   }
 
   run() {
@@ -81,15 +81,13 @@ class debugController {
     }
     this.currentTraceIndex = newIndex + this.currentTraceIndex + 1;
     this.updateTraceIndex();
-    this.statistics['run'] += 1;
+    this.statistics.run += 1;
   }
 
   toggleIcon(lineNumber, iconType) {
     if (iconType === 'breakpoint') {
       this.breakpoints[lineNumber] = !this.breakpoints[lineNumber];
-      if (this.breakpoints[lineNumber]) {
-        this.statistics['breakpointsSet'] += 1;
-      }
+      this.statistics.breakpointsSet += 1;
     }
     if (iconType === 'flag') {
       this.flags[lineNumber] = !this.flags[lineNumber];
@@ -132,7 +130,7 @@ class debugController {
   }
 
   incorrectGuess($event) {
-    this.statistics['incorrectGuesses'] += 1;
+    this.statistics.incorrectGuesses += 1;
     this.$mdDialog.show(
       this.$mdDialog.alert()
         .clickOutsideToClose(true)
