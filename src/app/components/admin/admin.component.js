@@ -27,7 +27,7 @@ class adminController {
 
   addNew($event) {
     this.$mdDialog.show({
-      template: `<add-exercise></add-exercise>`,
+      template: '<add-exercise></add-exercise>',
       targetEvent: $event,
     }).then(() => this.loadExercises());
   }

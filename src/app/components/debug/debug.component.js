@@ -1,7 +1,8 @@
 import angular from 'angular';
 import findIndex from 'lodash/findIndex';
 import drop from 'lodash/drop';
-//import moment;
+import forEach from 'lodash/forEach';
+import moment from 'moment';
 import TraceToCallStack from '../../helpers/trace-to-call-stack.helper';
 import template from './debug.template.html';
 import './debug.scss';
@@ -17,15 +18,15 @@ class debugController {
 
     // Variables for stats collection
     this.statistics = {};
-    this.statistics['incorrectGuesses'] = 0;
-    this.statistics['run'] = 0;
-    this.statistics['stepForward'] = 0;
-    this.statistics['stepBack'] = 0;
-    this.statistics['goToEnd'] = 0;
-    this.statistics['goToStart'] = 0;
-    this.statistics['breakpointsSet'] = 0;
-    this.statistics['timeToCorrectlyGuessErrorLines'] = 0;
-    this.statistics['timeToCorrectlyEditErrorLines'] = 0;
+    this.statistics.incorrectGuesses = 0;
+    this.statistics.run = 0;
+    this.statistics.stepForward = 0;
+    this.statistics.stepBack = 0;
+    this.statistics.goToEnd = 0;
+    this.statistics.goToStart = 0;
+    this.statistics.breakpointsSet = 0;
+    this.statistics.timeToCorrectlyGuessErrorLines = 0;
+    this.statistics.timeToCorrectlyEditErrorLines = 0;
     //this.startTime = moment(startTimeStampInMS).format("L LT");
   }
 
@@ -87,7 +88,9 @@ class debugController {
   toggleIcon(lineNumber, iconType) {
     if (iconType === 'breakpoint') {
       this.breakpoints[lineNumber] = !this.breakpoints[lineNumber];
-      this.statistics.breakpointsSet += 1;
+      if (this.breakpoints[lineNumber]) {
+        this.statistics.breakpointsSet += 1;
+      }
     }
     if (iconType === 'flag') {
       this.flags[lineNumber] = !this.flags[lineNumber];
@@ -105,7 +108,7 @@ class debugController {
   checkFlags() {
     //no lines flagged
     var flagsLength = Object.keys(this.flags).length;
-    if (flagsLength < 1) {
+    if (flagsLength !== this.errorlines) {
       //this.incorrectGuess($event); TODO show incorrect modal? or button click does nothing?
       return false;
     }
@@ -120,11 +123,11 @@ class debugController {
     }
     //check that all error lines are in flagged lines array
     //i.e. check for any non flagged error lines
-    for (var i = 0; i < this.errorLines.length; i++) {
-      if (!(this.errorLines[i] in this.flags)) {
+    forEach(this.errorLines, (lineNum) => {
+      if (!this.flags[lineNum]) {
         return false;
       }
-    }
+    })
 
     return true;
   }

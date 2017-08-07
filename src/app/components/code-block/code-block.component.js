@@ -35,5 +35,6 @@ angular.module('debugapp')
       breakpoints: '<', // Array of breakpoints
       flags: '<', //Array of flags
       iconAction: '&', // callback to toggle breakpoints and flags
+      isEditing: '<',
     },
   });

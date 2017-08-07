@@ -7,7 +7,7 @@
           <i class="fa fa-flag icon" ng-show="$ctrl.flags[lineNum]"></i>
         </div>
       </td>
-      <td class="iconCol" ng-click="$ctrl.toggleIcon(lineNum, &quot;breakpoint&quot;)">
+      <td class="iconCol" ng-click="$ctrl.toggleIcon(lineNum, &quot;breakpoint&quot;)" ng-if="!$ctrl.isEditing">
         <div class="spacer" layout="row" layout-align="center center">
           <i class="fa fa-circle icon" ng-show="$ctrl.breakpoints[lineNum]" ng-class="{'fade': $ctrl.currentLine === lineNum}"></i>
           <i class="fa fa-arrow-right line-icon" ng-show="$ctrl.currentLine === lineNum"></i>
