@@ -14,6 +14,8 @@ class debugController {
     this.exerciseService = exerciseService;
     this.$mdDialog = $mdDialog;
 
+    this.editMode = false;
+
     // Object for breakpoints and flags => faster lookup than array.
     this.breakpoints = {};
     this.flags = {};
@@ -27,8 +29,7 @@ class debugController {
     this.statistics.goToEnd = 0;
     this.statistics.goToStart = 0;
     this.statistics.breakpointsSet = 0;
-    this.statistics.timeToCorrectlyGuessErrorLines = 0;
-    this.statistics.timeToCorrectlyEditErrorLines = 0;
+    this.statistics.flagsSet = 0;
     this.startTime = moment();
   }
 
@@ -96,6 +97,9 @@ class debugController {
     }
     if (iconType === 'flag') {
       this.flags[lineNumber] = !this.flags[lineNumber];
+      if (this.flags[lineNumber]) {
+        this.statistics.flagsSet += 1;
+      }
     }
   }
 
@@ -148,9 +152,11 @@ class debugController {
       return;
     }
 
-    /* MOMENT */
     const endTime = moment();
-    this.statistics.timeTaken = this.formatAsMinutes(endTime.diff(this.startTime));
+    this.statistics.timeToCorrectlyGuessErrorLines =
+      this.formatAsMinutes(endTime.diff(this.startTime));
+
+    // this.statistics.timeToCorrectlyEditErrorLines
 
     const statsObj = this.statistics;
     this.$mdDialog.show({
