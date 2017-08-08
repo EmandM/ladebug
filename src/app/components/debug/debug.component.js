@@ -1,8 +1,11 @@
 import angular from 'angular';
-import findIndex from 'lodash/findIndex';
 import drop from 'lodash/drop';
 import every from 'lodash/every';
+import findIndex from 'lodash/findIndex';
+import forEach from 'lodash/forEach';
+import parseInt from 'lodash/parseInt';
 import reduce from 'lodash/reduce';
+import split from 'lodash/split';
 import moment from 'moment';
 import TraceToCallStack from '../../helpers/trace-to-call-stack.helper';
 import template from './debug.template.html';
@@ -141,22 +144,25 @@ class debugController {
   }
 
   submit($event) {
-    if (!this.checkFlags()) {
+    if (!this.isEditing) {
+      // If not editing and all flags are correct
+      if (this.checkFlags()) {
+        this.isEditing = true;
+        return;
+      }
+
       this.incorrectGuess($event);
       return;
     }
 
-    if (!this.isEditing) {
-      this.isEditing = true;
-      this.currentLine = -1;
+    if (!this.checkNewCode()) {
+      this.incorrectGuess($event);
       return;
     }
 
     const endTime = moment();
     this.statistics.timeToCorrectlyGuessErrorLines =
       this.formatAsMinutes(endTime.diff(this.startTime));
-
-    // this.statistics.timeToCorrectlyEditErrorLines
 
     const statsObj = this.statistics;
     this.$mdDialog.show({
@@ -167,6 +173,19 @@ class debugController {
       }],
       controllerAs: '$ctrl',
     });
+  }
+
+  checkNewCode() {
+    const codeByLines = split(this.codeString, '\n');
+    forEach(this.flags, (flagValue, flagLine) => {
+      if (flagValue.updatedText) {
+        const index = parseInt(flagLine) - 1;
+        codeByLines[index] = flagValue.updatedText;
+      }
+    });
+    const newCodeString = codeByLines.join('\n');
+    console.log(newCodeString);
+    return false;
   }
 }
 

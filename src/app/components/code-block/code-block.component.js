@@ -29,6 +29,10 @@ class codeBlockController {
     }
     return this.currentLine === lineNum;
   }
+
+  lineChanged(lineNum, newText) {
+    this.flags[lineNum] = { updatedText: newText };
+  }
 }
 
 codeBlockController.$inject = [];

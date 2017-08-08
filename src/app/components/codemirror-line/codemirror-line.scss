@@ -1,0 +1,10 @@
+.odCodemirrorLine {
+  background-color: hotpink;
+
+  .CodeMirror {
+    height: 17px;
+    .CodeMirror-lines {
+      padding: 0;
+    }
+  }
+}

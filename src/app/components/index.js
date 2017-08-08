@@ -2,6 +2,7 @@ import './add-exercise';
 import './admin';
 import './choose-file';
 import './code-block';
+import './codemirror-line';
 import './debug';
 import './edit-exercise';
 import './exercises-list';

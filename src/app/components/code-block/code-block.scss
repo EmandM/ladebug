@@ -29,6 +29,11 @@
     .midCol {
       width: 20px;
     }
+    .editCol {
+      border: 1px solid $color-grey-med;
+      border-right: none;
+      box-shadow: inset 1px 1px 0px 0px $color-grey-med;
+    }
   }
 
   .spacer {
@@ -53,5 +58,8 @@
     margin: 0;
     text-align: right;
     margin-right: 3px;
+  }
+  .userCode {
+    height: 17px;
   }
 }

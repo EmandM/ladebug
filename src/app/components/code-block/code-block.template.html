@@ -27,7 +27,12 @@
             </div>
           </td>
           <td class="midCol"><code><pre class="lineNumbers">{{lineNum}}</pre></code></td>
-          <td><div class="userCode code-block" hljs hljs-language="python" hljs-source="line"></div></td>
+          <td ng-if="!$ctrl.isEditing || !$ctrl.flags[lineNum]">
+            <div class="userCode code-block" hljs hljs-language="python" hljs-source="line"></div>
+          </td>
+          <td ng-if="$ctrl.isEditing && $ctrl.flags[lineNum]" class="editCol">
+            <codemirror-line ng-model="line" ng-change="$ctrl.lineChanged(lineNum, line)"></codemirror-line>
+          </td>
         </tr>
       </tbody>
     </table>
