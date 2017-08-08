@@ -26,6 +26,12 @@
         transform: translate(-50%, -50%);
       }
     }
+    .stepIcon.completed {
+      background: none;
+      .icon {
+        color: $color-green;
+      }
+    }
     .stepText {
       padding: 4px;
 

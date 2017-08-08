@@ -21,6 +21,14 @@ class codeBlockController {
     }
     this.iconAction({ line: lineNum, icon: iconType });
   }
+
+  // Determine whether lineNum is current line of execution
+  isCurrentLine(lineNum) {
+    if (this.isEditing) {
+      return false;
+    }
+    return this.currentLine === lineNum;
+  }
 }
 
 codeBlockController.$inject = [];

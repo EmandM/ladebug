@@ -148,7 +148,7 @@ class debugController {
 
     if (!this.isEditing) {
       this.isEditing = true;
-      this.currentLine = undefined;
+      this.currentLine = -1;
       return;
     }
 
