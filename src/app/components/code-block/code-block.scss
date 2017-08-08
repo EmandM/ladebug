@@ -38,11 +38,11 @@
   }
   .icon {
     font-size: 12px;
-    color: $color-red-error;
+    color: $color-accent;
     position: absolute;
   }
-  .icon.fade {
-    opacity: 0.4;
+  .icon.active {
+    color: $color-green;
   }
   .line-icon {
     font-size: 12px;

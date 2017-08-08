@@ -1,10 +1,35 @@
 <h1 class="md-display-1 pageName" ng-if="$ctrl.existingExercise">{{$ctrl.pageName}}</h1>
+<div layout="row">
+  <div layout="row" layout-align="start center" class="step" ng-class="{'active': !$ctrl.isEditing}">
+    <div class="stepIcon">
+      <span ng-if="!$ctrl.isEditing" class="icon">1</span>
+      <md-icon ng-if="$ctrl.isEditing" md-font-icon="fa" class="fa-checkmark icon"></md-icon>
+    </div>
+    <div layout="column" class="stepText">
+      <span class="stepHeader">Flag Errors</span>
+      <span class="stepDesc">Flag all errors in the code.</span>
+    </div>
+  </div>
+  <div layout="row" layout-align="start center" class="step last" ng-class="{'active': $ctrl.isEditing}">
+    <div class="stepIcon">
+      <span ng-if="!$ctrl.completed" class="icon">2</span>
+      <md-icon ng-if="$ctrl.completed" md-font-icon="fa" class="fa-checkmark icon"></md-icon>
+    </div>
+    <div layout="column" class="stepText">
+      <span class="stepHeader">Fix Errors</span>
+      <span class="stepDesc">Edit code to correct errors.</span>
+    </div>
+  </div>
+  <md-button type="submit" aria-label="check flags" class="md-accent md-raised" ng-click="$ctrl.submit()">
+    Check
+  </md-button>
+</div>
 <div layout="row" class="odDebug" ng-if="$ctrl.outputLoaded">
   <div layout="column" flex="50" flex-gt-md="60">
     <div class="codeBlock" id="codeBlock" flex>
       <code-block code-string="$ctrl.codeString" current-line="$ctrl.codeTrace[$ctrl.currentTraceIndex].line"
         breakpoints="$ctrl.breakpoints" flags="$ctrl.flags"
-        icon-action="$ctrl.toggleIcon(line, icon)" is-editing-mode="$ctrl.isEditing"></code-block>
+        icon-action="$ctrl.toggleIcon(line, icon)" is-editing="$ctrl.isEditing"></code-block>
     </div>
     <div layout="row">
       <md-button class="md-raised debugButton" flex ng-click="$ctrl.goToStart()">
@@ -58,9 +83,5 @@
       </div>
     </md-card>
     <div flex></div>
-    <div layout="row">
-      <div flex></div>
-      <md-button type="submit" aria-label="check flags" class="md-accent md-raised" ng-click="$ctrl.submit()">Check Flags</md-button>
-    </div>
   </div>
 </div>

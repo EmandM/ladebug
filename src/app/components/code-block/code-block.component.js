@@ -13,12 +13,12 @@ class codeBlockController {
       // Split the code by newline characters to have reference to each line.
       this.codeByLines = split(this.codeString, '\n');
     }
-    if (changesObj.currentLine) {
-      this.currentLineIndex = this.currentLine - 1;
-    }
   }
 
   toggleIcon(lineNum, iconType) {
+    if (this.isEditing) {
+      return;
+    }
     this.iconAction({ line: lineNum, icon: iconType });
   }
 }

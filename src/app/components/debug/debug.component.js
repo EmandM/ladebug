@@ -146,6 +146,12 @@ class debugController {
       return;
     }
 
+    if (!this.isEditing) {
+      this.isEditing = true;
+      this.currentLine = undefined;
+      return;
+    }
+
     const endTime = moment();
     this.statistics.timeToCorrectlyGuessErrorLines =
       this.formatAsMinutes(endTime.diff(this.startTime));
