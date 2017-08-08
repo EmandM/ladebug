@@ -1,87 +1,91 @@
-<h1 class="md-display-1 pageName" ng-if="$ctrl.existingExercise">{{$ctrl.pageName}}</h1>
-<div layout="row">
-  <div layout="row" layout-align="start center" class="step" ng-class="{'active': !$ctrl.isEditing}">
-    <div class="stepIcon">
-      <span ng-if="!$ctrl.isEditing" class="icon">1</span>
-      <md-icon ng-if="$ctrl.isEditing" md-font-icon="fa" class="fa-checkmark icon"></md-icon>
-    </div>
-    <div layout="column" class="stepText">
-      <span class="stepHeader">Flag Errors</span>
-      <span class="stepDesc">Flag all errors in the code.</span>
-    </div>
-  </div>
-  <div layout="row" layout-align="start center" class="step last" ng-class="{'active': $ctrl.isEditing}">
-    <div class="stepIcon">
-      <span ng-if="!$ctrl.completed" class="icon">2</span>
-      <md-icon ng-if="$ctrl.completed" md-font-icon="fa" class="fa-checkmark icon"></md-icon>
-    </div>
-    <div layout="column" class="stepText">
-      <span class="stepHeader">Fix Errors</span>
-      <span class="stepDesc">Edit code to correct errors.</span>
-    </div>
-  </div>
-  <md-button type="submit" aria-label="check flags" class="md-accent md-raised" ng-click="$ctrl.submit()">
-    Check
-  </md-button>
-</div>
-<div layout="row" class="odDebug" ng-if="$ctrl.outputLoaded">
-  <div layout="column" flex="50" flex-gt-md="60">
-    <div class="codeBlock" id="codeBlock" flex>
-      <code-block code-string="$ctrl.codeString" current-line="$ctrl.codeTrace[$ctrl.currentTraceIndex].line"
-        breakpoints="$ctrl.breakpoints" flags="$ctrl.flags"
-        icon-action="$ctrl.toggleIcon(line, icon)" is-editing="$ctrl.isEditing"></code-block>
-    </div>
+<div class="odDebug" layout="column">
+  <div ng-if="$ctrl.existingExercise">
+    <h1 class="md-display-1 pageName">{{$ctrl.pageName}}</h1>
     <div layout="row">
-      <md-button class="md-raised debugButton" flex ng-click="$ctrl.goToStart()">
-        <md-icon md-font-icon="fa" class="fa-fast-backward"></md-icon>
-        <md-tooltip md-direction="bottom">Go To Start</md-tooltip>
-      </md-button>
-      <md-button class="md-raised debugButton" flex
-        ng-disabled="$ctrl.currentTraceIndex <= 0" ng-click="$ctrl.stepBack()">
-        <md-icon md-font-icon="fa" class="fa-step-backward"></md-icon>
-        <md-tooltip md-direction="bottom">Step Backward</md-tooltip>
-      </md-button>
-      <md-button class="md-raised debugButton" flex ng-click="$ctrl.run()">
-        <md-icon md-font-icon="fa" class="fa-play"></md-icon>
-        <md-tooltip md-direction="bottom">Run</md-tooltip>
-      </md-button>
-      <md-button class="md-raised debugButton" flex
-        ng-disabled="$ctrl.currentTraceIndex >= $ctrl.codeTrace.length - 1" ng-click="$ctrl.stepForward()">
-        <md-icon md-font-icon="fa" class="fa-step-forward"></md-icon>
-        <md-tooltip md-direction="bottom">Step Forward</md-tooltip>
-      </md-button>
-      <md-button class="md-raised debugButton" flex ng-click="$ctrl.goToEnd()">
-        <md-icon md-font-icon="fa" class="fa-fast-forward"></md-icon>
-        <md-tooltip md-direction="bottom">Go To End</md-tooltip>
+      <div layout="row" layout-align="start center" class="step" ng-class="{'active': !$ctrl.isEditing}">
+        <div class="stepIcon">
+          <span ng-if="!$ctrl.isEditing" class="icon">1</span>
+          <md-icon ng-if="$ctrl.isEditing" md-font-icon="fa" class="fa-check icon"></md-icon>
+        </div>
+        <div layout="column" class="stepText">
+          <span class="stepHeader">Flag Errors</span>
+          <span class="stepDesc">Flag all errors in the code.</span>
+        </div>
+      </div>
+      <div layout="row" layout-align="start center" class="step last" ng-class="{'active': $ctrl.isEditing}">
+        <div class="stepIcon">
+          <span ng-if="!$ctrl.completed" class="icon">2</span>
+          <md-icon ng-if="$ctrl.completed" md-font-icon="fa" class="fa-check icon"></md-icon>
+        </div>
+        <div layout="column" class="stepText">
+          <span class="stepHeader">Fix Errors</span>
+          <span class="stepDesc">Edit code to correct errors.</span>
+        </div>
+      </div>
+      <md-button type="submit" aria-label="check flags" class="md-accent md-raised" ng-click="$ctrl.submit()">
+        Check
       </md-button>
     </div>
   </div>
-  <div flex layout="column">
-    <md-card class="memory">
-      <div class="md-card-content code-block" ng-repeat="frame in $ctrl.memory">
-        <div class="md-subhead frameHeading" ng-click="$ctrl.openStackFrame(frame.id)"
-          ng-class="{'no-border-bottom': frame.id !== $ctrl.visibleFrameId && !$last}" layout="row">
-          <md-icon md-font-icon="fa" class="frameIcon"
-            ng-class="frame.id === $ctrl.visibleFrameId ? 'fa-chevron-down' : 'fa-chevron-right'"></md-icon>
-          <span>{{frame.name}}</span>
-          <span flex></span>
+  <div layout="row" class="debugComponent" ng-if="$ctrl.outputLoaded" flex>
+    <div layout="column" flex="50" flex-gt-md="60">
+      <div class="codeBlock" id="codeBlock" flex>
+        <code-block code-string="$ctrl.codeString" current-line="$ctrl.codeTrace[$ctrl.currentTraceIndex].line"
+          breakpoints="$ctrl.breakpoints" flags="$ctrl.flags"
+          icon-action="$ctrl.toggleIcon(line, icon)" is-editing="$ctrl.isEditing"></code-block>
+      </div>
+      <div layout="row">
+        <md-button class="md-raised debugButton" flex ng-click="$ctrl.goToStart()">
+          <md-icon md-font-icon="fa" class="fa-fast-backward"></md-icon>
+          <md-tooltip md-direction="bottom">Go To Start</md-tooltip>
+        </md-button>
+        <md-button class="md-raised debugButton" flex
+          ng-disabled="$ctrl.currentTraceIndex <= 0" ng-click="$ctrl.stepBack()">
+          <md-icon md-font-icon="fa" class="fa-step-backward"></md-icon>
+          <md-tooltip md-direction="bottom">Step Backward</md-tooltip>
+        </md-button>
+        <md-button class="md-raised debugButton" flex ng-click="$ctrl.run()">
+          <md-icon md-font-icon="fa" class="fa-play"></md-icon>
+          <md-tooltip md-direction="bottom">Run</md-tooltip>
+        </md-button>
+        <md-button class="md-raised debugButton" flex
+          ng-disabled="$ctrl.currentTraceIndex >= $ctrl.codeTrace.length - 1" ng-click="$ctrl.stepForward()">
+          <md-icon md-font-icon="fa" class="fa-step-forward"></md-icon>
+          <md-tooltip md-direction="bottom">Step Forward</md-tooltip>
+        </md-button>
+        <md-button class="md-raised debugButton" flex ng-click="$ctrl.goToEnd()">
+          <md-icon md-font-icon="fa" class="fa-fast-forward"></md-icon>
+          <md-tooltip md-direction="bottom">Go To End</md-tooltip>
+        </md-button>
+      </div>
+    </div>
+    <div flex layout="column">
+      <md-card class="memory">
+        <div class="md-card-content code-block" ng-repeat="frame in $ctrl.memory">
+          <div class="md-subhead frameHeading" ng-click="$ctrl.openStackFrame(frame.id)"
+            ng-class="{'no-border-bottom': frame.id !== $ctrl.visibleFrameId && !$last}" layout="row">
+            <md-icon md-font-icon="fa" class="frameIcon"
+              ng-class="frame.id === $ctrl.visibleFrameId ? 'fa-chevron-down' : 'fa-chevron-right'"></md-icon>
+            <span>{{frame.name}}</span>
+            <span flex></span>
+          </div>
+          <div ng-show="frame.id === $ctrl.visibleFrameId">
+            <variable ng-repeat="variable in frame.variables" variable="variable"></variable>
+          </div>
         </div>
-        <div ng-show="frame.id === $ctrl.visibleFrameId">
-          <variable ng-repeat="variable in frame.variables" variable="variable"></variable>
+      </md-card>
+      <md-card class="displayCard exceptions" ng-show="$ctrl.codeTrace[$ctrl.currentTraceIndex].exception_msg">
+        <div class="md-title cardHeading">Error</div>
+        <div class="code-block">
+          <code><pre>{{$ctrl.codeTrace[$ctrl.currentTraceIndex].exception_msg}}</pre></code>
         </div>
-      </div>
-    </md-card>
-    <md-card class="displayCard exceptions" ng-show="$ctrl.codeTrace[$ctrl.currentTraceIndex].exception_msg">
-      <div class="md-title cardHeading">Error</div>
-      <div class="code-block">
-        <code><pre>{{$ctrl.codeTrace[$ctrl.currentTraceIndex].exception_msg}}</pre></code>
-      </div>
-    </md-card>
-    <md-card class="displayCard">
-      <div class="md-title cardHeading outHeading">Output</div>
-      <div class="md-card-content code-block" hljs hljs-source="$ctrl.codeTrace[$ctrl.currentTraceIndex].stdout">
-      </div>
-    </md-card>
-    <div flex></div>
+      </md-card>
+      <md-card class="displayCard">
+        <div class="md-title cardHeading outHeading">Output</div>
+        <div class="md-card-content code-block" hljs hljs-source="$ctrl.codeTrace[$ctrl.currentTraceIndex].stdout">
+        </div>
+      </md-card>
+      <div flex></div>
+    </div>
   </div>
 </div>

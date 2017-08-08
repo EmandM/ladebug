@@ -6,7 +6,8 @@
           ng-class="{'currentLine': $ctrl.currentLine === lineNum}" class="codeLine">
           <td class="iconCol" ng-click="$ctrl.toggleIcon(lineNum, 'flag')">
             <div class="spacer" layout="row" layout-align="center center">
-              <i class="fa fa-flag icon" ng-show="$ctrl.flags[lineNum]" ng-class="{'active': $ctrl.isEditing}"></i>
+              <i class="fa fa-flag icon" ng-show="$ctrl.flags[lineNum] && !$ctrl.isEditing"></i>
+              <i class="fa fa-check icon active" ng-show="$ctrl.flags[lineNum] && $ctrl.isEditing"></i>
             </div>
           </td>
         </tr>

@@ -1,50 +1,50 @@
 @import '../../styles/colors';
 
-.pageName {
-  margin: 0 8px 12px;
-}
-
-.step {
-  background-color: $color-white;
-  border: 1px solid $color-grey-med;
-
-  .stepIcon {
-    height: 20px;
-    width: 20px;
-    margin: 4px;
-    background-color: $color-primary-light-2;
-    border-radius: 50%;
-    position: relative;
-
-    .icon {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-    }
-  }
-  .stepText {
-    padding: 4px;
-
-    .stepHeading {
-      font-weight: bold;
-    }
-    .stepDesc {
-      font-size: 14px;
-      color: $color-text-med;
-    }
-  }
-}
-.step.active {
-  background-color: $color-grey-lightest;
-}
-.step.last {
-  border-left: none;
-  margin-right: 12px;
-}
-
 .odDebug {
   height: 100%;
+
+  .pageName {
+    margin: 0 8px 12px;
+  }
+
+  .step {
+    background-color: $color-white;
+    border: 1px solid $color-grey-med;
+
+    .stepIcon {
+      height: 20px;
+      width: 20px;
+      margin: 4px;
+      background-color: $color-primary-light-2;
+      border-radius: 50%;
+      position: relative;
+
+      .icon {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+    }
+    .stepText {
+      padding: 4px;
+
+      .stepHeading {
+        font-weight: bold;
+      }
+      .stepDesc {
+        font-size: 14px;
+        color: $color-text-med;
+      }
+    }
+  }
+  .step.active {
+    background-color: $color-grey-lightest;
+  }
+  .step.last {
+    border-left: none;
+    margin-right: 12px;
+  }
 
   .codeBlock {
     overflow: scroll;
