@@ -1,3 +1,4 @@
+@import '~csshake';
 @import '../../styles/colors';
 
 .odDebug {
@@ -17,7 +18,7 @@
     .stepIcon {
       height: 20px;
       width: 20px;
-      margin: 4px;
+      margin: 8px;
       background-color: $color-primary-light-2;
       border-radius: 50%;
       position: relative;
@@ -109,3 +110,7 @@
     }
   }
 }
+
+// .debugapp.shakePage {
+
+// }

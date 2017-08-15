@@ -35,6 +35,7 @@ module.exports = (function () {
       'angular-messages',
       'angular-ui-codemirror',
       'codemirror',
+      'csshake',
       'lodash',
       'moment',
       'restangular',

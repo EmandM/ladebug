@@ -12,9 +12,10 @@ import template from './debug.template.html';
 import './debug.scss';
 
 class debugController {
-  constructor(exerciseService, $mdDialog) {
+  constructor(exerciseService, $mdDialog, $timeout) {
     this.exerciseService = exerciseService;
     this.$mdDialog = $mdDialog;
+    this.$timeout = $timeout;
 
     this.editMode = false;
 
@@ -151,7 +152,7 @@ class debugController {
         return;
       }
 
-      this.incorrectGuess($event);
+      this.shakeScreen();
       return;
     }
 
@@ -175,6 +176,17 @@ class debugController {
     });
   }
 
+  shakeScreen() {
+    const page = document.getElementById('debugapp');
+    page.classList.add('shake-constant');
+    page.classList.add('shake-horizontal');
+
+    this.$timeout(() => {
+      page.classList.remove('shake-constant');
+      page.classList.remove('shake-horizontal');
+    }, 200);
+  }
+
   checkNewCode() {
     const codeByLines = split(this.codeString, '\n');
     forEach(this.flags, (flagValue, flagLine) => {
@@ -189,7 +201,7 @@ class debugController {
   }
 }
 
-debugController.$inject = ['ExerciseService', '$mdDialog'];
+debugController.$inject = ['ExerciseService', '$mdDialog', '$timeout'];
 
 angular.module('debugapp')
   .component('debug', {
