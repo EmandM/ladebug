@@ -1,7 +1,8 @@
 import angular from 'angular';
 
-function routing($urlRouterProvider, $stateProvider) {
+function routing($urlRouterProvider, $stateProvider, $locationProvider) {
   $urlRouterProvider.otherwise('/');
+  $locationProvider.html5Mode(true);
 
   $stateProvider
     .state('home', {
@@ -59,7 +60,7 @@ function routing($urlRouterProvider, $stateProvider) {
     });
 }
 
-routing.$inject = ['$urlRouterProvider', '$stateProvider'];
+routing.$inject = ['$urlRouterProvider', '$stateProvider', '$locationProvider'];
 
 angular.module('debugapp')
   .config(routing);
