@@ -4,10 +4,35 @@ import template from './page-header.template.html';
 import './page-header.scss';
 
 class headerController {
-  // constructor() { }
+  constructor(authService, $scope) {
+    this.authService = authService;
+
+    gapi.signin2.render('signInButton', {
+      onSuccess: this.signIn.bind(this),
+    });
+
+    this.applyScope = (() => $scope.$apply)();
+  }
+
+  signIn(googleUser) {
+    const userInfo = this.authService.loadUser(googleUser);
+    this.userName = userInfo.getName();
+    this.userImage = userInfo.getImageUrl();
+    this.userEmail = userInfo.getEmail();
+    this.userLoaded = true;
+    this.applyScope();
+  }
+
+  signout() {
+    this.authService.signOut()
+      .then(() => {
+        this.userLoaded = false;
+        this.applyScope();
+      });
+  }
 }
 
-headerController.$inject = [];
+headerController.$inject = ['AuthService', '$scope'];
 
 angular.module('debugapp')
   .component('pageHeader', {

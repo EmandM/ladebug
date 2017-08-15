@@ -1,11 +1,58 @@
-.pageHeader {
-  .button-logo {
-    height: 30px;
+@import '../../styles/colors';
+
+.odPageHeader {
+  .toolbar {
+    padding-right: 16px;
+
+    .homeButton {
+      margin-left: 0px;
+
+      .button-logo {
+        height: 30px;
+      }
+      .button-text {
+        margin-left: 12px;
+        font-weight: bold;
+        font-size: 18px;
+        text-transform: none;
+      }
+    }
+
+    .signIn {
+      padding-right: 16px;
+    }
+
+    .menu {
+      margin-right: 0;
+
+      .menuButton {
+        height: 40px;
+        width: 44px;
+        min-width: 0;
+        position: relative;
+
+        .userPhoto {
+          width: 32px;
+          height: 32px;
+          border-radius: 50%;
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+        }
+      }
+    }
   }
-  .button-text {
-    margin-left: 12px;
-    font-weight: bold;
-    font-size: 18px;
-    text-transform: none;
+}
+
+.menuContent {
+  .userInfo {
+    .userEmail {
+      font-size: 14px;
+      color: $color-text-med;
+    }
+  }
+  .signOut {
+    text-align: center;
   }
 }

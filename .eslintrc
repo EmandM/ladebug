@@ -10,5 +10,8 @@
     "no-param-reassign": 0,
     "class-methods-use-this": 0,
     "prefer-template": 0
+  },
+  "globals": {
+    "gapi": true
   }
 }
