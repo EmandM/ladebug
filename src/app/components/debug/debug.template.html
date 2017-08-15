@@ -35,25 +35,26 @@
           icon-action="$ctrl.toggleIcon(line, icon)" is-editing="$ctrl.isEditing"></code-block>
       </div>
       <div layout="row">
-        <md-button class="md-raised debugButton" flex ng-click="$ctrl.goToStart()">
+        <md-button class="md-raised debugButton" flex ng-disabled="$ctrl.isEditing" ng-click="$ctrl.goToStart()">
           <md-icon md-font-icon="fa" class="fa-fast-backward"></md-icon>
           <md-tooltip md-direction="bottom">Go To Start</md-tooltip>
         </md-button>
         <md-button class="md-raised debugButton" flex
-          ng-disabled="$ctrl.currentTraceIndex <= 0" ng-click="$ctrl.stepBack()">
+          ng-disabled="$ctrl.currentTraceIndex <= 0 || $ctrl.isEditing" ng-click="$ctrl.stepBack()">
           <md-icon md-font-icon="fa" class="fa-step-backward"></md-icon>
           <md-tooltip md-direction="bottom">Step Backward</md-tooltip>
         </md-button>
-        <md-button class="md-raised debugButton" flex ng-click="$ctrl.run()">
+        <md-button class="md-raised debugButton" flex ng-disabled="$ctrl.isEditing" ng-click="$ctrl.run()">
           <md-icon md-font-icon="fa" class="fa-play"></md-icon>
           <md-tooltip md-direction="bottom">Run</md-tooltip>
         </md-button>
         <md-button class="md-raised debugButton" flex
-          ng-disabled="$ctrl.currentTraceIndex >= $ctrl.codeTrace.length - 1" ng-click="$ctrl.stepForward()">
+          ng-disabled="$ctrl.currentTraceIndex >= $ctrl.codeTrace.length - 1 || $ctrl.isEditing" 
+          ng-click="$ctrl.stepForward()">
           <md-icon md-font-icon="fa" class="fa-step-forward"></md-icon>
           <md-tooltip md-direction="bottom">Step Forward</md-tooltip>
         </md-button>
-        <md-button class="md-raised debugButton" flex ng-click="$ctrl.goToEnd()">
+        <md-button class="md-raised debugButton" flex  ng-disabled="$ctrl.isEditing" ng-click="$ctrl.goToEnd()">
           <md-icon md-font-icon="fa" class="fa-fast-forward"></md-icon>
           <md-tooltip md-direction="bottom">Go To End</md-tooltip>
         </md-button>
