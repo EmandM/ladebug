@@ -12,10 +12,11 @@ import template from './debug.template.html';
 import './debug.scss';
 
 class debugController {
-  constructor(exerciseService, $mdDialog, $timeout) {
+  constructor(exerciseService, $mdDialog, $timeout, $state) {
     this.exerciseService = exerciseService;
     this.$mdDialog = $mdDialog;
     this.$timeout = $timeout;
+    this.$state = $state;
 
     this.editMode = false;
 
@@ -148,6 +149,7 @@ class debugController {
       // If not editing and all flags are correct
       if (this.checkFlags()) {
         this.isEditing = true;
+        this.goToEnd();
         this.correctGuess($event);
         return;
       }
@@ -157,23 +159,28 @@ class debugController {
       return;
     }
 
-    if (!this.checkNewCode()) {
-      this.shakeScreen();
-      return;
-    }
+    this.checkNewCode().then((isCodeValid) => {
+      if (!isCodeValid) {
+        this.shakeScreen();
+        return;
+      }
 
-    const endTime = moment();
-    this.statistics.timeToCorrectlyGuessErrorLines =
-      this.formatAsMinutes(endTime.diff(this.startTime));
+      this.completed = true;
+      const endTime = moment();
+      this.statistics.timeToCorrectlyGuessErrorLines =
+        this.formatAsMinutes(endTime.diff(this.startTime));
 
-    const statsObj = this.statistics;
-    this.$mdDialog.show({
-      template: '<correct-line statistics="$ctrl.statistics"></correct-line>',
-      targetEvent: $event,
-      controller: [function () {
-        this.statistics = statsObj;
-      }],
-      controllerAs: '$ctrl',
+      const statsObj = this.statistics;
+      this.$mdDialog.show({
+        template: '<correct-line statistics="$ctrl.statistics"></correct-line>',
+        targetEvent: $event,
+        controller: [function () {
+          this.statistics = statsObj;
+        }],
+        controllerAs: '$ctrl',
+      })
+      .then(() => this.$state.go('home'))
+      .catch(() => this.$state.go('home'));
     });
   }
 
@@ -189,6 +196,7 @@ class debugController {
   }
 
   checkNewCode() {
+    this.checkingCode = true;
     const codeByLines = split(this.codeString, '\n');
     forEach(this.flags, (flagValue, flagLine) => {
       if (flagValue.updatedText) {
@@ -197,12 +205,21 @@ class debugController {
       }
     });
     const newCodeString = codeByLines.join('\n');
-    console.log(newCodeString);
-    return false;
+    return this.exerciseService.runSandbox(newCodeString)
+      .then((response) => {
+        this.codeString = response.debugInfo.code;
+        this.codeTrace = response.debugInfo.trace;
+        this.checkingCode = false;
+        if (!response.error) {
+          return true;
+        }
+        this.goToEnd();
+        return false;
+      });
   }
 }
 
-debugController.$inject = ['ExerciseService', '$mdDialog', '$timeout'];
+debugController.$inject = ['ExerciseService', '$mdDialog', '$timeout', '$state'];
 
 angular.module('debugapp')
   .component('debug', {

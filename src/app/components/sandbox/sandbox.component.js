@@ -17,7 +17,7 @@ class sandboxController {
 
   submit() {
     this.submitted = true;
-    this.exerciseService.postRequest(this.code)
+    this.exerciseService.runSandbox(this.code)
       .then((response) => {
         this.$state.go('debugsandbox', { outputID: response.id });
       })

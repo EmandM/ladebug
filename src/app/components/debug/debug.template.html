@@ -12,7 +12,8 @@
           <span class="stepDesc">Flag all errors in the code.</span>
         </div>
       </div>
-      <div layout="row" layout-align="start center" class="step last" ng-class="{'active': $ctrl.isEditing}">
+      <div layout="row" layout-align="start center" class="step last"
+        ng-class="{'active': $ctrl.isEditing && !$ctrl.completed}">
         <div class="stepIcon" ng-class="{'completed': $ctrl.completed}">
           <span ng-if="!$ctrl.completed" class="icon">2</span>
           <i ng-if="$ctrl.completed" class="fa fa-check icon"></i>
@@ -22,9 +23,13 @@
           <span class="stepDesc">Edit code to correct errors.</span>
         </div>
       </div>
-      <md-button type="submit" aria-label="check flags" class="md-accent md-raised" ng-click="$ctrl.submit()">
+      <md-button type="submit" aria-label="check flags" class="md-accent md-raised" ng-click="$ctrl.submit()"
+        ng-show="!$ctrl.checkingCode">
         Check
       </md-button>
+      <div ng-if="$ctrl.checkingCode">
+        <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+      </div>
     </div>
   </div>
   <div layout="row" class="debugComponent" ng-if="$ctrl.outputLoaded" flex>

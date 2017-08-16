@@ -1,4 +1,5 @@
 import angular from 'angular';
+import find from 'lodash/find';
 import GuidHelper from '../helpers/guid.helper';
 
 class ExerciseService {
@@ -9,7 +10,7 @@ class ExerciseService {
     this.JsonResponses = {};
   }
 
-  postRequest(pythonString) {
+  runSandbox(pythonString) {
     return this.restangular.one('get-output').customPOST({
       codeString: pythonString,
     }).then((response) => {
@@ -18,12 +19,15 @@ class ExerciseService {
         id: responseId,
         debugInfo: JSON.parse(response.data),
       };
+      cachedOutput.error = this.getErrorMessage(cachedOutput.debugInfo.trace);
       this.JsonResponses[responseId] = cachedOutput;
       return cachedOutput;
-    })
-    .catch((error) => {
-      console.log(error);
     });
+  }
+
+  getErrorMessage(codeTrace) {
+    const errorTrace = find(codeTrace, 'exception_msg');
+    return (errorTrace) ? errorTrace.exception_msg : undefined;
   }
 
   getOutputById(id) {
