@@ -126,14 +126,13 @@ class debugController {
     return every(this.errorLines, (lineNum => this.flags[lineNum]));
   }
 
-  incorrectGuess($event) {
-    this.statistics.incorrectGuesses += 1;
+  correctGuess($event) {
     this.$mdDialog.show(
       this.$mdDialog.alert()
         .clickOutsideToClose(true)
-        .title('Incorrect')
-        .textContent('Please try again.')
-        .ariaLabel('Incorrect Alert Dialog')
+        .title('Correct')
+        .textContent('Now can you fix the errors?')
+        .ariaLabel('Confirmation alert')
         .ok('OK')
         .targetEvent($event),
     );
@@ -149,15 +148,17 @@ class debugController {
       // If not editing and all flags are correct
       if (this.checkFlags()) {
         this.isEditing = true;
+        this.correctGuess($event);
         return;
       }
 
+      this.statistics.incorrectGuesses += 1;
       this.shakeScreen();
       return;
     }
 
     if (!this.checkNewCode()) {
-      this.incorrectGuess($event);
+      this.shakeScreen();
       return;
     }
 
@@ -184,7 +185,7 @@ class debugController {
     this.$timeout(() => {
       page.classList.remove('shake-constant');
       page.classList.remove('shake-horizontal');
-    }, 200);
+    }, 250);
   }
 
   checkNewCode() {
