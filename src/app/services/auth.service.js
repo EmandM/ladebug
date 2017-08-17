@@ -4,11 +4,20 @@ import GoogleSignIn from 'google-sign-in';
 class AuthService {
   constructor() {
     this.project = new GoogleSignIn.Project('728044119950-mpcea0183l7c87lflutdide1vfdmvjrb.apps.googleusercontent.com');
+    this.currentUser = {};
   }
 
   loadUser(googleUser) {
     this.user = googleUser.getBasicProfile();
     this.loggedIn = true;
+    return this.user;
+  }
+
+  getCurrentUser() {
+    if (!this.loggedIn) {
+      return false;
+    }
+
     return this.user;
   }
 

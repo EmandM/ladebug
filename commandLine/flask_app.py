@@ -90,11 +90,29 @@ class Sandbox(Resource):
         response = debug_output.pythonStringToJson(args['codeString'])
         return {'data': response}
 
+class Stats(Resource):
+    def put(self):
+        print('made it to stats class in server')
+        '''
+        args = parser.parse_args()
+        # check that stats for this exercise for this person don't already exist
+        # only overwrite if better score
+        result = db.statsCollection.insert_one({
+            'userEmail': args['userEmail'],
+            'userStats': args['userStats'],
+            # 'score': args['score'],
+            'exerciseName': args['exerciseName']
+        })
+        return { 'inserted': result.inserted_id.toString() }, 201
+        '''
+        response = 'yes'
+        return { 'data': response }
 
 api.add_resource(ExercisesList, '/exercises-list')
 api.add_resource(SavedExercise, '/exercise/<string:exercise_id>')
 api.add_resource(SaveExercise, '/exercise')
 api.add_resource(Sandbox, '/get-output')
+api.add_resource(Stats, '/stats')
 
 if __name__ == '__main__':
     app.run(debug=True)

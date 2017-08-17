@@ -83,7 +83,6 @@ class ExerciseService {
       errorLines: bugLines,
     });
   }
-
 }
 
 ExerciseService.$inject = ['Restangular', '$q'];
