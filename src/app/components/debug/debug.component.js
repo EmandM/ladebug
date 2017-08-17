@@ -227,14 +227,14 @@ class debugController {
     const userInfo = this.authService.getCurrentUser();
     if (userInfo) {
       this.userEmail = userInfo.getEmail();
-      // include this.score if calculating score here?
       this.statsService.putNewStats(this.userEmail, this.statistics, this.pageName)
-        .then(response => console.log('response = ' + response.data));
+        .then(response => console.log(JSON.parse(response.inserted).$oid));
     }
   }
 }
 
-debugController.$inject = ['ExerciseService', 'AuthService', 'StatsService', '$mdDialog', '$timeout', '$state'];
+debugController.$inject = ['ExerciseService', 'AuthService', 'StatsService',
+  '$mdDialog', '$timeout', '$state'];
 
 angular.module('debugapp')
   .component('debug', {

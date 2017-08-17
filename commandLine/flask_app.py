@@ -15,11 +15,15 @@ parser = reqparse.RequestParser()
 parser.add_argument('codeString')
 parser.add_argument('name')
 parser.add_argument('errorLines')
+parser.add_argument('userEmail')
+parser.add_argument('userStats')
+parser.add_argument('exerciseName')
 
 client = MongoClient()
 db = client.debuggerTest #TODO don't forget to change this for deployment
 
 class ExercisesList(Resource):
+    # get all exercises
     def get(self):
         response = db.exercisesCollection.find({})
         #TODO what to do if response is null
@@ -91,22 +95,26 @@ class Sandbox(Resource):
         return {'data': response}
 
 class Stats(Resource):
+    # insert one new stat
     def put(self):
-        print('made it to stats class in server')
-        '''
         args = parser.parse_args()
-        # check that stats for this exercise for this person don't already exist
-        # only overwrite if better score
         result = db.statsCollection.insert_one({
             'userEmail': args['userEmail'],
-            'userStats': args['userStats'],
-            # 'score': args['score'],
-            'exerciseName': args['exerciseName']
+            'exerciseName': args['exerciseName'],
+            'userStats': args['userStats']
         })
-        return { 'inserted': result.inserted_id.toString() }, 201
-        '''
-        response = 'yes'
-        return { 'data': response }
+        return { 'inserted': dumps(result.inserted_id) }, 201
+
+    # get all stats
+    def get(self):
+        response = db.statsCollection.find({})
+        #TODO what to do if response is null
+        return { 'data': dumps(response) }
+
+    # delete all stats
+    def delete(self):
+        result = db.statsCollection.delete_many({})
+        return "Deleted " + str(result.deleted_count)
 
 api.add_resource(ExercisesList, '/exercises-list')
 api.add_resource(SavedExercise, '/exercise/<string:exercise_id>')
