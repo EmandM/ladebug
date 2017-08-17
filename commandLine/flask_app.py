@@ -26,11 +26,9 @@ class ExercisesList(Resource):
     # get all exercises
     def get(self):
         response = db.exercisesCollection.find({})
-        #TODO what to do if response is null
-        #if (response) {
         return { 'data': dumps(response) }
 
-    # DELETES ALL
+    # deletes all exercises
     def delete(self):
         result = db.exercisesCollection.delete_many({})
         return "Deleted " + str(result.deleted_count)
@@ -40,11 +38,9 @@ class SavedExercise(Resource):
     # get single exercise by id
     def get(self, exercise_id):
         response = db.exercisesCollection.find_one({'_id': ObjectId(exercise_id)})
-        #TODO check if response is null
         return { 'data': dumps(response) }
 
     # update single exercise by id
-    # DOESN'T CHECK IF ARGUMENTS EXIST
     def post(self, exercise_id):
         args = parser.parse_args()
         jsonOutput = debug_output.pythonStringToJson(args['codeString'])
@@ -67,6 +63,7 @@ class SavedExercise(Resource):
 
 
 class SaveExercise(Resource):
+    # insert single exercise
     def put(self):
         args = parser.parse_args()
         jsonOutput = debug_output.pythonStringToJson(args['codeString'])
@@ -88,14 +85,23 @@ class SaveExercise(Resource):
         }, upsert=False)
         return { 'inserted': created_id }, 201
 
+
 class Sandbox(Resource):
+    # convert single sandbox code to JSON information
     def post(self):
         args = parser.parse_args()
         response = debug_output.pythonStringToJson(args['codeString'])
         return {'data': response}
 
+
 class Stats(Resource):
-    # insert one new stat
+    # get all stats
+    def get(self):
+        response = db.statsCollection.find({})
+        #TODO what to do if response is null
+        return { 'data': dumps(response) }
+
+    # insert single stat
     def put(self):
         args = parser.parse_args()
         result = db.statsCollection.insert_one({
@@ -104,12 +110,6 @@ class Stats(Resource):
             'userStats': args['userStats']
         })
         return { 'inserted': dumps(result.inserted_id) }, 201
-
-    # get all stats
-    def get(self):
-        response = db.statsCollection.find({})
-        #TODO what to do if response is null
-        return { 'data': dumps(response) }
 
     # delete all stats
     def delete(self):
