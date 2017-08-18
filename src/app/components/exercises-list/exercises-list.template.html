@@ -1,5 +1,5 @@
 <div layout="column" ng-if="$ctrl.exercisesLoaded" layout-align="start start" class="odExercisesList">
-  <h3 class="exercisesTitle md-title" ng-show="$ctrl.exerciseList">Saved Exercises</h3>
+  <h3 class="exercisesTitle md-title" ng-show="$ctrl.exercisesExist">Saved Exercises</h3>
   <div ng-repeat="exercise in $ctrl.exerciseList" ui-sref="{{$ctrl.editState}}({ id: exercise.id })"
     layout="row" layout-align="start center" class="exercise">
     <span>{{exercise.name}}</span>
@@ -13,6 +13,7 @@
       </md-button>
     </div>
   </div>
+  <h4 ng-if="!$ctrl.exercisesExist">There are currently no exercises.</h4>
 </div>
 
 <div ng-if="!$ctrl.exercisesLoaded">

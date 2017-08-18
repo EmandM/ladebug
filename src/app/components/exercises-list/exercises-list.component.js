@@ -13,6 +13,7 @@ class exercisesListController {
     if (!this.exerciseList) {
       this.loadExercises();
     }
+
     this.editState = (this.isAdmin) ? 'editexercise' : 'debugexisting';
   }
 
@@ -21,6 +22,11 @@ class exercisesListController {
       .then((response) => {
         this.exercisesLoaded = true;
         this.exerciseList = response;
+        // response always 'true' and an object even if empty (is not null)
+        // therefore check to see if it contains exercises
+        for (var key in this.exerciseList) {
+          this.exercisesExist = true;
+        }
       })
       .catch(() => {
         this.exercisesLoaded = true;
@@ -36,7 +42,6 @@ class exercisesListController {
     this.exerciseService.deleteExercise(exercise.id)
       .then(() => this.loadExercises());
   }
-
 }
 
 exercisesListController.$inject = ['ExerciseService', '$state'];
