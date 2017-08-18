@@ -26,6 +26,7 @@ class exercisesListController {
         // therefore check to see if it contains exercises
         for (var key in this.exerciseList) {
           this.exercisesExist = true;
+          break;
         }
       })
       .catch(() => {
