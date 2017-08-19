@@ -65,7 +65,7 @@
         </md-button>
       </div>
     </div>
-    <div flex layout="column">
+    <div flex>
       <md-card class="memory">
         <div class="md-card-content code-block" ng-repeat="frame in $ctrl.memory">
           <div class="md-subhead frameHeading" ng-click="$ctrl.openStackFrame(frame.id)"
@@ -91,7 +91,6 @@
         <div class="md-card-content code-block" hljs hljs-source="$ctrl.codeTrace[$ctrl.currentTraceIndex].stdout">
         </div>
       </md-card>
-      <div flex></div>
     </div>
   </div>
 </div>

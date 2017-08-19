@@ -25,5 +25,8 @@
         </md-menu-item>
       </md-menu-content>
     </md-menu>
+    <md-icon ng-if="$ctrl.noGapi" md-font-icon="fa" class="fa-exclamation-triangle">
+      <md-tooltip md-direction="bottom">Disable ad-block to enable user sign-in</md-tooltip>
+    </md-icon>
   </div>
 </md-toolbar>

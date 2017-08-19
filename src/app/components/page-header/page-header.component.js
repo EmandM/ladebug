@@ -7,9 +7,13 @@ class headerController {
   constructor(authService, $scope) {
     this.authService = authService;
 
-    gapi.signin2.render('signInButton', {
-      onSuccess: this.signIn.bind(this),
-    });
+    if (window.gapi) {
+      gapi.signin2.render('signInButton', {
+        onSuccess: this.signIn.bind(this),
+      });
+    } else {
+      this.noGapi = true;
+    }
 
     this.applyScope = (() => $scope.$apply)();
   }
