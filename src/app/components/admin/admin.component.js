@@ -19,6 +19,10 @@ class adminController {
       .then((response) => {
         this.exercisesLoaded = true;
         this.exerciseList = response;
+        for (var key in this.exerciseList) {
+          this.exercisesExist = true;
+          break;
+        }
       })
       .catch(() => {
         this.exercisesLoaded = true;
