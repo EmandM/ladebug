@@ -12,3 +12,4 @@ import './page-header';
 import './sandbox';
 import './variable';
 import './correct-line';
+import './exercise-stats';

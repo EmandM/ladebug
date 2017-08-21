@@ -36,7 +36,7 @@ class debugController {
     this.statistics.goToStart = 0;
     this.statistics.breakpointsSet = 0;
     this.statistics.flagsSet = 0;
-    this.startTime = moment();
+    this.startIdentifyTime = moment();
   }
 
   $onInit() {
@@ -151,6 +151,7 @@ class debugController {
       // If not editing and all flags are correct
       if (this.checkFlags()) {
         this.isEditing = true;
+        this.startEditTime = moment();
         this.goToEnd();
         this.correctGuess($event);
         return;
@@ -170,10 +171,13 @@ class debugController {
       this.completed = true;
       const endTime = moment();
       this.statistics.timeToCorrectlyGuessErrorLines =
-        this.formatAsMinutes(endTime.diff(this.startTime));
+        this.formatAsMinutes(this.startEditTime.diff(this.startIdentifyTime));
+      this.statistics.timeToCorrectlyEditErrorLines = 
+        this.formatAsMinutes(endTime.diff(this.startEditTime));
+      this.statistics.totalTime = 
+        this.formatAsMinutes(endTime.diff(this.startIdentifyTime));
 
       this.saveStats();
-      // this.calculateScore();
 
       const statsObj = this.statistics;
       this.$mdDialog.show({

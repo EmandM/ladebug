@@ -4,9 +4,10 @@ import template from './exercises-list.template.html';
 import './exercises-list.scss';
 
 class exercisesListController {
-  constructor(exerciseService, $state) {
+  constructor(exerciseService, $state, $mdDialog) {
     this.exerciseService = exerciseService;
     this.$state = $state;
+    this.$mdDialog = $mdDialog;
   }
 
   $onInit() {
@@ -38,6 +39,19 @@ class exercisesListController {
     return `${this.editState}({ id: ${exercise.id} })`;
   }
 
+  showInfo($event) {
+    var statsObj = null;
+    
+    this.$mdDialog.show({
+      template: '<exercise-stats statistics="$ctrl.statistics"></exercise-stats>',
+      targetEvent: $event,
+      controller: [function () {
+        this.statistics = statsObj;
+      }],
+      controllerAs: '$ctrl',
+    })
+  }
+
   delete(exercise) {
     this.exercisesLoaded = false;
     this.exerciseService.deleteExercise(exercise.id)
@@ -45,7 +59,7 @@ class exercisesListController {
   }
 }
 
-exercisesListController.$inject = ['ExerciseService', '$state'];
+exercisesListController.$inject = ['ExerciseService', '$state', '$mdDialog'];
 
 angular.module('debugapp')
   .component('exercisesList', {

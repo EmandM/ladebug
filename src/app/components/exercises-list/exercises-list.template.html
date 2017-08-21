@@ -5,7 +5,7 @@
     <span>{{exercise.name}}</span>
     <span flex></span>
     <div class="rightButtons" ng-if="$ctrl.isAdmin" layout="row" layout-align="center center">
-      <md-button class="md-icon-button actionButton md-accent" ng-click="$ctrl.showInfo" stop-propagation>
+      <md-button class="md-icon-button actionButton md-accent" ng-click="$ctrl.showInfo()" stop-propagation>
         <md-icon md-font-icon="fa" class="fa-info-circle"></md-icon>
       </md-button>
       <md-button class="md-icon-button actionButton" ng-click="$ctrl.delete(exercise)" stop-propagation>
