@@ -15,7 +15,7 @@ parser = reqparse.RequestParser()
 parser.add_argument('codeString')
 parser.add_argument('name')
 parser.add_argument('errorLines')
-parser.add_argument('userEmail')
+parser.add_argument('userId')
 parser.add_argument('userStats')
 parser.add_argument('exerciseName')
 
@@ -105,7 +105,7 @@ class Stats(Resource):
     def put(self):
         args = parser.parse_args()
         result = db.statsCollection.insert_one({
-            'userEmail': args['userEmail'],
+            'userId': args['userId'],
             'exerciseName': args['exerciseName'],
             'userStats': args['userStats']
         })

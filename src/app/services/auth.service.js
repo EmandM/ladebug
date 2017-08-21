@@ -9,16 +9,17 @@ class AuthService {
 
   loadUser(googleUser) {
     this.user = googleUser.getBasicProfile();
+    this.userId = googleUser.getAuthResponse().id_token;
     this.loggedIn = true;
     return this.user;
   }
 
-  getCurrentUser() {
+  getCurrentUserId() {
     if (!this.loggedIn) {
       return false;
     }
-
-    return this.user;
+    
+    return this.userId;
   }
 
   isLoggedIn() {

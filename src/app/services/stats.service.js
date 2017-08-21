@@ -5,9 +5,9 @@ class StatsService {
     this.restangular = restangular;
   }
 
-  putNewStats(userEmail, userStats, exerciseName) {
+  putNewStats(userId, userStats, exerciseName) {
     return this.restangular.one('stats').customPUT({
-      userEmail,
+      userId,
       userStats,
       exerciseName,
     });

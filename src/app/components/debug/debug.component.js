@@ -224,10 +224,9 @@ class debugController {
   }
 
   saveStats() {
-    const userInfo = this.authService.getCurrentUser();
-    if (userInfo) {
-      this.userEmail = userInfo.getEmail();
-      this.statsService.putNewStats(this.userEmail, this.statistics, this.pageName)
+    const userId = this.authService.getCurrentUserId();
+    if (userId) {
+      this.statsService.putNewStats(userId, this.statistics, this.pageName)
         .then(response => console.log(JSON.parse(response.inserted).$oid));
     }
   }
