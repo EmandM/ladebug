@@ -5,11 +5,21 @@ class StatsService {
     this.restangular = restangular;
   }
 
-  putNewStats(userId, userStats, exerciseName) {
+  getExerciseStatsById(exerciseId) {
+    return this.restangular.one('stats', exerciseId).get()
+    .then((response) => {
+      const output = JSON.parse(response.data);
+      //do stuff! get the stats
+      
+      return output;
+    });
+  }
+
+  putNewStats(userId, userStats, exerciseId) {
     return this.restangular.one('stats').customPUT({
       userId,
       userStats,
-      exerciseName,
+      exerciseId,
     });
   }
 }

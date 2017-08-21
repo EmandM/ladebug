@@ -17,7 +17,7 @@ parser.add_argument('name')
 parser.add_argument('errorLines')
 parser.add_argument('userId')
 parser.add_argument('userStats')
-parser.add_argument('exerciseName')
+parser.add_argument('exerciseId')
 
 client = MongoClient()
 db = client.debuggerTest #TODO don't forget to change this for deployment
@@ -106,7 +106,7 @@ class Stats(Resource):
         args = parser.parse_args()
         result = db.statsCollection.insert_one({
             'userId': args['userId'],
-            'exerciseName': args['exerciseName'],
+            'exerciseId': args['exerciseId'],
             'userStats': args['userStats']
         })
         return { 'inserted': dumps(result.inserted_id) }, 201
@@ -116,11 +116,17 @@ class Stats(Resource):
         result = db.statsCollection.delete_many({})
         return "Deleted " + str(result.deleted_count)
 
+class SavedStats(Resource):
+    def get(self, exercise_id):
+        response = db.statsCollection.find({'exerciseId': exercise_id})
+        return { 'data': dumps(response) }
+
 api.add_resource(ExercisesList, '/exercises-list')
 api.add_resource(SavedExercise, '/exercise/<string:exercise_id>')
 api.add_resource(SaveExercise, '/exercise')
 api.add_resource(Sandbox, '/get-output')
 api.add_resource(Stats, '/stats')
+api.add_resource(SavedStats, '/stats/<string:exercise_id>')
 
 if __name__ == '__main__':
     app.run(debug=True)

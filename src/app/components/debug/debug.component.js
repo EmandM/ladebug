@@ -45,6 +45,7 @@ class debugController {
         this.codeString = response.debugInfo.code;
         this.codeTrace = response.debugInfo.trace;
         this.errorLines = response.errorLines;
+        this.exerciseId = response._id.$oid;
         if (response.name) {
           this.existingExercise = true;
           this.pageName = response.name;
@@ -230,9 +231,10 @@ class debugController {
   saveStats() {
     const userId = this.authService.getCurrentUserId();
     if (userId) {
-      this.statsService.putNewStats(userId, this.statistics, this.pageName)
+      this.statsService.putNewStats(userId, this.statistics, this.exerciseId)
         .then(response => console.log(JSON.parse(response.inserted).$oid));
     }
+    // TODO what if user is not defined - still store stats
   }
 }
 
