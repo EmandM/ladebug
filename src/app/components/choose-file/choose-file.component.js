@@ -42,7 +42,7 @@ class chooseFileController {
         return;
       }
 
-      this.exerciseService.createExercise(this.name, fileText, this.errorLines)
+      this.exerciseService.createExercise(this.name, fileText, this.errorLines, this.description)
         .then(() => this.save())
         .catch(() => this.showError());
     };
