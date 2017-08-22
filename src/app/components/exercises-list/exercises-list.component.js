@@ -26,7 +26,7 @@ class exercisesListController {
         this.exerciseList = response;
         // response always 'true' and an object even if empty (is not null)
         // therefore check to see if it contains exercises
-        for (var key in this.exerciseList) {
+        for (const key in this.exerciseList) {
           this.exercisesExist = true;
           break;
         }
@@ -42,9 +42,9 @@ class exercisesListController {
 
   showInfo(exerciseId, $event) {
     this.statsService.getExerciseStatsById(exerciseId)
-    .then((response) => {
-      this.allExerciseStats = response;
-    });
+      .then((response) => {
+        this.allExerciseStats = response;
+      });
 
     // TODO calculate stats
     // for stats in this.allExerciseStats
@@ -62,7 +62,7 @@ class exercisesListController {
         this.statistics = statsObj;
       }],
       controllerAs: '$ctrl',
-    })
+    });
   }
 
   delete(exercise) {
