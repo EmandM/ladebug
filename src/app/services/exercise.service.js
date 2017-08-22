@@ -75,13 +75,14 @@ class ExerciseService {
     });
   }
 
-  updateExercise(id, name, codeString, errorLines) {
+  updateExercise(id, name, codeString, errorLines, description) {
     delete this.JsonResponses[id];
     const bugLines = `[${errorLines.toString()}]`;
     return this.restangular.one('exercise', id).customPOST({
       name,
       codeString,
       errorLines: bugLines,
+      description,
     });
   }
 }

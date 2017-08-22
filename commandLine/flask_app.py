@@ -52,6 +52,7 @@ class SavedExercise(Resource):
                 'name': args['name'],
                 'bug_lines': args['errorLines'],
                 'debug_info': jsonOutput,
+                'description': args['description'],
                 'last_updated': datetime.datetime.now().isoformat()
             }
         })
