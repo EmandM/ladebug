@@ -173,9 +173,9 @@ class debugController {
       const endTime = moment();
       this.statistics.timeToCorrectlyGuessErrorLines =
         this.formatAsMinutes(this.startEditTime.diff(this.startIdentifyTime));
-      this.statistics.timeToCorrectlyEditErrorLines = 
+      this.statistics.timeToCorrectlyEditErrorLines =
         this.formatAsMinutes(endTime.diff(this.startEditTime));
-      this.statistics.totalTime = 
+      this.statistics.totalTime =
         this.formatAsMinutes(endTime.diff(this.startIdentifyTime));
 
       this.saveStats();

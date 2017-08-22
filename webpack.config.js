@@ -168,9 +168,9 @@ module.exports = (function () {
       minChunks: 2,
     }),
     new CopyWebpackPlugin([
-        { from: 'node_modules/**/*.html', to: '.' },
-        // { from: 'src/index.html', to: '.' },
-        { from: 'node_modules/font-awesome/fonts/**', to: '.' },
+      { from: 'node_modules/**/*.html', to: '.' },
+      // { from: 'src/index.html', to: '.' },
+      { from: 'node_modules/font-awesome/fonts/**', to: '.' },
     ]),
   ];
 

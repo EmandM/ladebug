@@ -18,7 +18,7 @@ class AuthService {
     if (!this.loggedIn) {
       return false;
     }
-    
+
     return this.userId;
   }
 
@@ -33,7 +33,6 @@ class AuthService {
         this.loggedIn = false;
       });
   }
-
 }
 
 AuthService.$inject = [];

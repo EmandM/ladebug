@@ -7,12 +7,12 @@ class StatsService {
 
   getExerciseStatsById(exerciseId) {
     return this.restangular.one('stats', exerciseId).get()
-    .then((response) => {
-      const output = JSON.parse(response.data);
-      //do stuff! get the stats
-      
-      return output;
-    });
+      .then((response) => {
+        const output = JSON.parse(response.data);
+        // do stuff! get the stats
+
+        return output;
+      });
   }
 
   putNewStats(userId, userStats, exerciseId) {

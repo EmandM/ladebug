@@ -20,6 +20,6 @@ angular.module('debugapp')
     template,
     controller: correctLineController,
     bindings: {
-      statistics: '<', //Object containing all stats for display
+      statistics: '<', // Object containing all stats for display
     },
   });

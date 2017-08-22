@@ -59,8 +59,7 @@ class editExerciseController {
       this.submitted = false;
     });
   }
-
-  }
+}
 editExerciseController.$inject = ['ExerciseService', '$state'];
 
 angular.module('debugapp')

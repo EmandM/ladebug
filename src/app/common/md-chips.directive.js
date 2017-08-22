@@ -19,7 +19,7 @@ function mdChipsOverride() {
       mdChipsCtrl.onInputBlur = function () {
         this.inputHasFocus = false;
 
-      // ADDED CODE
+        // ADDED CODE
         const chipBuffer = this.getChipBuffer();
         if (chipBuffer !== '') { // REQUIRED, OTHERWISE YOU'D GET A BLANK CHIP
           this.appendChip(chipBuffer);

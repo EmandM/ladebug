@@ -35,7 +35,6 @@ class codemirrorLineController {
       this.$timeout(() => this.ngChange(), 0);
     });
   }
-
 }
 
 codemirrorLineController.$inject = ['$timeout'];
