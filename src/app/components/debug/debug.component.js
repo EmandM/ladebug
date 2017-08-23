@@ -45,7 +45,7 @@ class debugController {
         this.codeString = response.debugInfo.code;
         this.codeTrace = response.debugInfo.trace;
         this.errorLines = response.errorLines;
-        this.exerciseId = response._id.$oid;
+        this.exerciseId = response.id;
         if (response.name) {
           this.existingExercise = true;
           this.pageName = response.name;

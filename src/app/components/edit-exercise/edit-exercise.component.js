@@ -52,7 +52,8 @@ class editExerciseController {
     this.submitted = true;
     const promise = (this.create) ?
       this.exerciseService.createExercise(this.name, this.code, this.errorLines, this.description) :
-      this.exerciseService.updateExercise(this.exerciseId, this.name, this.code, this.errorLines, this.description);
+      this.exerciseService
+        .updateExercise(this.exerciseId, this.name, this.code, this.errorLines, this.description);
 
     promise.then(() => {
       this.$state.go('admin');
