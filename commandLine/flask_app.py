@@ -15,6 +15,7 @@ parser = reqparse.RequestParser()
 parser.add_argument('codeString')
 parser.add_argument('name')
 parser.add_argument('errorLines')
+parser.add_argument('description')
 parser.add_argument('userId')
 parser.add_argument('userStats')
 parser.add_argument('exerciseId')
@@ -51,6 +52,7 @@ class SavedExercise(Resource):
                 'name': args['name'],
                 'bug_lines': args['errorLines'],
                 'debug_info': jsonOutput,
+                'description': args['description'],
                 'last_updated': datetime.datetime.now().isoformat()
             }
         })
@@ -71,6 +73,7 @@ class SaveExercise(Resource):
             'name': args['name'],
             'bug_lines': args['errorLines'],
             'debug_info': jsonOutput,
+            'description': args['description'],
             'created_on': datetime.datetime.now().isoformat(),
             'last_updated': datetime.datetime.now().isoformat()
         })

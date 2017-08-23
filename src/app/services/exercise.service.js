@@ -65,22 +65,24 @@ class ExerciseService {
       .then(response => JSON.parse(response.data));
   }
 
-  createExercise(name, codeString, errorLines) {
+  createExercise(name, codeString, errorLines, description) {
     const bugLines = `[${errorLines.toString()}]`;
     return this.restangular.one('exercise').customPUT({
       name,
       codeString,
       errorLines: bugLines,
+      description,
     });
   }
 
-  updateExercise(id, name, codeString, errorLines) {
+  updateExercise(id, name, codeString, errorLines, description) {
     delete this.JsonResponses[id];
     const bugLines = `[${errorLines.toString()}]`;
     return this.restangular.one('exercise', id).customPOST({
       name,
       codeString,
       errorLines: bugLines,
+      description,
     });
   }
 }
