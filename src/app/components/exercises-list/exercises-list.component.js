@@ -46,18 +46,19 @@ class exercisesListController {
     return `${this.editState}({ id: ${exercise.id} })`;
   }
 
-  showInfo(exerciseId, $event) {
+  showInfo(exerciseId, exerciseName, $event) {
     this.statsService.getExerciseStatsById(exerciseId)
       .then((response) => {
-        console.log('response = ' + response);
         this.averageStats = response;
       });
 
+    const averageStatsObj = this.averageStats;
     this.$mdDialog.show({
-      template: '<exercise-stats statistics="$ctrl.statistics"></exercise-stats>',
+      template: '<exercise-stats statistics="$ctrl.statistics" exerciseName="$ctrl.exerciseName"></exercise-stats>',
       targetEvent: $event,
       controller: [function () {
-        this.statistics = this.averageStats;
+        this.exerciseName = exerciseName;
+        this.statistics = averageStatsObj;
       }],
       controllerAs: '$ctrl',
     });

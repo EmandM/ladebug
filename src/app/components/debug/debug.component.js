@@ -170,13 +170,18 @@ class debugController {
       }
 
       this.completed = true;
-      const endTime = moment();
+      this.endTime = moment();
+      /*
       this.statistics.timeToCorrectlyGuessErrorLines =
         this.formatAsMinutes(this.startEditTime.diff(this.startIdentifyTime));
       this.statistics.timeToCorrectlyEditErrorLines =
-        this.formatAsMinutes(endTime.diff(this.startEditTime));
+        this.formatAsMinutes(this.endTime.diff(this.startEditTime));
+      */
+      this.statistics.startIdentifyTime = this.startIdentifyTime;
+      this.statistics.startEditTime = this.startEditTime;
+      this.statistics.endTime = this.endTime;
       this.statistics.totalTime =
-        this.formatAsMinutes(endTime.diff(this.startIdentifyTime));
+        this.formatAsMinutes(this.endTime.diff(this.startIdentifyTime));
 
       this.saveStats();
 
