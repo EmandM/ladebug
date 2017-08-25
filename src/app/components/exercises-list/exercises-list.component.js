@@ -10,6 +10,8 @@ class exercisesListController {
     this.statsService = statsService;
     this.$state = $state;
     this.$mdDialog = $mdDialog;
+
+    this.averageStats = [];
   }
 
   $onInit() {
@@ -47,23 +49,15 @@ class exercisesListController {
   showInfo(exerciseId, $event) {
     this.statsService.getExerciseStatsById(exerciseId)
       .then((response) => {
-        this.allExerciseStats = response;
+        console.log('response = ' + response);
+        this.averageStats = response;
       });
-
-    // TODO calculate stats
-    // for stats in this.allExerciseStats
-    // add to totals of each stat (stored in statsObj)
-    // numExerciseStats++
-    // end for
-    // divide all totals in statsObj by numExerciseStats++
-
-    const statsObj = null;
 
     this.$mdDialog.show({
       template: '<exercise-stats statistics="$ctrl.statistics"></exercise-stats>',
       targetEvent: $event,
       controller: [function () {
-        this.statistics = statsObj;
+        this.statistics = this.averageStats;
       }],
       controllerAs: '$ctrl',
     });

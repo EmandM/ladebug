@@ -17,7 +17,7 @@ parser.add_argument('name')
 parser.add_argument('errorLines')
 parser.add_argument('description')
 parser.add_argument('userId')
-parser.add_argument('userStats')
+parser.add_argument('stats')
 parser.add_argument('exerciseId')
 
 client = MongoClient()
@@ -110,7 +110,7 @@ class Stats(Resource):
         result = db.statsCollection.insert_one({
             'userId': args['userId'],
             'exerciseId': args['exerciseId'],
-            'userStats': args['userStats']
+            'stats': args['stats']
         })
         return { 'inserted': dumps(result.inserted_id) }, 201
 
