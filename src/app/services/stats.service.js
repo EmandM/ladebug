@@ -39,25 +39,17 @@ class StatsService {
 
         this.calculateAverageStats();
         this.processTimes();
-        console.log('average time to correctly guess error lines = '
-        + this.averageStats.timeToCorrectlyGuessErrorLines);
-        console.log('average time to correctly edit error lines = '
-        + this.averageStats.timeToCorrectlyEditErrorLines);
         return this.averageStats;
       });
   }
 
   addToTotalStats(statsData) {
-    console.log('startEditTime = ' + statsData.startEditTime);
-    console.log('sliced startEditTime = ' + (statsData.startEditTime).slice(0, -5));
-    console.log('moment of above slice = ' + moment((statsData.startEditTime).slice(0, -5)));
     this.averageTimeToCorrectlyGuessErrorLines +=
       moment((statsData.startEditTime).slice(0, -5))
         .diff(moment((statsData.startIdentifyTime).slice(0, -5)));
     this.averageTimeToCorrectlyEditErrorLines +=
       moment((statsData.endTime).slice(0, -5))
         .diff(moment((statsData.startEditTime).slice(0, -5)));
-    console.log('averageTimeToCorrectlyEditErrorLines = ' + this.averageTimeToCorrectlyEditErrorLines);
     this.averageStats.incorrectGuesses += statsData.incorrectGuesses;
     this.averageStats.breakpointsSet += statsData.breakpointsSet;
     this.averageStats.flagsSet += statsData.flagsSet;
@@ -84,20 +76,6 @@ class StatsService {
       this.formatAsMinutes(this.averageTimeToCorrectlyGuessErrorLines);
     this.averageStats.timeToCorrectlyEditErrorLines =
       this.formatAsMinutes(this.averageTimeToCorrectlyEditErrorLines);
-
-    /*
-    // 0m 03s
-    const guessTime = statsData.timeToCorrectlyGuessErrorLines.match(/\d/g);
-    const editTime = statsData.timeToCorrectlyEditErrorLines.match(/\d/g);
-    if (guessTime.length === 2) { // if hours is not included
-      
-    } else { // if hours is included
-
-    }
-    // nums[0] is mins
-    // nums[1] is seconds
-    // check if length = 3 however for hours
-    */
   }
 
   formatAsMinutes(msDuration) {

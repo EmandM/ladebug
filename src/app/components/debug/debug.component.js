@@ -171,12 +171,6 @@ class debugController {
 
       this.completed = true;
       this.endTime = moment();
-      /*
-      this.statistics.timeToCorrectlyGuessErrorLines =
-        this.formatAsMinutes(this.startEditTime.diff(this.startIdentifyTime));
-      this.statistics.timeToCorrectlyEditErrorLines =
-        this.formatAsMinutes(this.endTime.diff(this.startEditTime));
-      */
       this.statistics.startIdentifyTime = this.startIdentifyTime;
       this.statistics.startEditTime = this.startEditTime;
       this.statistics.endTime = this.endTime;
