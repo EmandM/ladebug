@@ -5,11 +5,12 @@ import template from './exercises-list.template.html';
 import './exercises-list.scss';
 
 class exercisesListController {
-  constructor(exerciseService, statsService, $state, $mdDialog) {
+  constructor(exerciseService, $state, $mdDialog) {
     this.exerciseService = exerciseService;
-    this.statsService = statsService;
     this.$state = $state;
     this.$mdDialog = $mdDialog;
+
+    this.averageStats = [];
   }
 
   $onInit() {
@@ -44,28 +45,10 @@ class exercisesListController {
     return `${this.editState}({ id: ${exercise.id} })`;
   }
 
-  showInfo(exerciseId, $event) {
-    this.statsService.getExerciseStatsById(exerciseId)
-      .then((response) => {
-        this.allExerciseStats = response;
-      });
-
-    // TODO calculate stats
-    // for stats in this.allExerciseStats
-    // add to totals of each stat (stored in statsObj)
-    // numExerciseStats++
-    // end for
-    // divide all totals in statsObj by numExerciseStats++
-
-    const statsObj = null;
-
+  showInfo(exerciseId, exerciseName, $event) {
     this.$mdDialog.show({
-      template: '<exercise-stats statistics="$ctrl.statistics"></exercise-stats>',
+      template: `<exercise-stats exercise-id="${exerciseId}" exercise-name="${exerciseName}"></exercise-stats>`,
       targetEvent: $event,
-      controller: [function () {
-        this.statistics = statsObj;
-      }],
-      controllerAs: '$ctrl',
     });
   }
 
@@ -80,7 +63,7 @@ class exercisesListController {
   }
 }
 
-exercisesListController.$inject = ['ExerciseService', 'StatsService', '$state', '$mdDialog'];
+exercisesListController.$inject = ['ExerciseService', '$state', '$mdDialog'];
 
 angular.module('debugapp')
   .component('exercisesList', {

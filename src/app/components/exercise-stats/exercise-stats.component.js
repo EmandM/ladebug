@@ -4,8 +4,16 @@ import template from './exercise-stats.template.html';
 import './exercise-stats.scss';
 
 class exerciseStatsController {
-  constructor($mdDialog) {
+  constructor(statsService, $mdDialog) {
+    this.statsService = statsService;
     this.$mdDialog = $mdDialog;
+  }
+
+  $onInit() {
+    this.statsService.getExerciseStatsById(this.exerciseId)
+      .then((response) => {
+        this.averageStats = response;
+      });
   }
 
   close() {
@@ -13,14 +21,14 @@ class exerciseStatsController {
   }
 }
 
-exerciseStatsController.$inject = ['$mdDialog'];
+exerciseStatsController.$inject = ['StatsService', '$mdDialog'];
 
 angular.module('debugapp')
   .component('exerciseStats', {
     template,
     controller: exerciseStatsController,
     bindings: {
-      exerciseName: '<',
-      statistics: '<', // Object containing all stats for display
+      exerciseId: '@',
+      exerciseName: '@',
     },
   });

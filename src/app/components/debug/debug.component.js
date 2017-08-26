@@ -170,13 +170,12 @@ class debugController {
       }
 
       this.completed = true;
-      const endTime = moment();
-      this.statistics.timeToCorrectlyGuessErrorLines =
-        this.formatAsMinutes(this.startEditTime.diff(this.startIdentifyTime));
-      this.statistics.timeToCorrectlyEditErrorLines =
-        this.formatAsMinutes(endTime.diff(this.startEditTime));
+      this.endTime = moment();
+      this.statistics.startIdentifyTime = this.startIdentifyTime;
+      this.statistics.startEditTime = this.startEditTime;
+      this.statistics.endTime = this.endTime;
       this.statistics.totalTime =
-        this.formatAsMinutes(endTime.diff(this.startIdentifyTime));
+        this.formatAsMinutes(this.endTime.diff(this.startIdentifyTime));
 
       this.saveStats();
 
@@ -230,12 +229,13 @@ class debugController {
   }
 
   saveStats() {
-    const userId = this.authService.getCurrentUserId();
-    if (userId) {
-      this.statsService.putNewStats(userId, this.statistics, this.exerciseId)
-        .then(response => console.log(JSON.parse(response.inserted).$oid));
+    // If the user is not logged in, the stats are saved anyway with userId of -1
+    let userId = this.authService.getCurrentUserId();
+    if (!userId) {
+      userId = -1;
     }
-    // TODO what if user is not defined - still store stats
+    this.statsService.putNewStats(userId, this.statistics, this.exerciseId)
+      .then(response => console.log(JSON.parse(response.inserted).$oid));
   }
 }
 
