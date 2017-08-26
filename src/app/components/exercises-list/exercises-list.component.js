@@ -5,9 +5,8 @@ import template from './exercises-list.template.html';
 import './exercises-list.scss';
 
 class exercisesListController {
-  constructor(exerciseService, statsService, $state, $mdDialog) {
+  constructor(exerciseService, $state, $mdDialog) {
     this.exerciseService = exerciseService;
-    this.statsService = statsService;
     this.$state = $state;
     this.$mdDialog = $mdDialog;
 
@@ -47,20 +46,9 @@ class exercisesListController {
   }
 
   showInfo(exerciseId, exerciseName, $event) {
-    this.statsService.getExerciseStatsById(exerciseId)
-      .then((response) => {
-        this.averageStats = response;
-      });
-
-    const averageStatsObj = this.averageStats;
     this.$mdDialog.show({
-      template: '<exercise-stats statistics="$ctrl.statistics" exerciseName="$ctrl.exerciseName"></exercise-stats>',
+      template: `<exercise-stats exercise-id="${exerciseId}" exercise-name="${exerciseName}"></exercise-stats>`,
       targetEvent: $event,
-      controller: [function () {
-        this.exerciseName = exerciseName;
-        this.statistics = averageStatsObj;
-      }],
-      controllerAs: '$ctrl',
     });
   }
 
@@ -75,7 +63,7 @@ class exercisesListController {
   }
 }
 
-exercisesListController.$inject = ['ExerciseService', 'StatsService', '$state', '$mdDialog'];
+exercisesListController.$inject = ['ExerciseService', '$state', '$mdDialog'];
 
 angular.module('debugapp')
   .component('exercisesList', {
