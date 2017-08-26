@@ -1,10 +1,10 @@
 import angular from 'angular';
 import drop from 'lodash/drop';
 import every from 'lodash/every';
+import includes from 'lodash/includes';
 import findIndex from 'lodash/findIndex';
 import forEach from 'lodash/forEach';
 import parseInt from 'lodash/parseInt';
-import reduce from 'lodash/reduce';
 import split from 'lodash/split';
 import moment from 'moment';
 import TraceToCallStack from '../../helpers/trace-to-call-stack.helper';
@@ -120,15 +120,13 @@ class debugController {
   }
 
   checkFlags() {
-    // Count the number of flags that are currently active (see lodash reduce)
-    const numFlags = reduce(this.flags, (sum, value) => sum + (value ? 1 : 0), 0);
-
-    // same number of flags as there are errors
-    if (numFlags !== this.errorLines.length) {
-      return false;
-    }
-    // check that every error has a corresponding flag
-    return every(this.errorLines, (lineNum => this.flags[lineNum]));
+    // check that every flag has a corresponding errorLine
+    return every(this.flags, (flagValue, lineNum) => {
+      if (flagValue) {
+        return includes(this.errorLines, lineNum);
+      }
+      return true;
+    });
   }
 
   correctGuess($event) {
@@ -146,6 +144,22 @@ class debugController {
   formatAsMinutes(msDuration) {
     const duration = moment.utc(msDuration); // This breaks if the duration is longer than 24 hours
     return duration.format(duration.hours() ? 'h[h] m[m] ss[s]' : 'm[m] ss[s]');
+  }
+
+  toFlagging() {
+    
+  }
+
+  toEditing() {
+    if (!this.isEditing) {
+      if (this.checkFlags()) {
+        this.isEditing = true;
+      }
+    }
+    /* check that all of the flags are within in the errorLines array
+          doesn't have to be all of the flags in the errorLines array
+       make all lines flagged editable and set isEditing to true
+    */ 
   }
 
   submit($event) {

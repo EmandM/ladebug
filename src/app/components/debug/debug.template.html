@@ -3,25 +3,26 @@
     <h1 class="md-display-1 pageName">{{$ctrl.pageName}}</h1>
     <div class="pageDesc">{{$ctrl.exerciseDescription}}</div>
     <div layout="row" class="debugGuide">
-      <div layout="row" layout-align="start center" class="step" ng-class="{'active': !$ctrl.isEditing}">
-        <div class="stepIcon" ng-class="{'completed': $ctrl.isEditing}">
-          <span ng-if="!$ctrl.isEditing" class="icon">1</span>
-          <i ng-if="$ctrl.isEditing" class="fa fa-check icon"></i>
-        </div>
+      <div layout="row" layout-align="start center" class="step" ng-class="{'active': !$ctrl.isEditing}"
+        ng-click="$ctrl.toFlagging()">
         <div layout="column" class="stepText">
           <span class="stepHeader">Flag Errors</span>
           <span class="stepDesc">Flag all errors in the code.</span>
         </div>
+        <div class="stepIcon" ng-class="{'completed': $ctrl.isEditing}">
+            <span ng-if="!$ctrl.isEditing" class="icon">1</span>
+            <i ng-if="$ctrl.isEditing" class="fa fa-check icon"></i>
+        </div>
       </div>
       <div layout="row" layout-align="start center" class="step last"
-        ng-class="{'active': $ctrl.isEditing && !$ctrl.completed}">
+        ng-class="{'active': $ctrl.isEditing && !$ctrl.completed}" ng-click="$ctrl.toEditing()">
+        <div layout="column" class="stepText">
+            <span class="stepHeader">Fix Errors</span>
+            <span class="stepDesc">Edit code to correct errors.</span>
+        </div>
         <div class="stepIcon" ng-class="{'completed': $ctrl.completed}">
           <span ng-if="!$ctrl.completed" class="icon">2</span>
           <i ng-if="$ctrl.completed" class="fa fa-check icon"></i>
-        </div>
-        <div layout="column" class="stepText">
-          <span class="stepHeader">Fix Errors</span>
-          <span class="stepDesc">Edit code to correct errors.</span>
         </div>
       </div>
       <md-button type="submit" aria-label="check flags" class="md-accent md-raised" ng-click="$ctrl.submit()"
