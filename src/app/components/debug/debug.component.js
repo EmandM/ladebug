@@ -120,13 +120,18 @@ class debugController {
   }
 
   checkFlags() {
+    let flagSet;
+
     // check that every flag has a corresponding errorLine
-    return every(this.flags, (flagValue, lineNum) => {
+    const result = every(this.flags, (flagValue, lineNum) => {
       if (flagValue) {
-        return includes(this.errorLines, lineNum);
+        flagSet = true;
+        return includes(this.errorLines, parseInt(lineNum));
       }
       return true;
     });
+
+    return result && flagSet;
   }
 
   correctGuess($event) {
@@ -147,19 +152,16 @@ class debugController {
   }
 
   toFlagging() {
-    
+    this.isEditing = false;
   }
 
   toEditing() {
     if (!this.isEditing) {
       if (this.checkFlags()) {
         this.isEditing = true;
+        this.goToEnd();
       }
     }
-    /* check that all of the flags are within in the errorLines array
-          doesn't have to be all of the flags in the errorLines array
-       make all lines flagged editable and set isEditing to true
-    */ 
   }
 
   submit($event) {
@@ -179,6 +181,7 @@ class debugController {
 
     this.checkNewCode().then((isCodeValid) => {
       if (!isCodeValid) {
+        console.log('surely not');
         this.shakeScreen();
         return;
       }
