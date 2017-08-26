@@ -1,5 +1,7 @@
 import angular from 'angular';
 import moment from 'moment';
+import forEach from 'lodash/forEach';
+import replace from 'lodash/replace';
 
 class StatsService {
   constructor(restangular) {
@@ -27,15 +29,15 @@ class StatsService {
       .then((response) => {
         const output = JSON.parse(response.data);
 
-        for (const statsObjKey in output) {
+        forEach(output, (statsObjKey) => {
           // statsObj is each instance of a stats document stored in the db
           const statsObj = output[statsObjKey];
 
           // statsData is the data stored in the stats field of the current statsObj document
-          const statsData = JSON.parse(statsObj.stats.replace(/'/g, '\"'));
-          
+          const statsData = JSON.parse(replace(statsObj.stats, /'/g, '"'));
+
           this.addToTotalStats(statsData);
-        }
+        });
 
         this.calculateAverageStats();
         this.processTimes();
@@ -62,11 +64,11 @@ class StatsService {
   }
 
   calculateAverageStats() {
-    for (let statKey in this.averageStats) {
+    forEach(this.averageStats, (statKey) => {
       if (this.averageStats[statKey] !== 0) {
         this.averageStats[statKey] = Math.ceil(this.averageStats[statKey] / this.numStats);
       }
-    }
+    });
     this.averageTimeToCorrectlyGuessErrorLines /= this.numStats;
     this.averageTimeToCorrectlyEditErrorLines /= this.numStats;
   }
