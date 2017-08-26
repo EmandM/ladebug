@@ -4,8 +4,8 @@
       <textarea ui-codemirror="{ onLoad: $ctrl.codeMirrorLoaded.bind($ctrl) }"
         ui-codemirror-opts="$ctrl.opts" ng-model="$ctrl.code"></textarea>
     </md-card>
-    <md-card layout="row" layout-align="start center" class="inputCard">
-      <div class="nameDescContainer" flex=20>
+    <md-card class="inputCard" layout="row" layout-align="start center">
+      <div class="nameDescContainer" flex="60">
         <md-input-container class="textInput">
           <label>Exercise Name</label>
           <input ng-model="$ctrl.name" aria-label="exercise name" name="exerciseName" required autocomplete="off"/>
@@ -14,19 +14,18 @@
           </div>
         </md-input-container>
       </div>
-      <div class="nameDescContainer" flex>
-        <md-input-container class="textInput">
-          <label>Exercise Description</label>
-          <input ng-model="$ctrl.description" aria-label="exercise description" name="exerciseDescription" required autocomplete="off"/>
-          <div ng-messages="$ctrl.codeEntryForm.exerciseDescription.$error">
-            <div ng-message="required">Description is required.</div>
-          </div>
-        </md-input-container>
-      </div>
-      <div class="errorContainer" flex=30>
+      <div class="errorContainer" flex>
         <number-chips ng-model="$ctrl.errorLines" max-chip-num="$ctrl.getLineCount()"
           form="$ctrl.codeEntryForm"></number-chips>
       </div>
+    </md-card>
+        
+    <md-card class="inputCard">
+      <md-input-container class="textInput">
+        <label>Exercise Description</label>
+        <textarea ng-model="$ctrl.description" aria-label="exercise description" name="exerciseDescription"
+          rows="3" autocomplete="off"></textarea>
+      </md-input-container>
     </md-card>
     <div layout="row" layout-align="end center">
       <span class="errorMessage" ng-show="!$ctrl.code">{{$ctrl.errorMessage}}</span>

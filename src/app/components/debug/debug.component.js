@@ -45,6 +45,7 @@ class debugController {
         this.codeString = response.debugInfo.code;
         this.codeTrace = response.debugInfo.trace;
         this.errorLines = response.errorLines;
+        this.exerciseDescription = response.description;
         this.exerciseId = response.id;
         if (response.name) {
           this.existingExercise = true;
@@ -158,7 +159,6 @@ class debugController {
         return;
       }
 
-      this.statistics.incorrectGuesses += 1;
       this.shakeScreen();
       return;
     }
@@ -195,6 +195,7 @@ class debugController {
   }
 
   shakeScreen() {
+    this.statistics.incorrectGuesses += 1;
     const page = document.getElementById('debugapp');
     page.classList.add('shake-constant');
     page.classList.add('shake-horizontal');

@@ -18,13 +18,11 @@
         </md-input-container>
       </div>
       <div layout="row">
-        <md-input-container class="fileInput textInput">
-          <label>Description</label>
-          <input ng-model="$ctrl.description" aria-label="exercise description" name="exerciseDescription" required autocomplete="off"/>
-          <div ng-messages="$ctrl.chooseFileForm.exerciseDescription.$error">
-            <div ng-message="required">Description is required.</div>
-          </div>
-        </md-input-container>
+      <md-input-container class="textInput">
+        <label>Exercise Description</label>
+        <textarea ng-model="$ctrl.description" aria-label="exercise description" name="exerciseDescription"
+          rows="3" autocomplete="off"></textarea>
+      </md-input-container>
       </div>
       <div layout="row" class="errorLine">
         <number-chips ng-model="$ctrl.errorLines" form="$ctrl.chooseFileForm"></number-chips>

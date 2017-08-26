@@ -1,6 +1,7 @@
 <div class="odDebug" layout="column">
-  <div ng-if="$ctrl.existingExercise">
+  <div ng-if="$ctrl.existingExercise" layout="column">
     <h1 class="md-display-1 pageName">{{$ctrl.pageName}}</h1>
+    <div class="pageDesc">{{$ctrl.exerciseDescription}}</div>
     <div layout="row" class="debugGuide">
       <div layout="row" layout-align="start center" class="step" ng-class="{'active': !$ctrl.isEditing}">
         <div class="stepIcon" ng-class="{'completed': $ctrl.isEditing}">

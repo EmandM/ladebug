@@ -5,10 +5,13 @@
   height: 100%;
 
   .pageName {
-    margin: 0 8px 12px;
+    margin: 0 8px;
+  }
+  .pageDesc {
+    margin: 12px 8px;
   }
   .debugGuide {
-    padding: 0 8px 8px;
+    padding: 8px;
   }
 
   .step {

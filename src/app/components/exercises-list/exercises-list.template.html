@@ -2,9 +2,9 @@
   <h3 class="exercisesTitle md-title" ng-show="$ctrl.exercisesExist">Saved Exercises</h3>
   <div ng-repeat="exercise in $ctrl.exerciseList" ui-sref="{{$ctrl.editState}}({ id: exercise.id })"
     layout="row" layout-align="start center" class="exercise">
-    <span flex=25 class="exerciseName">{{exercise.name}}</span>
-    <span flex>{{exercise.description}}</span>
-    <span flex></span>
+    <span class="exerciseName">{{exercise.name}}</span>
+    <span flex class="exerciseDesc">{{exercise.description}}</span>
+    <span flex-gt-md></span>
     <div class="rightButtons" ng-if="$ctrl.isAdmin" layout="row" layout-align="center center">
       <md-button class="md-icon-button actionButton md-accent" ng-click="$ctrl.showInfo(exercise.id)" stop-propagation>
         <md-icon md-font-icon="fa" class="fa-info-circle"></md-icon>
