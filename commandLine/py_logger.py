@@ -1435,7 +1435,9 @@ class PGLogger(bdb.Bdb):
             if hasattr(exc_val, 'offset'):
                 trace_entry['offset'] = exc_val.offset
 
-            trace_entry['exception_msg'] = type(exc_val).__name__ + ": " + str(exc_val)
+            exception_list = traceback.format_exception(exc_type, exc_val, exc_tb)
+            # drop the parts of the error traceback that point to files running on the server.
+            trace_entry['exception_msg'] = '\n'.join(exception_list[:1] + exception_list[3:])
 
             # SUPER SUBTLE! if ANY exception has already been recorded by
             # the program, then DON'T record it again as an uncaught_exception.
