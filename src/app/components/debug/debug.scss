@@ -61,6 +61,21 @@
     margin-right: 12px;
   }
 
+  .helpButton {
+    height: 40px;
+    width: 44px;
+    min-width: 0;
+    position: relative;
+
+    .helpIcon {
+      color: gray;
+      font-size: 2em;
+      top: 50%;
+      left: 50%;
+      transform: translate(0%, 18%);
+    }
+  }
+
   .codeBlock {
     overflow: auto;
     margin: 5px;

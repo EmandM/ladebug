@@ -13,3 +13,4 @@ import './sandbox';
 import './variable';
 import './correct-line';
 import './exercise-stats';
+import './help-display';

@@ -119,6 +119,13 @@ class debugController {
     }
   }
 
+  displayHelp($event) {
+    this.$mdDialog.show({
+      template: '<help-display></help-display>',
+      targetEvent: $event,
+    });
+  }
+
   checkFlags() {
     let flagSet;
 

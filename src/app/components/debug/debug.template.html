@@ -24,6 +24,9 @@
       <div ng-if="$ctrl.checkingCode">
         <md-progress-circular md-mode="indeterminate"></md-progress-circular>
       </div>
+      <md-button aria-label="Help" class="helpButton" ng-click="$ctrl.displayHelp($event)">
+          <i class="fa fa-question-circle helpIcon"></i>
+      </md-button>
     </div>
   </div>
   <div layout="row" class="debugComponent" ng-if="$ctrl.outputLoaded" flex>

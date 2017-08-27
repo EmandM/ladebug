@@ -9,7 +9,7 @@ def mergeSort(arr):
 
     firstIterator = secondIterator = 0
     result = []
-    while firstIterator < len(first) and secondIterator < len(second):
+    while firstIterator < len(first) and secondIterator <= len(second):
         if (first[firstIterator] <= second[secondIterator]):
             result.append(first[firstIterator])
             firstIterator += 1
