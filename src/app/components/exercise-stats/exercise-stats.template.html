@@ -1,5 +1,9 @@
 <div class="odExerciseStats">
-    <div class="md-title">Statistics for {{$ctrl.exerciseName}}</div>
+  <div class="md-title">Statistics for {{$ctrl.exerciseName}}</div>
+  <div ng-show="!$ctrl.statsExist">
+    <p>There are no statistics for this exercise yet.</p>
+  </div>
+  <div ng-show="$ctrl.statsExist">
     <p class="body">Average time taken to identify error lines: {{$ctrl.averageStats.timeToCorrectlyGuessErrorLines}}</p>
     <p class="body">Average time taken to edit error lines: {{$ctrl.averageStats.timeToCorrectlyEditErrorLines}}</p>
     <p class="body">Average number of incorrect guesses: {{$ctrl.averageStats.incorrectGuesses}}</p>
@@ -10,8 +14,9 @@
     <p class="body">Average clicks on step back button: {{$ctrl.averageStats.stepBack}}</p>
     <p class="body">Average clicks on go to end button: {{$ctrl.averageStats.goToEnd}}</p>
     <p class="body">Average clicks on go to start button: {{$ctrl.averageStats.goToStart}}</p>
+  </div>
 
-    <md-dialog-actions>
-      <md-button type="button" ng-click="$ctrl.close()" aria-label="OK">Ok</md-button>
-    </md-dialog-actions>
+  <md-dialog-actions>
+    <md-button type="button" ng-click="$ctrl.close()" aria-label="OK">Ok</md-button>
+  </md-dialog-actions>
 </div>

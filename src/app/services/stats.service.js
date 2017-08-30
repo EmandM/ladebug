@@ -2,6 +2,7 @@ import angular from 'angular';
 import moment from 'moment';
 import forEach from 'lodash/forEach';
 import replace from 'lodash/replace';
+import some from 'lodash/some';
 
 class StatsService {
   constructor(restangular) {
@@ -10,38 +11,28 @@ class StatsService {
     this.averageStats = {};
     this.averageStats.timeToCorrectlyGuessErrorLines = moment();
     this.averageStats.timeToCorrectlyEditErrorLines = moment();
-    this.averageStats.incorrectGuesses = 0;
-    this.averageStats.breakpointsSet = 0;
-    this.averageStats.flagsSet = 0;
-    this.averageStats.run = 0;
-    this.averageStats.stepForward = 0;
-    this.averageStats.stepBack = 0;
-    this.averageStats.goToEnd = 0;
-    this.averageStats.goToStart = 0;
-
-    this.numStats = 0;
-    this.averageTimeToCorrectlyGuessErrorLines = 0;
-    this.averageTimeToCorrectlyEditErrorLines = 0;
   }
 
   getExerciseStatsById(exerciseId) {
+    this.resetAverageStats();
     return this.restangular.one('stats', exerciseId).get()
       .then((response) => {
         const output = JSON.parse(response.data);
 
-        forEach(output, (statsObjKey) => {
-          // statsObj is each instance of a stats document stored in the db
-          const statsObj = output[statsObjKey];
-
-          // statsData is the data stored in the stats field of the current statsObj document
-          const statsData = JSON.parse(replace(statsObj.stats, /'/g, '"'));
-
-          this.addToTotalStats(statsData);
-        });
-
-        this.calculateAverageStats();
-        this.processTimes();
-        return this.averageStats;
+        if (some(output)) {
+          forEach(output, (statsObj) => {
+            // statsObj is each instance of a stats document stored in the db
+            // statsData is the data stored in the stats field of the current statsObj document
+            const statsData = JSON.parse(replace(statsObj.stats, /'/g, '"'));
+  
+            this.addToTotalStats(statsData);
+          });
+  
+          this.calculateAverageStats();
+          this.processTimes();
+          return this.averageStats;
+        }
+        return false;
       });
   }
 
@@ -91,6 +82,21 @@ class StatsService {
       stats,
       exerciseId,
     });
+  }
+
+  resetAverageStats() {
+    this.averageStats.incorrectGuesses = 0;
+    this.averageStats.breakpointsSet = 0;
+    this.averageStats.flagsSet = 0;
+    this.averageStats.run = 0;
+    this.averageStats.stepForward = 0;
+    this.averageStats.stepBack = 0;
+    this.averageStats.goToEnd = 0;
+    this.averageStats.goToStart = 0;
+
+    this.numStats = 0;
+    this.averageTimeToCorrectlyGuessErrorLines = 0;
+    this.averageTimeToCorrectlyEditErrorLines = 0;
   }
 }
 
