@@ -72,7 +72,7 @@ class ExerciseService {
       codeString,
       errorLines: bugLines,
       description,
-    });
+    }).then(response => JSON.parse(response.debugInfo));
   }
 
   updateExercise(id, name, codeString, errorLines, description) {
@@ -83,7 +83,7 @@ class ExerciseService {
       codeString,
       errorLines: bugLines,
       description,
-    });
+    }).then(response => JSON.parse(response.debugInfo));
   }
 }
 

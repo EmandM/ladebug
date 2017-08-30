@@ -56,7 +56,7 @@ class SavedExercise(Resource):
                 'last_updated': datetime.datetime.now().isoformat()
             }
         })
-        return { 'updated': exercise_id}
+        return { 'updated': exercise_id, 'debugInfo': jsonOutput }
 
     # delete single exercise by id
     def delete(self, exercise_id):
@@ -86,7 +86,7 @@ class SaveExercise(Resource):
                 'id': created_id
             }
         }, upsert=False)
-        return { 'inserted': created_id }, 201
+        return { 'inserted': created_id, 'debugInfo': jsonOutput }, 201
 
 
 class Sandbox(Resource):
