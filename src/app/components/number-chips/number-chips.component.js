@@ -5,8 +5,10 @@ import template from './number-chips.template.html';
 import './number-chips.scss';
 
 class numberChipsController {
-  // constructor() {
-  // }
+  constructor() {
+    // enter: 13, tab: 9, comma: 188
+    this.seperatorKeys = [13, 9, 188];
+  }
 
   validateErrorLines() {
     const isRequireValid = this.ngModel.length > 0;
@@ -31,7 +33,7 @@ class numberChipsController {
   }
 }
 
-numberChipsController.$inject = ['ExerciseService', '$state'];
+numberChipsController.$inject = [];
 
 angular.module('debugapp')
   .component('numberChips', {
