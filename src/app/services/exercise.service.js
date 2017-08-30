@@ -8,6 +8,7 @@ class ExerciseService {
     this.$q = $q;
 
     this.JsonResponses = {};
+    this.exerciseList = undefined;
   }
 
   runSandbox(pythonString) {
@@ -61,11 +62,17 @@ class ExerciseService {
   }
 
   getAllExercises() {
-    return this.restangular.one('exercises-list').get()
-      .then(response => JSON.parse(response.data));
+    return (this.exerciseList) ?
+      this.$q.when(this.exerciseList) :
+      this.restangular.one('exercises-list').get()
+        .then((response) => {
+          this.exerciseList = JSON.parse(response.data);
+          return this.exerciseList;
+        });
   }
 
   createExercise(name, codeString, errorLines, description) {
+    delete this.exerciseList;
     const bugLines = `[${errorLines.toString()}]`;
     return this.restangular.one('exercise').customPUT({
       name,
@@ -76,6 +83,7 @@ class ExerciseService {
   }
 
   updateExercise(id, name, codeString, errorLines, description) {
+    delete this.exerciseList;
     delete this.JsonResponses[id];
     const bugLines = `[${errorLines.toString()}]`;
     return this.restangular.one('exercise', id).customPOST({
