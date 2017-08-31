@@ -2,121 +2,124 @@
 @import '../../styles/colors';
 
 .odDebug {
-  height: 100%;
 
   .pageName {
     margin: 0 8px;
   }
   .pageDesc {
     margin: 12px 8px;
-  }
-  .debugGuide {
-    padding: 8px;
+    white-space: pre-wrap;
   }
 
-  .step {
-    background-color: $color-white;
-    border: 1px solid $color-grey-med;
+  .debugComponent {
+    height: calc(100vh - 80px);
+    padding-bottom: 36px;
 
-    .stepIcon {
-      height: 20px;
-      width: 20px;
-      margin: 8px;
-      background-color: rgb(255,82,82);
-      border-radius: 50%;
-      position: relative;
+    .debugGuide {
+      padding: 8px;
+    }
 
-      .icon {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
+    .step {
+      background-color: $color-white;
+      border: 1px solid $color-grey-med;
+
+      .stepIcon {
+        height: 20px;
+        width: 20px;
+        margin: 8px;
+        background-color: rgb(255,82,82);
+        border-radius: 50%;
+        position: relative;
+
+        .icon {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+        }
+      }
+      .stepIcon.completed {
+        background: none;
+        .icon {
+          color: $color-green;
+        }
+      }
+      .stepText {
+        padding: 4px;
+        padding-left: 10px;
+        padding-right: 10px;
+
+        .stepHeading {
+          font-weight: bold;
+        }
+        .stepDesc {
+          font-size: 14px;
+          color: $color-text-med;
+        }
       }
     }
-    .stepIcon.completed {
-      background: none;
-      .icon {
-        color: $color-green;
-      }
+    .step.active {
+      background-color: $color-grey-lightest;
     }
-    .stepText {
+    .step.last {
+      border-left: none;
+      margin-right: 12px;
+    }
+
+    .codeBlock {
+      overflow: auto;
+      margin: 5px;
       padding: 4px;
-      padding-left: 10px;
-      padding-right: 10px;
+      min-height: 105px;
+    }
 
-      .stepHeading {
-        font-weight: bold;
+    .debugButton {
+      min-width: 0;
+      background-color: $color-white;
+    }
+
+    .displayCard {
+      padding: 12px;
+      overflow: hidden;
+      
+      .cardHeading {
+        margin-bottom: 12px;
       }
-      .stepDesc {
-        font-size: 14px;
+      .outHeading {
         color: $color-text-med;
       }
-    }
-  }
-  .step.active {
-    background-color: $color-grey-lightest;
-  }
-  .step.last {
-    border-left: none;
-    margin-right: 12px;
-  }
 
-  .codeBlock {
-    overflow: auto;
-    margin: 5px;
-    padding: 4px;
-    min-height: 105px;
-  }
+      .code-block pre code {
+        padding: 0;
+      }
 
-  .debugButton {
-    min-width: 0;
-    background-color: $color-white;
-  }
-
-  .displayCard {
-    padding: 12px;
-    overflow: hidden;
-    
-    .cardHeading {
-      margin-bottom: 12px;
-    }
-    .outHeading {
-      color: $color-text-med;
+      .cardInput {
+        margin: 0
+      }
     }
 
-    .code-block pre code {
-      padding: 0;
+    .frameHeading {
+      padding: 4px 8px;
+      background: $color-primary-light-4;
+      border: 1px solid $color-primary;
+      outline: none;
+
+      .frameIcon {
+        color: $color-text;
+      }
+    }
+    .frameHeading.no-border-bottom {
+      border-bottom: none;
     }
 
-    .cardInput {
-      margin: 0
-    }
-  }
-
-  .frameHeading {
-    padding: 4px 8px;
-    background: $color-primary-light-4;
-    border: 1px solid $color-primary;
-    outline: none;
-
-    .frameIcon {
-      color: $color-text;
-    }
-  }
-  .frameHeading.no-border-bottom {
-    border-bottom: none;
-  }
-
-  .exceptions {
-    .cardHeading {
-      color: $color-red;
-    }
-    .code-block {
-      color: $color-red-error;
+    .exceptions {
+      .cardHeading {
+        color: $color-red;
+      }
+      .code-block {
+        color: $color-red-error;
+        line-height: 8px;
+      }
     }
   }
 }
-
-// .debugapp.shakePage {
-
-// }
