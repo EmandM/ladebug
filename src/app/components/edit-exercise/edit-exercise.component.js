@@ -11,7 +11,7 @@ class editExerciseController {
 
     this.opts = {
       lineNumbers: true,
-      lineWrapping: false,
+      lineWrapping: true,
       mode: 'python',
     };
   }
