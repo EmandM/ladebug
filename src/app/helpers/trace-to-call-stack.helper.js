@@ -60,7 +60,7 @@ export default class TraceToCallStack {
   static getValue(value, heap) {
     if (!isArray(value)) {
       return {
-        type: 'primitive',
+        type: typeof value,
         value,
       };
     }

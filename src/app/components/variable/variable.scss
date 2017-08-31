@@ -16,15 +16,21 @@
     margin: 0 4px;
     color: $color-text-med;
   }
-  .pName {
-    margin-left: 24px;
-  }
-  .pValue {
-    margin: 0 4px;
-    color: $color-purple;
-  }
-
   .vText {
     font-size: 14px;
+  }
+}
+.odVariable.pText {
+  font-size: 14px;
+
+  .pName {
+    margin-left: 24px;
+    margin-right: 4px;
+  }
+  .numValue {
+    color: $color-purple;
+  }
+  .strValue {
+    color: $color-green-dark;
   }
 }

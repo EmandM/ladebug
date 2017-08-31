@@ -11,8 +11,10 @@
   </div>
 </div>
 
-<div layout="row" layout-align="start center" ng-if="$ctrl.isPrimitive" class="odVariable">
-  <code class="pName vText" ng-if="$ctrl.hasName"><pre>{{$ctrl.variable.name}}:</pre></code>
-  <code class="pValue vText"><pre>{{$ctrl.variable.value}}</pre></code>
+<div layout="row" layout-align="start center" ng-if="$ctrl.isPrimitive" class="odVariable pText">
+  <code class="pName" ng-if="$ctrl.hasName"><pre>{{$ctrl.variable.name}}:</pre></code>
+  <code ng-if="$ctrl.isString"><pre>"</pre></code>
+  <code ng-class="$ctrl.isString ? 'strValue' : 'numValue'"><pre>{{$ctrl.variable.value}}</pre></code>
+  <code ng-if="$ctrl.isString"><pre>"</pre></code>
   <span flex></span>
 </div>
