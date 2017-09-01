@@ -79,14 +79,20 @@
 
       <div flex></div>
       
-      <div align="right" ng-if="$ctrl.existingExercise">
-        <md-button type="submit" aria-label="check flags" class="md-accent md-raised"
-          ng-click="$ctrl.submit()" ng-show="!$ctrl.checkingCode">
-          Submit Solution
-        </md-button>
-        <div ng-if="$ctrl.checkingCode">
-          <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+      <div align="right" layout="row">
+        <div flex><span></span></div>
+        <div ng-if="$ctrl.existingExercise">
+          <md-button type="submit" aria-label="submit solution" class="md-accent md-raised"
+            ng-click="$ctrl.submit()" ng-show="!$ctrl.checkingCode">
+            Submit Solution
+          </md-button>
+          <div ng-if="$ctrl.checkingCode">
+            <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+          </div>
         </div>
+        <md-button aria-label="exit the exercise" class="exitButton md-raised"
+          ng-click="$ctrl.exit($event)">Exit
+        </md-button>
       </div>
     </div>
   </div>

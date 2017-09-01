@@ -261,6 +261,20 @@ class debugController {
     this.statsService.putNewStats(userId, this.statistics, this.exerciseId)
       .then(response => console.log(JSON.parse(response.inserted).$oid));
   }
+
+  exit($event) {
+    this.$mdDialog.show(
+      this.$mdDialog.confirm()
+        .title('Are you sure you want to exit the exercise?')
+        .textContent('Your score will not be saved.')
+        .ariaLabel('Exit the exercise?')
+        .targetEvent($event)
+        .ok('Yes')
+        .cancel('Cancel')
+    ).then(() => {
+      this.$state.go('home');
+    });
+  }
 }
 
 debugController.$inject = ['ExerciseService', 'AuthService', 'StatsService',
