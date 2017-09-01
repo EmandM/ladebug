@@ -1,4 +1,5 @@
 import angular from 'angular';
+import some from 'lodash/some';
 
 import template from './exercise-stats.template.html';
 import './exercise-stats.scss';
@@ -12,7 +13,10 @@ class exerciseStatsController {
   $onInit() {
     this.statsService.getExerciseStatsById(this.exerciseId)
       .then((response) => {
-        this.averageStats = response;
+        if (response) {
+          this.averageStats = response;
+          this.statsExist = true;
+        }
       });
   }
 

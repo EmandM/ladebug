@@ -7,59 +7,46 @@
     margin: 0 8px;
   }
   .pageDesc {
-    margin: 12px 8px;
-    white-space: pre-wrap;
+    margin: 15px 8px 12px 10px;
   }
 
-  .debugComponent {
-    height: calc(100vh - 80px);
-    padding-bottom: 36px;
+  .helpButton {
+    height: 40px;
+    width: 44px;
+    min-width: 0;
+    bottom: 6px;
 
-    .debugGuide {
-      padding: 8px;
+    .helpIcon {
+      color: gray;
+      font-size: 2em;
+      top: 50%;
+      left: 50%;
+      transform: translate(0%, 18%);
     }
+  }
 
-    .step {
+  .codeBlock {
+    overflow: auto;
+    margin: 5px;
+    padding: 4px;
+    min-height: 105px;
+  }
+
+  .debugButtons {
+    margin-top: 10px;
+  }
+
+    .debugButton {
+      min-width: 0;
       background-color: $color-white;
-      border: 1px solid $color-grey-med;
-
-      .stepIcon {
-        height: 20px;
-        width: 20px;
-        margin: 8px;
-        background-color: rgb(255,82,82);
-        border-radius: 50%;
-        position: relative;
-
-        .icon {
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-        }
-      }
-      .stepIcon.completed {
-        background: none;
-        .icon {
-          color: $color-green;
-        }
-      }
-      .stepText {
-        padding: 4px;
-        padding-left: 10px;
-        padding-right: 10px;
-
-        .stepHeading {
-          font-weight: bold;
-        }
-        .stepDesc {
-          font-size: 14px;
-          color: $color-text-med;
-        }
-      }
     }
-    .step.active {
-      background-color: $color-grey-lightest;
+
+  .displayCard {
+    padding: 12px;
+    overflow: hidden;
+    
+    .cardHeading {
+      margin-bottom: 12px;
     }
     .step.last {
       border-left: none;
@@ -72,11 +59,7 @@
       padding: 4px;
       min-height: 105px;
     }
-
-    .debugButton {
-      min-width: 0;
-      background-color: $color-white;
-    }
+  }
 
     .displayCard {
       padding: 12px;
@@ -98,28 +81,27 @@
       }
     }
 
-    .frameHeading {
-      padding: 4px 8px;
-      background: $color-primary-light-4;
-      border: 1px solid $color-primary;
-      outline: none;
+  //.codeArea md-content md-tabs {
+  //  border: 1px solid #e1e1e1;
+  //}
+  .tabs {
+    height: 100%;
+  }
+    .codeBlockTabs {
+      height: 100%;
+    }
 
-      .frameIcon {
-        color: $color-text;
-      }
+  .rhs {
+    margin-top: 40px;
+    margin-left: 10px;
+  }
+
+  .exceptions {
+    .cardHeading {
+      color: $color-red;
     }
     .frameHeading.no-border-bottom {
       border-bottom: none;
-    }
-
-    .exceptions {
-      .cardHeading {
-        color: $color-red;
-      }
-      .code-block {
-        color: $color-red-error;
-        line-height: 8px;
-      }
     }
   }
 }

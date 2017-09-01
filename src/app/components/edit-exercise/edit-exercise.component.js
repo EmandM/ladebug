@@ -3,9 +3,10 @@ import template from './edit-exercise.template.html';
 import './edit-exercise.scss';
 
 class editExerciseController {
-  constructor(exerciseService, $state) {
+  constructor(exerciseService, $state, $mdDialog) {
     this.exerciseService = exerciseService;
     this.$state = $state;
+    this.$mdDialog = $mdDialog;
 
     this.errorLines = [];
 
@@ -40,7 +41,7 @@ class editExerciseController {
     return this.editor.lineCount();
   }
 
-  submit() {
+  submit($event) {
     if (!this.code) {
       this.errorMessage = 'Some code is required';
       return;
@@ -55,14 +56,28 @@ class editExerciseController {
       this.exerciseService
         .updateExercise(this.exerciseId, this.name, this.code, this.errorLines, this.description);
 
-    promise.then(() => {
-      this.$state.go('admin');
+    promise.then((response) => {
+      if (this.exerciseService.getErrorMessage(response.trace)) {
+        this.$state.go('admin');
+      } else {
+        this.submitted = false;
+        this.$mdDialog.show(
+          this.$mdDialog.alert()
+            .clickOutsideToClose(true)
+            .title('Error')
+            .textContent('Please ensure your code throws an exception.')
+            .ariaLabel('Error alert')
+            .ok('OK')
+            .targetEvent($event),
+        );
+      }
     }).catch(() => {
       this.submitted = false;
     });
   }
 }
-editExerciseController.$inject = ['ExerciseService', '$state'];
+
+editExerciseController.$inject = ['ExerciseService', '$state', '$mdDialog'];
 
 angular.module('debugapp')
   .component('editExercise', {

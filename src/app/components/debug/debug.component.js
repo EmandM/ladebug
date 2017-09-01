@@ -1,6 +1,7 @@
 import angular from 'angular';
 import drop from 'lodash/drop';
 import every from 'lodash/every';
+import some from 'lodash/some';
 import includes from 'lodash/includes';
 import findIndex from 'lodash/findIndex';
 import forEach from 'lodash/forEach';
@@ -12,15 +13,16 @@ import template from './debug.template.html';
 import './debug.scss';
 
 class debugController {
-  constructor(exerciseService, authService, statsService, $mdDialog, $timeout, $state) {
+  constructor(exerciseService, authService, statsService, $mdDialog, $timeout, $state, $mdToast) {
     this.exerciseService = exerciseService;
     this.authService = authService;
     this.statsService = statsService;
     this.$mdDialog = $mdDialog;
     this.$timeout = $timeout;
     this.$state = $state;
+    this.$mdToast = $mdToast;
 
-    this.editMode = false;
+    this.selectedTabNum = 0;
 
     // Object for breakpoints and flags => faster lookup than array.
     this.breakpoints = {};
@@ -119,8 +121,20 @@ class debugController {
     }
   }
 
+  displayHelp($event) {
+    this.$mdDialog.show({
+      template: '<help-display></help-display>',
+      targetEvent: $event,
+    });
+  }
+
   checkFlags() {
     let flagSet;
+
+    this.noFlagsSet = false;
+    if (!some(this.flags)) {
+      this.noFlagsSet = true;
+    }
 
     // check that every flag has a corresponding errorLine
     const result = every(this.flags, (flagValue, lineNum) => {
@@ -134,18 +148,6 @@ class debugController {
     return result && flagSet;
   }
 
-  correctGuess($event) {
-    this.$mdDialog.show(
-      this.$mdDialog.alert()
-        .clickOutsideToClose(true)
-        .title('Correct')
-        .textContent('Now can you fix the errors?')
-        .ariaLabel('Confirmation alert')
-        .ok('OK')
-        .targetEvent($event),
-    );
-  }
-
   formatAsMinutes(msDuration) {
     const duration = moment.utc(msDuration); // This breaks if the duration is longer than 24 hours
     return duration.format(duration.hours() ? 'h[h] m[m] ss[s]' : 'm[m] ss[s]');
@@ -153,35 +155,39 @@ class debugController {
 
   toFlagging() {
     this.isEditing = false;
+    this.selectedTabNum = 0;
+    // TODO get new code put in by user and run it through the server
   }
 
   toEditing() {
     if (!this.isEditing) {
       if (this.checkFlags()) {
         this.isEditing = true;
+        this.selectedTabNum = 1;
         this.goToEnd();
+      } else {
+        this.selectedTabNum = 0;
+
+        let errorMessage = 'Oops! One of your flagged lines doesn\'t contain an error, so you can\'t edit.';
+        if (this.noFlagsSet) {
+          errorMessage = 'Oops! You need to flag some buggy lines to edit.';
+        }
+
+        this.$mdToast.show(
+          this.$mdToast.simple()
+            .textContent(errorMessage)
+            .action('OK')
+            .highlightAction(true)
+            .highlightClass('md-accent')
+            .hideDelay(10000)
+        );
       }
     }
   }
 
   submit($event) {
-    if (!this.isEditing) {
-      // If not editing and all flags are correct
-      if (this.checkFlags()) {
-        this.isEditing = true;
-        this.startEditTime = moment();
-        this.goToEnd();
-        this.correctGuess($event);
-        return;
-      }
-
-      this.shakeScreen();
-      return;
-    }
-
     this.checkNewCode().then((isCodeValid) => {
       if (!isCodeValid) {
-        console.log('surely not');
         this.shakeScreen();
         return;
       }
@@ -240,7 +246,6 @@ class debugController {
         if (!response.error) {
           return true;
         }
-        this.goToEnd();
         return false;
       });
   }
@@ -257,7 +262,7 @@ class debugController {
 }
 
 debugController.$inject = ['ExerciseService', 'AuthService', 'StatsService',
-  '$mdDialog', '$timeout', '$state'];
+  '$mdDialog', '$timeout', '$state', '$mdToast'];
 
 angular.module('debugapp')
   .component('debug', {
