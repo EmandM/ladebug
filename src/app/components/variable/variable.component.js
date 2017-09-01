@@ -8,7 +8,7 @@ class variableController {
 
   $onInit() {
     this.isString = (this.variable.type === 'string');
-    this.isPrimitive = (this.variable.type === 'number' || this.isString);
+    this.isPrimitive = this.variable.isPrimitive;
     this.hasName = (this.variable.name !== undefined);
   }
 

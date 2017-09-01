@@ -62,6 +62,7 @@ export default class TraceToCallStack {
       return {
         type: typeof value,
         value,
+        isPrimitive: true,
       };
     }
 

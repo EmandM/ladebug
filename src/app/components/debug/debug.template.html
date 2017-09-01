@@ -10,7 +10,7 @@
   <div layout="row" flex>
     <div class="lhs" layout="column" flex="60">
       <md-content class="codeArea" flex>
-        <md-tabs class="codeTabs" md-selected="$ctrl.selectedTabNum">
+        <md-tabs class="codeTabs" md-selected="$ctrl.selectedTabNum" ng-if="$ctrl.existingExercise">
           <md-tab label="Flag Errors" ng-click="$ctrl.toFlagging()"></md-tab>
           <md-tab label="Fix Errors" ng-click="$ctrl.toEditing()"></md-tab>
         </md-tabs>
@@ -79,7 +79,7 @@
 
       <div flex></div>
       
-      <div align="right">
+      <div align="right" ng-if="$ctrl.existingExercise">
         <md-button type="submit" aria-label="check flags" class="md-accent md-raised"
           ng-click="$ctrl.submit()" ng-show="!$ctrl.checkingCode">
           Check
