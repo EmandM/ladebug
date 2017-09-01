@@ -164,7 +164,7 @@ class debugController {
   showErrorToast(errorMessage) {
     this.$mdToast.show(
       this.$mdToast.simple()
-        .textContent(errorMessage)
+        .textContent('Oops! ' + errorMessage)
         .action('OK')
         .highlightAction(true)
         .highlightClass('md-accent')
@@ -186,8 +186,8 @@ class debugController {
 
     this.selectedTabNum = 0;
     const errorMessage = (this.noFlagsSet) ?
-      'Oops! You need to flag some buggy lines to edit.' :
-      'Oops! One of your flagged lines doesn\'t contain an error, so you can\'t edit.';
+      'You need to flag some buggy lines to edit.' :
+      'One of your flagged lines doesn\'t contain an error, so you can\'t edit.';
 
     this.showErrorToast(errorMessage);
   }
