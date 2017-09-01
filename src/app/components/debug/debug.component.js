@@ -154,9 +154,10 @@ class debugController {
   }
 
   toFlagging() {
-    this.isEditing = false;
-    this.selectedTabNum = 0;
-    // TODO get new code put in by user and run it through the server
+    this.checkNewCode().then(() => {
+      this.isEditing = false;
+      this.selectedTabNum = 0;
+    });
   }
 
   toEditing() {
