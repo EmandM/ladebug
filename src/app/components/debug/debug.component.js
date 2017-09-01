@@ -161,36 +161,41 @@ class debugController {
     });
   }
 
+  showErrorToast(errorMessage) {
+    this.$mdToast.show(
+      this.$mdToast.simple()
+        .textContent(errorMessage)
+        .action('OK')
+        .highlightAction(true)
+        .highlightClass('md-accent')
+        .hideDelay(10000),
+    );
+  }
+
   toEditing() {
-    if (!this.isEditing) {
-      if (this.checkFlags()) {
-        this.isEditing = true;
-        this.selectedTabNum = 1;
-        this.goToEnd();
-      } else {
-        this.selectedTabNum = 0;
-
-        let errorMessage = 'Oops! One of your flagged lines doesn\'t contain an error, so you can\'t edit.';
-        if (this.noFlagsSet) {
-          errorMessage = 'Oops! You need to flag some buggy lines to edit.';
-        }
-
-        this.$mdToast.show(
-          this.$mdToast.simple()
-            .textContent(errorMessage)
-            .action('OK')
-            .highlightAction(true)
-            .highlightClass('md-accent')
-            .hideDelay(10000)
-        );
-      }
+    if (this.isEditing) {
+      return;
     }
+
+    if (this.checkFlags()) {
+      this.isEditing = true;
+      this.selectedTabNum = 1;
+      this.goToEnd();
+      return;
+    }
+
+    this.selectedTabNum = 0;
+    const errorMessage = (this.noFlagsSet) ?
+      'Oops! You need to flag some buggy lines to edit.' :
+      'Oops! One of your flagged lines doesn\'t contain an error, so you can\'t edit.';
+
+    this.showErrorToast(errorMessage);
   }
 
   submit($event) {
     this.checkNewCode(true).then((isCodeValid) => {
       if (!isCodeValid) {
-        this.shakeScreen();
+        this.incorrectSubmission();
         return;
       }
 
@@ -218,8 +223,13 @@ class debugController {
     });
   }
 
-  shakeScreen() {
+  incorrectSubmission() {
     this.statistics.incorrectGuesses += 1;
+    this.shakeScreen();
+    this.showErrorToast('There are still errors in the code');
+  }
+
+  shakeScreen() {
     const page = document.getElementById('debugapp');
     page.classList.add('shake-constant');
     page.classList.add('shake-horizontal');
@@ -258,8 +268,7 @@ class debugController {
     if (!userId) {
       userId = -1;
     }
-    this.statsService.putNewStats(userId, this.statistics, this.exerciseId)
-      .then(response => console.log(JSON.parse(response.inserted).$oid));
+    this.statsService.putNewStats(userId, this.statistics, this.exerciseId);
   }
 }
 
