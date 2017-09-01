@@ -9,21 +9,12 @@
   }
   .pageDesc {
     margin: 15px 8px 12px 10px;
+    white-space: pre-wrap;
+    color: $color-text-med;
   }
 
   .helpButton {
-    height: 40px;
-    width: 44px;
-    min-width: 0;
-    bottom: 6px;
-
-    .helpIcon {
-      color: gray;
-      font-size: 2em;
-      top: 50%;
-      left: 50%;
-      transform: translate(0%, 18%);
-    }
+    font-size: 2em;
   }
 
   .codeBlock {
@@ -35,12 +26,30 @@
 
   .debugButtons {
     margin-top: 10px;
-  }
 
     .debugButton {
       min-width: 0;
       background-color: $color-white;
     }
+  }
+
+  .memory {
+    display: block;
+    
+    .frameHeading {
+      padding: 4px 8px;
+      background: $color-primary-light-4;
+      border: 1px solid $color-primary;
+      outline: none;
+
+      .frameIcon {
+        color: $color-text;
+      }
+    }
+    .frameHeading.no-border-bottom {
+      border-bottom: none;
+    }
+  }
 
   .displayCard {
     padding: 12px;
@@ -100,6 +109,10 @@
   .exceptions {
     .cardHeading {
       color: $color-red;
+    }
+    .code-block {
+      color: $color-red-error;
+      line-height: 8px;
     }
     .frameHeading.no-border-bottom {
       border-bottom: none;

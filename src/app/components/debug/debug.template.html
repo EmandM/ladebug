@@ -1,10 +1,9 @@
 <div class="odDebug" layout="column">
-  <div layout="row">
-      <h1 class="md-display-1 pageName" ng-if="$ctrl.existingExercise">{{$ctrl.pageName}}</h1>
-      <div class="pageDesc" ng-if="$ctrl.existingExercise">{{$ctrl.exerciseDescription}}</div>
-      <div flex></div>
-      <md-button aria-label="Help" class="helpButton" ng-click="$ctrl.displayHelp($event)">
-          <i class="fa fa-question-circle helpIcon"></i>
+  <div layout="row"  ng-if="$ctrl.existingExercise">
+      <h1 class="md-display-1 pageName">{{$ctrl.pageName}}</h1>
+      <div class="pageDesc" flex>{{$ctrl.exerciseDescription}}</div>
+      <md-button aria-label="Help" class="helpButton md-icon-button" ng-click="$ctrl.displayHelp($event)">
+          <md-icon md-font-icon="fa" class="fa-question-circle"></md-icon>
       </md-button>
   </div>
 
@@ -36,26 +35,28 @@
       </div>
 
       <div class="debugButtons" layout="row">
-        <md-button class="md-raised debugButton" flex ng-disabled="$ctrl.isEditing" ng-click="$ctrl.goToStart()">
+        <md-button class="md-raised debugButton" flex ng-click="$ctrl.goToStart()"
+          ng-disabled="$ctrl.currentTraceIndex <= 0 || $ctrl.isEditing">
           <md-icon md-font-icon="fa" class="fa-fast-backward"></md-icon>
           <md-tooltip md-direction="bottom">Go To Start</md-tooltip>
         </md-button>
-        <md-button class="md-raised debugButton" flex
-          ng-disabled="$ctrl.currentTraceIndex <= 0 || $ctrl.isEditing" ng-click="$ctrl.stepBack()">
+        <md-button class="md-raised debugButton" flex ng-click="$ctrl.stepBack()"
+          ng-disabled="$ctrl.currentTraceIndex <= 0 || $ctrl.isEditing">
           <md-icon md-font-icon="fa" class="fa-step-backward"></md-icon>
           <md-tooltip md-direction="bottom">Step Backward</md-tooltip>
         </md-button>
-        <md-button class="md-raised debugButton" flex ng-disabled="$ctrl.isEditing" ng-click="$ctrl.run()">
+        <md-button class="md-raised debugButton" flex ng-click="$ctrl.run()"
+          ng-disabled="$ctrl.currentTraceIndex >= $ctrl.codeTrace.length - 1 || $ctrl.isEditing" >
           <md-icon md-font-icon="fa" class="fa-play"></md-icon>
           <md-tooltip md-direction="bottom">Run</md-tooltip>
         </md-button>
-        <md-button class="md-raised debugButton" flex
-          ng-disabled="$ctrl.currentTraceIndex >= $ctrl.codeTrace.length - 1 || $ctrl.isEditing" 
-          ng-click="$ctrl.stepForward()">
+        <md-button class="md-raised debugButton" flex ng-click="$ctrl.stepForward()"
+          ng-disabled="$ctrl.currentTraceIndex >= $ctrl.codeTrace.length - 1 || $ctrl.isEditing">
           <md-icon md-font-icon="fa" class="fa-step-forward"></md-icon>
           <md-tooltip md-direction="bottom">Step Forward</md-tooltip>
         </md-button>
-        <md-button class="md-raised debugButton" flex  ng-disabled="$ctrl.isEditing" ng-click="$ctrl.goToEnd()">
+        <md-button class="md-raised debugButton" flex ng-click="$ctrl.goToEnd()"
+          ng-disabled="$ctrl.currentTraceIndex >= $ctrl.codeTrace.length - 1 || $ctrl.isEditing">
           <md-icon md-font-icon="fa" class="fa-fast-forward"></md-icon>
           <md-tooltip md-direction="bottom">Go To End</md-tooltip>
         </md-button>
@@ -72,11 +73,8 @@
             <span>{{frame.name}}</span>
             <span flex></span>
           </div>
-        </md-card>
-        <md-card class="displayCard exceptions" ng-show="$ctrl.codeTrace[$ctrl.currentTraceIndex].exception_msg">
-          <div class="md-title cardHeading">Error</div>
-          <div class="code-block">
-            <code><pre>{{$ctrl.codeTrace[$ctrl.currentTraceIndex].exception_msg}}</pre></code>
+          <div ng-show="frame.id === $ctrl.visibleFrameId">
+            <variable ng-repeat="variable in frame.variables" variable="variable"></variable>
           </div>
         </div>
       </md-card>
@@ -92,7 +90,7 @@
         </div>
       </md-card>
 
-      <div flex><span></span></div>
+      <div flex></div>
       
       <div align="right">
         <md-button type="submit" aria-label="check flags" class="md-accent md-raised"
