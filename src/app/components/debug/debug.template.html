@@ -9,30 +9,17 @@
 
   <div layout="row" flex>
     <div class="lhs" layout="column" flex="60">
-      <div class="codeArea" flex style="height: 100%;">
-        <md-content class="tabs">
-          <md-tabs class="codeBlockTabs" md-selected="$ctrl.selectedTabNum">
-            <md-tab class="codeBlockTab" label="Flag Errors" ng-click="$ctrl.toFlagging()">
-              <md-tab-body>
-                <div class="codeBlock" id="codeBlock" flex>
-                  <code-block code-string="$ctrl.codeString" current-line="$ctrl.codeTrace[$ctrl.currentTraceIndex].line"
-                    breakpoints="$ctrl.breakpoints" flags="$ctrl.flags"
-                    icon-action="$ctrl.toggleIcon(line, icon)" is-editing="$ctrl.isEditing"></code-block>
-                </div>
-              </md-tab-body>
-            </md-tab>
-            <md-tab class="codeBlockTab" label="Fix Errors" ng-click="$ctrl.toEditing()">
-              <md-tab-body>
-                <div class="codeBlock" id="codeBlock" flex>
-                  <code-block code-string="$ctrl.codeString" current-line="$ctrl.codeTrace[$ctrl.currentTraceIndex].line"
-                    breakpoints="$ctrl.breakpoints" flags="$ctrl.flags"
-                    icon-action="$ctrl.toggleIcon(line, icon)" is-editing="$ctrl.isEditing"></code-block>
-                </div>
-              </md-tab-body>
-            </md-tab>
-          </md-tabs>
-        </md-content>
-      </div>
+      <md-content class="codeArea" flex>
+        <md-tabs class="codeTabs" md-selected="$ctrl.selectedTabNum">
+          <md-tab label="Flag Errors" ng-click="$ctrl.toFlagging()"></md-tab>
+          <md-tab label="Fix Errors" ng-click="$ctrl.toEditing()"></md-tab>
+        </md-tabs>
+        <div class="codeBlock" id="codeBlock" flex>
+          <code-block code-string="$ctrl.codeString" current-line="$ctrl.codeTrace[$ctrl.currentTraceIndex].line"
+            breakpoints="$ctrl.breakpoints" flags="$ctrl.flags"
+            icon-action="$ctrl.toggleIcon(line, icon)" is-editing="$ctrl.isEditing"></code-block>
+        </div>
+      </md-content>
 
       <div class="debugButtons" layout="row">
         <md-button class="md-raised debugButton" flex ng-click="$ctrl.goToStart()"

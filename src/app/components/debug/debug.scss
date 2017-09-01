@@ -17,13 +17,6 @@
     font-size: 2em;
   }
 
-  .codeBlock {
-    overflow: auto;
-    margin: 5px;
-    padding: 4px;
-    min-height: 105px;
-  }
-
   .debugButtons {
     margin-top: 10px;
 
@@ -35,7 +28,7 @@
 
   .memory {
     display: block;
-    
+
     .frameHeading {
       padding: 4px 8px;
       background: $color-primary-light-4;
@@ -53,60 +46,29 @@
 
   .displayCard {
     padding: 12px;
-    overflow: hidden;
+    display: block;
     
     .cardHeading {
       margin-bottom: 12px;
+    }
+    .outHeading {
+      color: $color-text-med;
     }
     .step.last {
       border-left: none;
       margin-right: 12px;
     }
 
-    .codeBlock {
-      overflow: auto;
-      margin: 5px;
-      padding: 4px;
-      min-height: 105px;
+    .code-block pre code {
+      padding: 0;
+    }
+
+    .cardInput {
+      margin: 0
     }
   }
 
-    .displayCard {
-      padding: 12px;
-      overflow: hidden;
-      
-      .cardHeading {
-        margin-bottom: 12px;
-      }
-      .outHeading {
-        color: $color-text-med;
-      }
-
-      .code-block pre code {
-        padding: 0;
-      }
-
-      .cardInput {
-        margin: 0
-      }
-    }
-
-  //.codeArea md-content md-tabs {
-  //  border: 1px solid #e1e1e1;
-  //}
-  .tabs {
-    height: 100%;
-  }
-    .codeBlockTabs {
-      height: 100%;
-    }
-
-  .rhs {
-    margin-top: 40px;
-    margin-left: 10px;
-  }
-
-  .exceptions {
+  .displayCard.exceptions {
     .cardHeading {
       color: $color-red;
     }
@@ -114,8 +76,31 @@
       color: $color-red-error;
       line-height: 8px;
     }
-    .frameHeading.no-border-bottom {
-      border-bottom: none;
+  }
+
+  .lhs {
+    min-height: 150px;
+
+    .codeArea {
+      overflow: hidden;
+
+      .codeTabs {
+        margin: 0 8px;
+        background-color: $color-white;
+        border: 1px solid $color-grey-light;
+      }
+
+      .codeBlock {
+        overflow: auto;
+        margin: 0 5px 5px;
+        padding: 0 4px 4px;
+        height: calc(100% - 48px);
+      }
     }
+  }
+
+  .rhs {
+    margin-top: -8px;
+    margin-left: 10px;
   }
 }
