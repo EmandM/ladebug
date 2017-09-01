@@ -55,6 +55,7 @@ class ExerciseService {
   }
 
   deleteExercise(id) {
+    this.clearExerciseListCache();
     return this.restangular.one('exercise', id).remove()
       .then((response) => {
         console.log(response);
@@ -72,7 +73,7 @@ class ExerciseService {
   }
 
   createExercise(name, codeString, errorLines, description) {
-    delete this.exerciseList;
+    this.clearExerciseListCache();
     const bugLines = `[${errorLines.toString()}]`;
     return this.restangular.one('exercise').customPUT({
       name,
@@ -83,7 +84,7 @@ class ExerciseService {
   }
 
   updateExercise(id, name, codeString, errorLines, description) {
-    delete this.exerciseList;
+    this.clearExerciseListCache();
     delete this.JsonResponses[id];
     const bugLines = `[${errorLines.toString()}]`;
     return this.restangular.one('exercise', id).customPOST({
@@ -92,6 +93,10 @@ class ExerciseService {
       errorLines: bugLines,
       description,
     }).then(response => JSON.parse(response.debugInfo));
+  }
+
+  clearExerciseListCache() {
+    delete this.exerciseList;
   }
 }
 
