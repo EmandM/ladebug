@@ -154,9 +154,10 @@ class debugController {
   }
 
   toFlagging() {
-    this.checkNewCode().then(() => {
+    this.checkNewCode(false).then(() => {
       this.isEditing = false;
       this.selectedTabNum = 0;
+      this.goToStart();
     });
   }
 
@@ -187,7 +188,7 @@ class debugController {
   }
 
   submit($event) {
-    this.checkNewCode().then((isCodeValid) => {
+    this.checkNewCode(true).then((isCodeValid) => {
       if (!isCodeValid) {
         this.shakeScreen();
         return;
@@ -229,8 +230,8 @@ class debugController {
     }, 250);
   }
 
-  checkNewCode() {
-    this.checkingCode = true;
+  checkNewCode(checking) {
+    this.checkingCode = checking;
     const codeByLines = split(this.codeString, '\n');
     forEach(this.flags, (flagValue, flagLine) => {
       if (flagValue.updatedText) {
