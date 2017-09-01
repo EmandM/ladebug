@@ -1,42 +1,41 @@
 <div class="odDebug" layout="column">
-  <div ng-if="$ctrl.existingExercise" layout="column">
-    <h1 class="md-display-1 pageName">{{$ctrl.pageName}}</h1>
-    <div class="pageDesc">{{$ctrl.exerciseDescription}}</div>
-    <div layout="row" class="debugGuide">
-      <div layout="row" layout-align="start center" class="step" ng-class="{'active': !$ctrl.isEditing}"
-        ng-click="$ctrl.toFlagging()">
-        <div layout="column" class="stepText">
-          <span class="stepHeader">Flag Errors</span>
-          <span class="stepDesc">Flag all errors in the code.</span>
-        </div>
-      </div>
-      <div layout="row" layout-align="start center" class="step last"
-        ng-class="{'active': $ctrl.isEditing && !$ctrl.completed}" ng-click="$ctrl.toEditing()">
-        <div layout="column" class="stepText">
-            <span class="stepHeader">Fix Errors</span>
-            <span class="stepDesc">Edit code to correct errors.</span>
-        </div>
-      </div>
-      <md-button type="submit" aria-label="check flags" class="md-accent md-raised" ng-click="$ctrl.submit()"
-        ng-show="!$ctrl.checkingCode">
-        Check
-      </md-button>
-      <div ng-if="$ctrl.checkingCode">
-        <md-progress-circular md-mode="indeterminate"></md-progress-circular>
-      </div>
+  <div layout="row">
+      <h1 class="md-display-1 pageName" ng-if="$ctrl.existingExercise">{{$ctrl.pageName}}</h1>
+      <div class="pageDesc" ng-if="$ctrl.existingExercise">{{$ctrl.exerciseDescription}}</div>
+      <div flex></div>
       <md-button aria-label="Help" class="helpButton" ng-click="$ctrl.displayHelp($event)">
           <i class="fa fa-question-circle helpIcon"></i>
       </md-button>
-    </div>
   </div>
-  <div layout="row" class="debugComponent" ng-if="$ctrl.outputLoaded" flex>
-    <div layout="column" flex="50" flex-gt-md="60">
-      <div class="codeBlock" id="codeBlock" flex>
-        <code-block code-string="$ctrl.codeString" current-line="$ctrl.codeTrace[$ctrl.currentTraceIndex].line"
-          breakpoints="$ctrl.breakpoints" flags="$ctrl.flags"
-          icon-action="$ctrl.toggleIcon(line, icon)" is-editing="$ctrl.isEditing"></code-block>
+
+  <div layout="row" flex>
+    <div class="lhs" layout="column" flex="60">
+      <div class="codeArea" flex style="height: 100%;">
+        <md-content class="tabs">
+          <md-tabs class="codeBlockTabs" md-selected="$ctrl.selectedTabNum">
+            <md-tab class="codeBlockTab" label="Flag Errors" ng-click="$ctrl.toFlagging()">
+              <md-tab-body>
+                <div class="codeBlock" id="codeBlock" flex>
+                  <code-block code-string="$ctrl.codeString" current-line="$ctrl.codeTrace[$ctrl.currentTraceIndex].line"
+                    breakpoints="$ctrl.breakpoints" flags="$ctrl.flags"
+                    icon-action="$ctrl.toggleIcon(line, icon)" is-editing="$ctrl.isEditing"></code-block>
+                </div>
+              </md-tab-body>
+            </md-tab>
+            <md-tab class="codeBlockTab" label="Fix Errors" ng-click="$ctrl.toEditing()">
+              <md-tab-body>
+                <div class="codeBlock" id="codeBlock" flex>
+                  <code-block code-string="$ctrl.codeString" current-line="$ctrl.codeTrace[$ctrl.currentTraceIndex].line"
+                    breakpoints="$ctrl.breakpoints" flags="$ctrl.flags"
+                    icon-action="$ctrl.toggleIcon(line, icon)" is-editing="$ctrl.isEditing"></code-block>
+                </div>
+              </md-tab-body>
+            </md-tab>
+          </md-tabs>
+        </md-content>
       </div>
-      <div layout="row">
+
+      <div class="debugButtons" layout="row">
         <md-button class="md-raised debugButton" flex ng-disabled="$ctrl.isEditing" ng-click="$ctrl.goToStart()">
           <md-icon md-font-icon="fa" class="fa-fast-backward"></md-icon>
           <md-tooltip md-direction="bottom">Go To Start</md-tooltip>
@@ -62,7 +61,8 @@
         </md-button>
       </div>
     </div>
-    <div flex>
+
+    <div class="rhs" layout="column" flex>
       <md-card class="memory">
         <div class="md-card-content code-block" ng-repeat="frame in $ctrl.memory">
           <div class="md-subhead frameHeading" ng-click="$ctrl.openStackFrame(frame.id)"
@@ -88,6 +88,18 @@
         <div class="md-card-content code-block" hljs hljs-source="$ctrl.codeTrace[$ctrl.currentTraceIndex].stdout">
         </div>
       </md-card>
+
+      <div flex><span></span></div>
+      
+      <div align="right">
+        <md-button type="submit" aria-label="check flags" class="md-accent md-raised"
+          ng-click="$ctrl.submit()" ng-show="!$ctrl.checkingCode">
+          Check
+        </md-button>
+        <div ng-if="$ctrl.checkingCode">
+          <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+        </div>
+      </div>
     </div>
   </div>
 </div>
