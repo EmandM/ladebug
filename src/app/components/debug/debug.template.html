@@ -1,4 +1,4 @@
-<div class="odDebug" layout="column">
+<div class="odDebug" layout="column" ng-show="$ctrl.outputLoaded">
   <div layout="row"  ng-if="$ctrl.existingExercise">
       <h1 class="md-display-1 pageName">{{$ctrl.pageName}}</h1>
       <div class="pageDesc" flex>{{$ctrl.exerciseDescription}}</div>
@@ -96,4 +96,8 @@
       </div>
     </div>
   </div>
+</div>
+
+<div ng-if="!$ctrl.outputLoaded">
+  <md-progress-circular md-mode="indeterminate"></md-progress-circular>
 </div>

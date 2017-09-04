@@ -125,6 +125,7 @@ class debugController {
     this.$mdDialog.show({
       template: '<help-display></help-display>',
       targetEvent: $event,
+      clickOutsideToClose: true,
     });
   }
 
@@ -226,7 +227,7 @@ class debugController {
   incorrectSubmission() {
     this.statistics.incorrectGuesses += 1;
     this.shakeScreen();
-    this.showErrorToast('Oops! There are still errors in the code.');
+    this.showErrorToast('There are still errors in the code.');
   }
 
   shakeScreen() {
