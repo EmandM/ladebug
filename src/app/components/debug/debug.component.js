@@ -226,7 +226,7 @@ class debugController {
   incorrectSubmission() {
     this.statistics.incorrectGuesses += 1;
     this.shakeScreen();
-    this.showErrorToast('There are still errors in the code');
+    this.showErrorToast('Oops! There are still errors in the code.');
   }
 
   shakeScreen() {
@@ -269,6 +269,20 @@ class debugController {
       userId = -1;
     }
     this.statsService.putNewStats(userId, this.statistics, this.exerciseId);
+  }
+
+  exit($event) {
+    this.$mdDialog.show(
+      this.$mdDialog.confirm()
+        .title('Are you sure you want to exit the exercise?')
+        .textContent('Your score will not be saved.')
+        .ariaLabel('Exit the exercise?')
+        .targetEvent($event)
+        .ok('Yes')
+        .cancel('Cancel')
+    ).then(() => {
+      this.$state.go('home');
+    });
   }
 }
 
