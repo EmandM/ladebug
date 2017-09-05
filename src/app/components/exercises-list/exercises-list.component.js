@@ -65,6 +65,7 @@ class exercisesListController {
     this.$mdDialog.show({
       template: `<exercise-stats exercise-id="${exerciseId}" exercise-name="${exerciseName}"></exercise-stats>`,
       targetEvent: $event,
+      clickOutsideToClose: true,
     });
   }
 

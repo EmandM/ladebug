@@ -1,9 +1,15 @@
 <div class="odHelpDisplay" layout="column">
+  <div layout="row">
     <div class="md-title">
-      <h3 class="md-display-1">Help Page</h3>
+      <h3 class="md-display-1 title" md-autofocus>Help Page</h3>
     </div>
-    <img src="/img/help_image.jpg" class="helpImage">
-    <md-dialog-actions>
-      <md-button type="button" ng-click="$ctrl.close()" aria-label="OK">Ok</md-button>
-    </md-dialog-actions>
+    <span flex></span>
+    <md-button ng-click="$ctrl.close()" aria-label="close modal" class="md-icon-button close-button">
+      <md-icon md-font-icon="fa" class="fa-close"></md-icon>
+    </md-button>
+  </div>
+  <img src="/img/help_image.jpg" class="helpImage">
+  <md-dialog-actions>
+    <md-button type="button" ng-click="$ctrl.close()" aria-label="OK">Ok</md-button>
+  </md-dialog-actions>
 </div>

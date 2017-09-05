@@ -57,7 +57,8 @@
             ng-class="{'no-border-bottom': frame.id !== $ctrl.visibleFrameId && !$last}" layout="row">
             <md-icon md-font-icon="fa" class="frameIcon"
               ng-class="frame.id === $ctrl.visibleFrameId ? 'fa-chevron-down' : 'fa-chevron-right'"></md-icon>
-            <span>{{frame.name}}</span>
+            <span ng-if="frame.name != 'Globals'">{{frame.name}}</span>
+            <span ng-if="frame.name === 'Globals'">Global Variables</span>
             <span flex></span>
           </div>
           <div ng-show="frame.id === $ctrl.visibleFrameId">
