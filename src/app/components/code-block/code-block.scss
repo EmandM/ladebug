@@ -24,10 +24,12 @@
 
   .codeLine {
     .iconCol {
-      width: 18px; //Width of arrow icon
+      width: 18px; // Width of arrow icon
+      outline: none;
     }
     .midCol {
       width: 20px;
+      outline: none;
     }
     .editCol {
       border: 1px solid $color-grey-med;
