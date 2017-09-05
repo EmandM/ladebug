@@ -16,7 +16,7 @@
         </md-tabs>
         <div class="codeBlock" id="codeBlock" flex>
           <code-block code-string="$ctrl.codeString" current-line="$ctrl.codeTrace[$ctrl.currentTraceIndex].line"
-            breakpoints="$ctrl.breakpoints" flags="$ctrl.flags"
+            breakpoints="$ctrl.breakpoints" flags="$ctrl.flags" existing-exercise="$ctrl.existingExercise"
             icon-action="$ctrl.toggleIcon(line, icon)" is-editing="$ctrl.isEditing"></code-block>
         </div>
       </md-content>
@@ -91,7 +91,10 @@
             <md-progress-circular md-mode="indeterminate"></md-progress-circular>
           </div>
         </div>
-        <md-button aria-label="exit the exercise" class="exitButton md-raised"
+        <md-button aria-label="back" class="backButton md-raised md-primary" ng-if="!$ctrl.existingExercise"
+          ng-click="$ctrl.back()">Back to Sandbox
+        </md-button>
+        <md-button aria-label="exit" class="exitButton md-raised md-accent"
           ng-click="$ctrl.exit($event)">Exit
         </md-button>
       </div>

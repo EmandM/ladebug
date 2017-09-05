@@ -1,5 +1,5 @@
 <div layout="row" class="odCodeBlock">
-  <md-card class="blockCard flagCard">
+  <md-card class="blockCard flagCard" ng-if="$ctrl.existingExercise">
     <table class="blockTable">
       <tbody>
         <tr ng-repeat="line in $ctrl.codeByLines track by $index" ng-init="lineNum = $index + 1"

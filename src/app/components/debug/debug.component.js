@@ -269,18 +269,29 @@ class debugController {
     this.statsService.putNewStats(userId, this.statistics, this.exerciseId);
   }
 
+  back() {
+    // go back to the sandbox page with the code already there
+  }
+  
   exit($event) {
+    let textContent = '';
+    if (this.existingExercise) {
+      textContent = 'Your score will not be saved.';
+    } else {
+      textContent = 'Your code will not be saved.';
+    }
     this.$mdDialog.show(
       this.$mdDialog.confirm()
-        .title('Are you sure you want to exit the exercise?')
-        .textContent('Your score will not be saved.')
-        .ariaLabel('Exit the exercise?')
+        .title('Are you sure you want to exit?')
+        .textContent(textContent)
+        .ariaLabel('Exit?')
         .targetEvent($event)
         .ok('Yes')
         .cancel('Cancel')
     ).then(() => {
       this.$state.go('home');
     });
+
   }
 }
 

@@ -1,12 +1,15 @@
 <div class="codeContainer">
-    <form ng-submit="$ctrl.submit()">
+  <h3 class="md-title title">Enter your code to debug here:</h3>
+  <form ng-submit="$ctrl.submit()">
     <md-card class="odSandbox">
       <textarea ui-codemirror ui-codemirror-opts="$ctrl.opts" ng-model="$ctrl.code" readonly="true"></textarea>
     </md-card>
     <div layout="row" layout-align="end center">
-      <md-button type="button" class="md-raised md-accent" aria-label="clear" ng-click="$ctrl.clear()">Clear</md-button>
-      <md-button type="submit" class="md-primary" ng-disabled="$ctrl.submitted"
+      <md-button type="submit" class="md-primary"
         ng-class="{'md-raised': !$ctrl.submitted}" aria-label="debug">Debug</md-button>
+      <md-button aria-label="exit the exercise" class="exitButton md-raised"
+        ng-click="$ctrl.exit($event)">Back
+      </md-button>
     </div>
   </form>
 </div>
