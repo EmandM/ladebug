@@ -4,8 +4,7 @@
     <p>There are no statistics for this exercise yet.</p>
   </div>
   <div ng-show="$ctrl.statsExist">
-    <p class="body">Average time taken to identify error lines: {{$ctrl.averageStats.timeToCorrectlyGuessErrorLines}}</p>
-    <p class="body">Average time taken to edit error lines: {{$ctrl.averageStats.timeToCorrectlyEditErrorLines}}</p>
+    <p class="body">Average time taken: {{$ctrl.averageStats.timeTaken}}</p>
     <p class="body">Average number of incorrect guesses: {{$ctrl.averageStats.incorrectGuesses}}</p>
     <p class="body">Average number of breakpoints set: {{$ctrl.averageStats.breakpointsSet}}</p>
     <p class="body">Average number of flags set: {{$ctrl.averageStats.flagsSet}}</p>

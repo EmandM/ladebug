@@ -9,8 +9,7 @@ class StatsService {
     this.restangular = restangular;
 
     this.averageStats = {};
-    this.averageStats.timeToCorrectlyGuessErrorLines = moment();
-    this.averageStats.timeToCorrectlyEditErrorLines = moment();
+    this.averageStats.timeTaken = moment();
   }
 
   getExerciseStatsById(exerciseId) {
@@ -29,7 +28,7 @@ class StatsService {
           });
   
           this.calculateAverageStats();
-          this.processTimes();
+          this.averageStats.timeTaken = this.formatAsMinutes(this.averageTimeTaken);
           return this.averageStats;
         }
         return false;
@@ -37,12 +36,9 @@ class StatsService {
   }
 
   addToTotalStats(statsData) {
-    this.averageTimeToCorrectlyGuessErrorLines +=
-      moment((statsData.startEditTime).slice(0, -5))
-        .diff(moment((statsData.startIdentifyTime).slice(0, -5)));
-    this.averageTimeToCorrectlyEditErrorLines +=
+    this.averageTimeTaken +=
       moment((statsData.endTime).slice(0, -5))
-        .diff(moment((statsData.startEditTime).slice(0, -5)));
+        .diff(moment((statsData.startTime).slice(0, -5)));
     this.averageStats.incorrectGuesses += statsData.incorrectGuesses;
     this.averageStats.breakpointsSet += statsData.breakpointsSet;
     this.averageStats.flagsSet += statsData.flagsSet;
@@ -60,15 +56,7 @@ class StatsService {
         this.averageStats[statKey] = Math.ceil(this.averageStats[statKey] / this.numStats);
       }
     });
-    this.averageTimeToCorrectlyGuessErrorLines /= this.numStats;
-    this.averageTimeToCorrectlyEditErrorLines /= this.numStats;
-  }
-
-  processTimes() {
-    this.averageStats.timeToCorrectlyGuessErrorLines =
-      this.formatAsMinutes(this.averageTimeToCorrectlyGuessErrorLines);
-    this.averageStats.timeToCorrectlyEditErrorLines =
-      this.formatAsMinutes(this.averageTimeToCorrectlyEditErrorLines);
+    this.averageTimeTaken /= this.numStats;
   }
 
   formatAsMinutes(msDuration) {
@@ -95,8 +83,7 @@ class StatsService {
     this.averageStats.goToStart = 0;
 
     this.numStats = 0;
-    this.averageTimeToCorrectlyGuessErrorLines = 0;
-    this.averageTimeToCorrectlyEditErrorLines = 0;
+    this.averageTimeTaken = 0;
   }
 }
 
