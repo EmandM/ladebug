@@ -1,5 +1,4 @@
 <div layout="column" ng-if="$ctrl.exercisesLoaded" layout-align="start start" class="odExercisesList">
-  <h3 class="exercisesTitle md-title" ng-show="$ctrl.exercisesExist">Saved Exercises</h3>
   <div ng-repeat="exercise in $ctrl.exerciseList" ui-sref="{{$ctrl.editState}}({ id: exercise.id })"
     layout="row" layout-align="start center" class="exercise">
     <span class="exerciseName">{{exercise.name}}</span>
