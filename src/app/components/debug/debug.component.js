@@ -38,7 +38,7 @@ class debugController {
     this.statistics.goToStart = 0;
     this.statistics.breakpointsSet = 0;
     this.statistics.flagsSet = 0;
-    this.startIdentifyTime = moment();
+    this.startTime = moment();
   }
 
   $onInit() {
@@ -200,12 +200,9 @@ class debugController {
       }
 
       this.completed = true;
-      this.endTime = moment();
-      this.statistics.startIdentifyTime = this.startIdentifyTime;
-      this.statistics.startEditTime = this.startEditTime;
-      this.statistics.endTime = this.endTime;
-      this.statistics.totalTime =
-        this.formatAsMinutes(this.endTime.diff(this.startIdentifyTime));
+      this.statistics.endTime = moment();
+      this.statistics.startTime = this.startTime;
+      this.statistics.timeTaken = this.formatAsMinutes(this.statistics.endTime.diff(this.startTime));
 
       this.saveStats();
 

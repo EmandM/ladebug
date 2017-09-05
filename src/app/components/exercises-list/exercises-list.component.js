@@ -35,9 +35,25 @@ class exercisesListController {
         // response always 'true' and an object even if empty (is not null)
         // therefore check to see if it contains exercises
         this.checkExercisesExist();
+        return getScores();
+      })
+      .then((response) => {
+        console.log
+        // response is the return getScore(); value
       })
       .catch(() => {
         this.exercisesLoaded = true;
+      });
+  }
+
+  getScores() {
+    this.authService.getCurrentUserId()
+      .then((userId) => {
+        if (userId) {
+          forEach(this.exerciseList, exercise => {
+            console.log('exercise = ' + exercise);
+          });
+        }
       });
   }
 
