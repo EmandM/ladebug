@@ -11,6 +11,7 @@ class codemirrorLineController {
       lineNumbers: false,
       lineWrapping: true,
       mode: 'python',
+      scrollbarStyle: 'null',
     };
   }
 
