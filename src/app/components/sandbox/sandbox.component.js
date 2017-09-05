@@ -1,4 +1,6 @@
 import angular from 'angular';
+import split from 'lodash/split';
+import forEach from 'lodash/forEach';
 
 import template from './sandbox.template.html';
 import './sandbox.scss';
@@ -17,6 +19,19 @@ class sandboxController {
     };
   }
 
+  $onInit() {
+    if (this.outputId) {
+      this.exerciseService.getOutputById(this.outputId)
+      .then((response) => {
+        this.code = response.debugInfo.code;
+        this.codeLoaded = true;
+      })
+      .catch(() => {
+        this.codeLoaded = false;
+      });
+    }
+  }
+ 
   submit() {
     if (this.code) {
       this.submitted = true;
@@ -61,5 +76,7 @@ angular.module('debugapp')
   .component('sandbox', {
     template,
     controller: sandboxController,
-    bindings: {},
+    bindings: {
+      outputId: '@',
+    },
   });

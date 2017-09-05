@@ -270,7 +270,7 @@ class debugController {
   }
 
   back() {
-    // go back to the sandbox page with the code already there
+    this.$state.go('sandboxwithcode', { outputID: this.outputId });
   }
   
   exit($event) {

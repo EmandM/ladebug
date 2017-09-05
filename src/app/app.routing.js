@@ -22,6 +22,19 @@ function routing($urlRouterProvider, $stateProvider, $locationProvider) {
       }],
       controllerAs: '$ctrl',
     })
+    .state('sandboxwithcode', {
+      url: '/sandbox',
+      params: { outputID: null },
+      template: '<sandbox output-id="{{$ctrl.outputID}}"></sandbox>',
+      controller: ['$state', function ($state) {
+        if (!$state.params.outputID) {
+          $state.go('sandbox');
+          return;
+        }
+        this.outputID = $state.params.outputID;
+      }],
+      controllerAs: '$ctrl',
+    })
     .state('debugexisting', {
       url: '/debug/:id',
       template: '<debug output-id="{{$ctrl.outputID}}"></debug>',
