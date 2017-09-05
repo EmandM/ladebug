@@ -1,8 +1,8 @@
 <md-toolbar class="md-primary odPageHeader">
   <div class="md-toolbar-tools toolbar" layout="row" layout-align="start center">
-    <md-button layout="row" ui-sref="home" class="homeButton">
-      <img src="/img/logo.png" class="button-logo">
-      <span class="button-text">Online Debugger</span>
+    <md-button layout="row" class="homeButton">
+      <img src="/img/logo.png" class="button-logo" ui-sref="admin">
+      <span class="button-text" ui-sref="home">Online Debugger</span>
     </md-button>
     <span flex></span>
     <div id="signInButton" ng-show="!$ctrl.userLoaded" class="signIn"></div>
