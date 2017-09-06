@@ -43,7 +43,7 @@ if array1 != array1MergeSorted or array2 != array2MergeSorted:
 Description:
 Perform mergesort on two arrays.
 
-eg: '3 5 2 4 1' becomes '1 2 3 4 5'
+eg: [3, 5, 2, 4, 1] becomes [1, 2, 3, 4, 5]
 
 Error line: 12
 '''
