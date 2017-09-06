@@ -36,6 +36,10 @@
       border-right: none;
       box-shadow: inset 1px 1px 0px 0px $color-grey-med;
     }
+
+    .blockComment pre code {
+      color: $color-green-comment;
+    }
   }
 
   .spacer {
