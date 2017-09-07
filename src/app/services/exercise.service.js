@@ -8,6 +8,7 @@ class ExerciseService {
     this.$q = $q;
 
     this.JsonResponses = {};
+    this.filesUploaded = {};
     this.exerciseList = undefined;
   }
 
@@ -72,31 +73,54 @@ class ExerciseService {
         });
   }
 
-  createExercise(name, codeString, errorLines, description) {
-    this.clearExerciseListCache();
-    const bugLines = `[${errorLines.toString()}]`;
-    return this.restangular.one('exercise').customPUT({
-      name,
-      codeString,
+  // Format data for sending to server
+  getExerciseObj(data) {
+    const bugLines = `[${data.errorLines.toString()}]`;
+    return {
+      name: data.name,
+      description: data.description,
+      codeString: data.codeString,
       errorLines: bugLines,
-      description,
-    }).then(response => JSON.parse(response.debugInfo));
+    };
   }
 
-  updateExercise(id, name, codeString, errorLines, description) {
+  createExercise(data) {
     this.clearExerciseListCache();
-    delete this.JsonResponses[id];
-    const bugLines = `[${errorLines.toString()}]`;
-    return this.restangular.one('exercise', id).customPOST({
+    return this.restangular.one('exercise').customPUT(this.getExerciseObj(data))
+      .then(this.parseDebugInfo);
+  }
+
+  updateExercise(id, data) {
+    this.clearExerciseListCache();
+    this.clearExerciseOutputCache(id);
+    return this.restangular.one('exercise', id).customPOST(this.getExerciseObj(data))
+      .then(this.parseDebugInfo);
+  }
+
+  softCreateExercise(name, codeString) {
+    const id = GuidHelper.createGuid();
+    this.filesUploaded[id] = {
       name,
       codeString,
-      errorLines: bugLines,
-      description,
-    }).then(response => JSON.parse(response.debugInfo));
+    };
+    return id;
+  }
+
+  getSoftCreate(id) {
+    return this.filesUploaded[id];
+  }
+
+  parseDebugInfo(response) {
+    response.debugInfo = JSON.parse(response.debugInfo);
+    return response;
   }
 
   clearExerciseListCache() {
     delete this.exerciseList;
+  }
+
+  clearExerciseOutputCache(exerciseId) {
+    delete this.JsonResponses[exerciseId];
   }
 }
 

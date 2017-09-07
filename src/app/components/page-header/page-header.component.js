@@ -6,6 +6,7 @@ import './page-header.scss';
 class headerController {
   constructor(authService, $scope) {
     this.authService = authService;
+    this.$scope = $scope;
 
     if (window.gapi) {
       gapi.signin2.render('signInButton', {
@@ -14,8 +15,10 @@ class headerController {
     } else {
       this.noGapi = true;
     }
+  }
 
-    this.applyScope = (() => $scope.$apply)();
+  applyScope() {
+    this.$scope.$apply();
   }
 
   signIn(googleUser) {

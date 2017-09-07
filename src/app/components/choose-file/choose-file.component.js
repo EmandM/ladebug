@@ -6,12 +6,15 @@ import template from './choose-file.template.html';
 import './choose-file.scss';
 
 class chooseFileController {
-  constructor(exerciseService, $scope) {
+  constructor(exerciseService, $scope, $state) {
     this.exerciseService = exerciseService;
+    this.$scope = $scope;
+    this.$state = $state;
     this.errorLines = [];
+  }
 
-    // Define applyScope as a function that runs $scope.$apply()
-    this.applyScope = (() => $scope.$apply)();
+  applyScope() {
+    this.$scope.$apply();
   }
 
   /*
@@ -42,9 +45,9 @@ class chooseFileController {
         return;
       }
 
-      this.exerciseService.createExercise(this.name, fileText, this.errorLines, this.description)
-        .then(() => this.save())
-        .catch(() => this.showError());
+      const createId = this.exerciseService.softCreateExercise(this.name, fileText);
+      this.$state.go('addexercise', { id: createId });
+      this.save();
     };
     reader.onerror = this.showError.bind(this);
   }
@@ -55,7 +58,7 @@ class chooseFileController {
   }
 }
 
-chooseFileController.$inject = ['ExerciseService', '$scope'];
+chooseFileController.$inject = ['ExerciseService', '$scope', '$state'];
 
 angular.module('debugapp')
   .component('chooseFile', {

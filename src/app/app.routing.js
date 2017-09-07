@@ -41,8 +41,12 @@ function routing($urlRouterProvider, $stateProvider, $locationProvider) {
       controllerAs: '$ctrl',
     })
     .state('addexercise', {
-      url: '/add',
-      template: '<edit-exercise></edit-exercise>',
+      url: '/add/:id',
+      template: '<edit-exercise create-id="{{$ctrl.createId}}"></edit-exercise>',
+      controller: ['$state', function ($state) {
+        this.createId = $state.params.id;
+      }],
+      controllerAs: '$ctrl',
     })
     .state('editexercise', {
       url: '/edit/:id',

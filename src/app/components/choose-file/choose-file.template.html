@@ -17,23 +17,13 @@
           </div>
         </md-input-container>
       </div>
-      <div layout="row">
-      <md-input-container class="textInput">
-        <label>Exercise Description</label>
-        <textarea ng-model="$ctrl.description" aria-label="exercise description" name="exerciseDescription"
-          rows="3" autocomplete="off"></textarea>
-      </md-input-container>
-      </div>
-      <div layout="row" class="errorLine">
-        <number-chips ng-model="$ctrl.errorLines" form="$ctrl.chooseFileForm"></number-chips>
-      </div>
     </div>
   </md-dialog-content>
 
   <md-dialog-actions>
     <div class="md-dialog-actions">
       <md-button type="button" ng-click="$ctrl.cancel()" aria-label="cancel">Back</md-button>
-      <md-button type="submit" aria-label="save"class="md-primary" ng-disabled="$ctrl.submitted">Save</md-button>
+      <md-button type="submit" aria-label="save"class="md-primary" ng-disabled="$ctrl.submitted">Continue</md-button>
     </div>
   </md-dialog-actions>
 </form>

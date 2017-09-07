@@ -3,10 +3,11 @@ import template from './edit-exercise.template.html';
 import './edit-exercise.scss';
 
 class editExerciseController {
-  constructor(exerciseService, $state, $mdDialog) {
+  constructor(exerciseService, $state, $mdDialog, $q) {
     this.exerciseService = exerciseService;
     this.$state = $state;
     this.$mdDialog = $mdDialog;
+    this.$q = $q;
 
     this.errorLines = [];
 
@@ -20,6 +21,7 @@ class editExerciseController {
   $onInit() {
     if (!this.exerciseId) {
       this.create = true;
+      this.getCreateInfo();
       return;
     }
 
@@ -31,6 +33,21 @@ class editExerciseController {
         this.description = response.description;
         this.exerciseLoaded = true;
       });
+  }
+
+  getCreateInfo() {
+    if (!this.createId) {
+      return;
+    }
+
+    const softCreate = this.exerciseService.getSoftCreate(this.createId);
+    if (!softCreate) {
+      this.$state.go('admin');
+      return;
+    }
+
+    this.code = softCreate.codeString;
+    this.name = softCreate.name;
   }
 
   codeMirrorLoaded(editor) {
@@ -50,34 +67,50 @@ class editExerciseController {
     if (!this.codeEntryForm.$valid) {
       return;
     }
-    this.submitted = true;
-    const promise = (this.create) ?
-      this.exerciseService.createExercise(this.name, this.code, this.errorLines, this.description) :
-      this.exerciseService
-        .updateExercise(this.exerciseId, this.name, this.code, this.errorLines, this.description);
 
-    promise.then((response) => {
-      if (this.exerciseService.getErrorMessage(response.trace)) {
-        this.$state.go('admin');
-      } else {
+    this.submitted = true;
+    this.codeHasError(this.code)
+      .then((hasError) => {
+        if (!hasError) {
+          this.showNoErrorDialog($event);
+          this.submitted = false;
+          return;
+        }
+        const data = {
+          name: this.name,
+          description: this.description,
+          codeString: this.code,
+          errorLines: this.errorLines,
+        };
+        const promise = (this.create) ?
+          this.exerciseService.createExercise(data) :
+          this.exerciseService.updateExercise(this.exerciseId, data);
+        promise.then(() => this.$state.go('admin'));
+      })
+      .catch(() => {
         this.submitted = false;
-        this.$mdDialog.show(
-          this.$mdDialog.alert()
-            .clickOutsideToClose(true)
-            .title('Error')
-            .textContent('Please ensure your code throws an exception.')
-            .ariaLabel('Error alert')
-            .ok('OK')
-            .targetEvent($event),
-        );
-      }
-    }).catch(() => {
-      this.submitted = false;
-    });
+      });
+  }
+
+  codeHasError(codeString) {
+    return this.exerciseService.runSandbox(codeString)
+      .then(response => response.error);
+  }
+
+  showNoErrorDialog($event) {
+    this.$mdDialog.show(
+      this.$mdDialog.alert()
+        .clickOutsideToClose(true)
+        .title('Error')
+        .textContent('Please ensure your code throws an exception.')
+        .ariaLabel('Error alert')
+        .ok('OK')
+        .targetEvent($event),
+    );
   }
 }
 
-editExerciseController.$inject = ['ExerciseService', '$state', '$mdDialog'];
+editExerciseController.$inject = ['ExerciseService', '$state', '$mdDialog', '$q'];
 
 angular.module('debugapp')
   .component('editExercise', {
@@ -85,5 +118,6 @@ angular.module('debugapp')
     controller: editExerciseController,
     bindings: {
       exerciseId: '@',
+      createId: '@',
     },
   });

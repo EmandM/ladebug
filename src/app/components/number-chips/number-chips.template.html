@@ -5,7 +5,8 @@
     md-on-add="$ctrl.validateErrorLines($index)" md-on-remove="$ctrl.validateErrorLines($index)">
     <input type="number" class="chipInput" placeholder="Enter a line number" min="1">
   </md-chips>
-  <div ng-messages="$ctrl.form.errorLines.$error" class="chipErrors">
+  <div ng-messages="$ctrl.form.errorLines.$error" class="chipErrors"
+    ng-show="$ctrl.form.$submitted || $ctrl.form.errorLines.$dirty">
     <div ng-message="required">An error is required.</div>
     <div ng-message="out-of-range">Error out of range.</div>
   </div>

@@ -5,9 +5,14 @@ import template from './number-chips.template.html';
 import './number-chips.scss';
 
 class numberChipsController {
-  constructor() {
+  constructor($timeout) {
+    this.$timeout = $timeout;
     // enter: 13, tab: 9, comma: 188
     this.seperatorKeys = [13, 9, 188];
+  }
+
+  $onInit() {
+    this.$timeout(() => this.validateErrorLines(), 0);
   }
 
   validateErrorLines() {
@@ -33,7 +38,7 @@ class numberChipsController {
   }
 }
 
-numberChipsController.$inject = [];
+numberChipsController.$inject = ['$timeout'];
 
 angular.module('debugapp')
   .component('numberChips', {
