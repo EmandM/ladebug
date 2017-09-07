@@ -3,11 +3,12 @@ import angular from 'angular';
 // Function that attaches outputId to controller
 // Useful as we have this same logic three times.
 function attachOutputId($state) {
-  if (!$state.params.outputID) {
+  const id = $state.params.outputID || $state.params.id;
+  if (!id) {
     $state.go('sandbox');
     return;
   }
-  this.outputID = $state.params.outputID;
+  this.outputID = id;
 }
 
 function routing($urlRouterProvider, $stateProvider, $locationProvider) {
@@ -34,7 +35,7 @@ function routing($urlRouterProvider, $stateProvider, $locationProvider) {
       controllerAs: '$ctrl',
     })
     .state('debugexisting', {
-      url: '/debug/:outputId',
+      url: '/debug/:id',
       template: '<debug output-id="{{$ctrl.outputID}}"></debug>',
       controller: ['$state', attachOutputId],
       controllerAs: '$ctrl',
