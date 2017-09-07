@@ -1,5 +1,6 @@
 import angular from 'angular';
 import some from 'lodash/some';
+import forEach from 'lodash/forEach';
 
 import template from './exercises-list.template.html';
 import './exercises-list.scss';
@@ -35,10 +36,10 @@ class exercisesListController {
         // response always 'true' and an object even if empty (is not null)
         // therefore check to see if it contains exercises
         this.checkExercisesExist();
-        return getScores();
+        return this.getScores();
       })
       .then((response) => {
-        console.log
+        console.log(response);
         // response is the return getScore(); value
       })
       .catch(() => {
@@ -50,7 +51,7 @@ class exercisesListController {
     this.authService.getCurrentUserId()
       .then((userId) => {
         if (userId) {
-          forEach(this.exerciseList, exercise => {
+          forEach(this.exerciseList, (exercise) => {
             console.log('exercise = ' + exercise);
           });
         }
