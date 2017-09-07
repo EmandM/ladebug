@@ -1,5 +1,15 @@
 import angular from 'angular';
 
+// Function that attaches outputId to controller
+// Useful as we have this same logic three times.
+function attachOutputId($state) {
+  if (!$state.params.outputID) {
+    $state.go('sandbox');
+    return;
+  }
+  this.outputID = $state.params.outputID;
+}
+
 function routing($urlRouterProvider, $stateProvider, $locationProvider) {
   $urlRouterProvider.otherwise('/');
   $locationProvider.html5Mode(true);
@@ -13,38 +23,20 @@ function routing($urlRouterProvider, $stateProvider, $locationProvider) {
       url: '/debug',
       params: { outputID: null },
       template: '<debug output-id="{{$ctrl.outputID}}"></debug>',
-      controller: ['$state', function ($state) {
-        if (!$state.params.outputID) {
-          $state.go('sandbox');
-          return;
-        }
-        this.outputID = $state.params.outputID;
-      }],
+      controller: ['$state', attachOutputId],
       controllerAs: '$ctrl',
     })
     .state('sandboxwithcode', {
       url: '/sandbox',
       params: { outputID: null },
       template: '<sandbox output-id="{{$ctrl.outputID}}"></sandbox>',
-      controller: ['$state', function ($state) {
-        if (!$state.params.outputID) {
-          $state.go('sandbox');
-          return;
-        }
-        this.outputID = $state.params.outputID;
-      }],
+      controller: ['$state', attachOutputId],
       controllerAs: '$ctrl',
     })
     .state('debugexisting', {
-      url: '/debug/:id',
+      url: '/debug/:outputId',
       template: '<debug output-id="{{$ctrl.outputID}}"></debug>',
-      controller: ['$state', function ($state) {
-        if (!$state.params.id) {
-          $state.go('sandbox');
-          return;
-        }
-        this.outputID = $state.params.id;
-      }],
+      controller: ['$state', attachOutputId],
       controllerAs: '$ctrl',
     })
     .state('addexercise', {
