@@ -140,14 +140,18 @@ class debugController {
   }
 
   showErrorToast(errorMessage) {
+    if (this.showingToast) {
+      return;
+    }
+    this.showingToast = true;
     this.$mdToast.show(
       this.$mdToast.simple()
         .textContent('Oops! ' + errorMessage)
         .action('OK')
         .highlightAction(true)
         .highlightClass('md-accent')
-        .hideDelay(10000),
-    );
+        .hideDelay(8000),
+    ).then(() => { this.showingToast = false; });
   }
 
   toEditing() {
