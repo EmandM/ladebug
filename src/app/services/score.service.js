@@ -1,15 +1,15 @@
 import angular from 'angular';
 
 class ScoreService {
-  constructor() {
-  }
+  // constructor() {
+  // }
 
   putScore(userId, exerciseId) {
-    // call flask
+    console.log(userId, exerciseId);
   }
 
   getScore(userId, exerciseId) {
-    // call flask
+    console.log(userId, exerciseId);
   }
 }
 

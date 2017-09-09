@@ -1,6 +1,4 @@
 import angular from 'angular';
-import split from 'lodash/split';
-import forEach from 'lodash/forEach';
 
 import template from './sandbox.template.html';
 import './sandbox.scss';
@@ -22,16 +20,16 @@ class sandboxController {
   $onInit() {
     if (this.outputId) {
       this.exerciseService.getOutputById(this.outputId)
-      .then((response) => {
-        this.code = response.debugInfo.code;
-        this.codeLoaded = true;
-      })
-      .catch(() => {
-        this.codeLoaded = false;
-      });
+        .then((response) => {
+          this.code = response.debugInfo.code;
+          this.codeLoaded = true;
+        })
+        .catch(() => {
+          this.codeLoaded = false;
+        });
     }
   }
- 
+
   submit() {
     if (this.code) {
       this.submitted = true;
@@ -42,7 +40,7 @@ class sandboxController {
         .catch(() => {
           this.submitted = false;
         });
-    } 
+    }
     if (!this.submitted) {
       this.$mdToast.show(
         this.$mdToast.simple()
@@ -63,7 +61,7 @@ class sandboxController {
         .ariaLabel('Exit sandbox?')
         .targetEvent($event)
         .ok('Yes')
-        .cancel('Cancel')
+        .cancel('Cancel'),
     ).then(() => {
       this.$state.go('home');
     });
