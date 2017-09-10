@@ -21,8 +21,8 @@ correct_result = [1, 2, 3, 4, 5]
 
 print(output)
 
-if output == correct_result:
-  raise Exception("Incorrect Output")
+if output != correct_result:
+    raise Exception("Incorrect Output")
 
 
 '''
