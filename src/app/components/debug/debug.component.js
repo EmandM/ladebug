@@ -45,12 +45,11 @@ class debugController {
       .then((response) => {
         this.codeString = response.debugInfo.code;
         this.codeTrace = response.debugInfo.trace;
-        if (response.id) {
+        if (response.name) {
           this.existingExercise = true;
           this.pageName = response.name;
           this.errorLines = response.errorLines;
           this.exerciseDescription = response.description;
-          this.exerciseId = response.id;
         }
         this.goToStart();
         this.outputLoaded = true;
@@ -162,7 +161,6 @@ class debugController {
     if (this.checkFlags()) {
       this.isEditing = true;
       this.selectedTabNum = 1;
-      this.goToEnd();
       return;
     }
 
@@ -242,7 +240,7 @@ class debugController {
   saveStats() {
     // If the user is not logged in, the stats are saved anyway with userId of -1
     const userId = this.authService.getCurrentUserId();
-    this.statsService.putNewStats(userId, this.statistics, this.exerciseId);
+    this.statsService.putNewStats(userId, this.statistics, this.outputId);
   }
 
   exit($event) {
