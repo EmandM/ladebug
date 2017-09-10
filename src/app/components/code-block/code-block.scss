@@ -52,6 +52,15 @@
     color: $color-accent;
     position: absolute;
   }
+  .icon.hint {
+    color: $color-grey-darker;
+  }
+
+  .currentLine {
+    .icon.hint {
+      color: $color-primary;
+    }
+  }
   .icon.active {
     color: $color-green;
   }
