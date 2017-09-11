@@ -27,22 +27,21 @@ class codeBlockController {
     this.commentAndEmptyLines = {};
     this.blockComments = {};
     forEach(this.codeByLines, (currentLine, lineIndex) => {
-      if (inCommentBlock) {
-        this.commentAndEmptyLines[lineIndex] = true;
-        this.blockComments[lineIndex] = true;
-        return;
-      }
       const trimmedLine = trim(currentLine);
-      if (!trimmedLine || startsWith(trimmedLine, '#')) {
-        this.commentAndEmptyLines[lineIndex] = true;
-        return;
-      }
       if (trimmedLine === commentBlockMarker) {
         if (!inCommentBlock) {
           this.commentAndEmptyLines[lineIndex] = true;
           this.blockComments[lineIndex] = true;
         }
         inCommentBlock = !inCommentBlock;
+      }
+      if (inCommentBlock) {
+        this.commentAndEmptyLines[lineIndex] = true;
+        this.blockComments[lineIndex] = true;
+        return;
+      }
+      if (!trimmedLine || startsWith(trimmedLine, '#')) {
+        this.commentAndEmptyLines[lineIndex] = true;
       }
     });
   }

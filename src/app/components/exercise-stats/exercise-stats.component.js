@@ -1,5 +1,4 @@
 import angular from 'angular';
-import some from 'lodash/some';
 
 import template from './exercise-stats.template.html';
 import './exercise-stats.scss';

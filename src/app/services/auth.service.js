@@ -15,11 +15,7 @@ class AuthService {
   }
 
   getCurrentUserId() {
-    if (!this.loggedIn) {
-      return false;
-    }
-
-    return this.userId;
+    return (this.loggedIn) ? this.userId : -1;
   }
 
   isLoggedIn() {

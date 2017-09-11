@@ -1,7 +1,6 @@
 import angular from 'angular';
 import drop from 'lodash/drop';
 import every from 'lodash/every';
-import some from 'lodash/some';
 import includes from 'lodash/includes';
 import findIndex from 'lodash/findIndex';
 import forEach from 'lodash/forEach';
@@ -29,17 +28,17 @@ class debugController {
     // Object for breakpoints and flags
     this.breakpoints = {};
     this.flags = {};
-
     // Variables for stats collection
-    this.statistics = {};
-    this.statistics.incorrectGuesses = 0;
-    this.statistics.run = 0;
-    this.statistics.stepForward = 0;
-    this.statistics.stepBack = 0;
-    this.statistics.goToEnd = 0;
-    this.statistics.goToStart = 0;
-    this.statistics.breakpointsSet = 0;
-    this.statistics.flagsSet = 0;
+    this.statistics = {
+      incorrectGuesses: 0,
+      run: 0,
+      stepForward: 0,
+      stepBack: 0,
+      goToEnd: 0,
+      goToStart: 0,
+      breakpointsSet: 0,
+      flagsSet: 0,
+    };
     this.startTime = moment();
   }
 
@@ -48,12 +47,12 @@ class debugController {
       .then((response) => {
         this.codeString = response.debugInfo.code;
         this.codeTrace = response.debugInfo.trace;
-        this.errorLines = response.errorLines;
-        this.exerciseDescription = response.description;
-        this.exerciseId = response.id;
-        if (response.name) {
+        if (response.id) {
           this.existingExercise = true;
           this.pageName = response.name;
+          this.errorLines = response.errorLines;
+          this.exerciseDescription = response.description;
+          this.exerciseId = response.id;
         }
         this.goToStart();
         this.outputLoaded = true;
@@ -65,26 +64,16 @@ class debugController {
     this.visibleFrameId = this.memory[this.memory.length - 1].id;
   }
 
-  goToStart() {
-    this.currentTraceIndex = 0;
+  moveDebugger(newTraceIndex, buttonName) {
+    this.currentTraceIndex = newTraceIndex;
+    this.statistics[buttonName] += 1;
     this.updateTraceIndex();
-    this.statistics.goToStart += 1;
   }
-  stepBack() {
-    this.currentTraceIndex -= 1;
-    this.updateTraceIndex();
-    this.statistics.stepBack += 1;
-  }
-  stepForward() {
-    this.currentTraceIndex += 1;
-    this.updateTraceIndex();
-    this.statistics.stepForward += 1;
-  }
-  goToEnd() {
-    this.currentTraceIndex = this.codeTrace.length - 1;
-    this.updateTraceIndex();
-    this.statistics.goToEnd += 1;
-  }
+
+  goToStart() { this.moveDebugger(0, 'goToStart'); }
+  stepBack() { this.moveDebugger(this.currentTraceIndex - 1, 'stepBack'); }
+  stepForward() { this.moveDebugger(this.currentTraceIndex + 1, 'stepForward'); }
+  goToEnd() { this.moveDebugger(this.codeTrace.length - 1, 'goToEnd'); }
 
   run() {
     // drop all lines before the currentIndex
@@ -95,9 +84,7 @@ class debugController {
       this.goToEnd();
       return;
     }
-    this.currentTraceIndex = newIndex + this.currentTraceIndex + 1;
-    this.updateTraceIndex();
-    this.statistics.run += 1;
+    this.moveDebugger(newIndex + this.currentTraceIndex + 1, 'run');
   }
 
   toggleIcon(lineNumber, iconType) {
@@ -116,11 +103,7 @@ class debugController {
   }
 
   openStackFrame(id) {
-    if (this.visibleFrameId === id) {
-      this.visibleFrameId = undefined;
-    } else {
-      this.visibleFrameId = id;
-    }
+    this.visibleFrameId = (this.visibleFrameId === id) ? undefined : id;
   }
 
   displayHelp($event) {
@@ -133,12 +116,6 @@ class debugController {
 
   checkFlags() {
     let flagSet;
-
-    this.noFlagsSet = false;
-    if (!some(this.flags)) {
-      this.noFlagsSet = true;
-    }
-
     // check that every flag has a corresponding errorLine
     const result = every(this.flags, (flagValue, lineNum) => {
       if (flagValue) {
@@ -147,7 +124,7 @@ class debugController {
       }
       return true;
     });
-
+    this.noFlagsSet = !flagSet;
     return result && flagSet;
   }
 
@@ -165,14 +142,18 @@ class debugController {
   }
 
   showErrorToast(errorMessage) {
+    if (this.showingToast) {
+      return;
+    }
+    this.showingToast = true;
     this.$mdToast.show(
       this.$mdToast.simple()
         .textContent('Oops! ' + errorMessage)
         .action('OK')
         .highlightAction(true)
         .highlightClass('md-accent')
-        .hideDelay(10000),
-    );
+        .hideDelay(8000),
+    ).then(() => { this.showingToast = false; });
   }
 
   toEditing() {
@@ -264,10 +245,7 @@ class debugController {
         this.codeString = response.debugInfo.code;
         this.codeTrace = response.debugInfo.trace;
         this.checkingCode = false;
-        if (!response.error) {
-          return true;
-        }
-        return false;
+        return (!response.error);
       });
   }
 
@@ -300,12 +278,7 @@ class debugController {
   }
 
   exit($event) {
-    let textContent = '';
-    if (this.existingExercise) {
-      textContent = 'Your score will not be saved.';
-    } else {
-      textContent = 'Your code will not be saved.';
-    }
+    const textContent = `Your ${this.existingExercise ? 'score' : 'code'} will not be saved.`;
     this.$mdDialog.show(
       this.$mdDialog.confirm()
         .title('Are you sure you want to exit?')
