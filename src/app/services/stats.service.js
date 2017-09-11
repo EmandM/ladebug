@@ -23,10 +23,10 @@ class StatsService {
             // statsObj is each instance of a stats document stored in the db
             // statsData is the data stored in the stats field of the current statsObj document
             const statsData = JSON.parse(replace(statsObj.stats, /'/g, '"'));
-  
+
             this.addToTotalStats(statsData);
           });
-  
+
           this.calculateAverageStats();
           this.averageStats.timeTaken = this.formatAsMinutes(this.averageTimeTaken);
           return this.averageStats;
