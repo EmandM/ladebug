@@ -92,7 +92,7 @@
           </div>
         </div>
         <md-button aria-label="back" class="backButton md-raised md-primary" ng-if="!$ctrl.existingExercise"
-          ui-sref="sandboxwithcode({ outputID: this.outputId})">Back to Sandbox
+          ui-sref="sandboxwithcode({ outputID: $ctrl.outputId})">Back to Sandbox
         </md-button>
         <md-button aria-label="exit" class="exitButton md-raised"
           ng-click="$ctrl.exit($event)">Exit

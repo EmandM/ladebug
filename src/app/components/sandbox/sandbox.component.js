@@ -18,16 +18,14 @@ class sandboxController {
   }
 
   $onInit() {
-    if (this.outputId) {
-      this.exerciseService.getOutputById(this.outputId)
-        .then((response) => {
-          this.code = response.debugInfo.code;
-          this.codeLoaded = true;
-        })
-        .catch(() => {
-          this.codeLoaded = false;
-        });
+    if (!this.outputId) {
+      return;
     }
+    this.exerciseService.getOutputById(this.outputId)
+      .then((response) => {
+        this.code = response.debugInfo.code;
+        this.codeLoaded = true;
+      });
   }
 
   submit() {
