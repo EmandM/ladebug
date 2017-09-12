@@ -148,7 +148,7 @@ class SingleScore(Resource):
         return { 'data': dumps(response) }
 
     # insert single score
-    def put(self, exercise_id):
+    def post(self, exercise_id):
         args = parser.parse_args()
         userId = oauth.validate_user_id(args['userId']);
         result = db.scoresCollection.update_one(

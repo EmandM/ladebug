@@ -1,13 +1,14 @@
 import angular from 'angular';
+import FormatTime from '../helpers/format-time.helper';
 
 class ScoresService {
   constructor(restangular) {
     this.restangular = restangular;
   }
 
-  putScore(userId, exerciseId, averageTimePerErrorMs) {
+  updateScore(userId, exerciseId, averageTimePerErrorMs) {
     const stars = this.calculateStars(averageTimePerErrorMs);
-    return this.restangular.one('scores', exerciseId).customPUT({
+    return this.restangular.one('scores', exerciseId).customPOST({
       userId,
       stars,
     });
@@ -26,16 +27,16 @@ class ScoresService {
   calculateStars(averageTimePerErrorMs) {
     // if score is too low for any stars, default one star on completion
     let numStars = 1;
-    if (averageTimePerErrorMs <= 240000) { // 7 minutes
+    if (averageTimePerErrorMs <= FormatTime.unitsToMs(10, 'minutes')) {
       numStars = 2;
     }
-    if (averageTimePerErrorMs <= 180000) { // 5 minutes
+    if (averageTimePerErrorMs <= FormatTime.unitsToMs(5, 'minutes')) {
       numStars = 3;
     }
-    if (averageTimePerErrorMs <= 120000) { // 3 minutes
+    if (averageTimePerErrorMs <= FormatTime.unitsToMs(2, 'minutes')) {
       numStars = 4;
     }
-    if (averageTimePerErrorMs <= 60000) { // 1 minute
+    if (averageTimePerErrorMs <= FormatTime.unitsToMs(30, 'seconds')) {
       numStars = 5;
     }
     return numStars;

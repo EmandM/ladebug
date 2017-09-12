@@ -8,6 +8,7 @@ import parseInt from 'lodash/parseInt';
 import split from 'lodash/split';
 import moment from 'moment';
 import TraceToCallStack from '../../helpers/trace-to-call-stack.helper';
+import FormatTime from '../../helpers/format-time.helper';
 import template from './debug.template.html';
 import './debug.scss';
 
@@ -127,11 +128,6 @@ class debugController {
     return result && flagSet;
   }
 
-  formatAsMinutes(msDuration) {
-    const duration = moment.utc(msDuration); // This breaks if the duration is longer than 24 hours
-    return duration.format(duration.hours() ? 'h[h] m[m] ss[s]' : 'm[m] ss[s]');
-  }
-
   toFlagging() {
     this.checkNewCode(false).then(() => {
       this.isEditing = false;
@@ -184,15 +180,15 @@ class debugController {
       this.completed = true;
       this.statistics.endTime = moment();
       this.statistics.startTime = this.startTime;
-      this.statistics.timeTaken = this.formatAsMinutes(
-        this.statistics.endTime.diff(this.startTime));
+      const timeTakenMs = this.statistics.endTime.diff(this.startTime);
+      this.statistics.timeTaken = FormatTime.msToHumanReadable(timeTakenMs);
 
       // If the user is not logged in, the stats are saved anyway with userId of -1
-      // but a score is not calculated
+      // but a score is not saved
       this.authService.getCurrentUserId()
         .then((userId) => {
           if (userId !== -1) {
-            this.calculateScore(userId);
+            this.saveScore(userId, timeTakenMs);
           }
           this.statsService.putNewStats(userId, this.statistics, this.exerciseId);
         });
@@ -247,10 +243,9 @@ class debugController {
       });
   }
 
-  calculateScore(userId) {
-    const timeTakenMs = this.statistics.endTime.diff(this.startTime);
+  saveScore(userId, timeTakenMs) {
     const averageTimePerErrorMs = timeTakenMs / this.errorLines.length;
-    this.scoresService.putScore(userId, this.outputId, averageTimePerErrorMs);
+    this.scoresService.updateScore(userId, this.outputId, averageTimePerErrorMs);
   }
 
   back() {
