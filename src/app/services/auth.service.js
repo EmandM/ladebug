@@ -2,36 +2,55 @@ import angular from 'angular';
 import GoogleSignIn from 'google-sign-in';
 
 class AuthService {
-  constructor() {
+  constructor($q) {
     this.project = new GoogleSignIn.Project('728044119950-mpcea0183l7c87lflutdide1vfdmvjrb.apps.googleusercontent.com');
     this.currentUser = {};
+    this.$q = $q;
+
+    this.authPromise = this.loadApi().then(() => gapi.auth2.init()
+      .then((authInstance) => {
+        this.authInstance = authInstance;
+        return authInstance;
+      }));
+  }
+
+  loadApi() {
+    const deferred = this.$q.defer();
+    if (!window.gapi) {
+      deferred.reject('GapiNotLoaded');
+    } else {
+      gapi.load('auth2', () => { deferred.resolve(); });
+    }
+    return deferred.promise;
   }
 
   loadUser(googleUser) {
     this.user = googleUser.getBasicProfile();
     this.userId = googleUser.getAuthResponse().id_token;
-    this.loggedIn = true;
     return this.user;
   }
 
-  getCurrentUserId() {
-    return (this.loggedIn) ? this.userId : -1;
+  checkSignedIn() {
+    return this.authPromise.then(() => this.authInstance.isSignedIn.get());
   }
 
-  isLoggedIn() {
-    return this.loggedIn;
+  getCurrentUserId() {
+    return this.checkSignedIn().then((isSignedIn) => {
+      console.log('checkingUserId');
+      return (isSignedIn) ? this.userId : -1;
+    });
   }
 
   signOut() {
     return gapi.auth2.getAuthInstance().signOut()
       .then(() => {
         this.user = undefined;
-        this.loggedIn = false;
+        this.userId = undefined;
       });
   }
 }
 
-AuthService.$inject = [];
+AuthService.$inject = ['$q'];
 
 angular.module('debugapp')
   .service('AuthService', AuthService);

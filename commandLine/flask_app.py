@@ -4,9 +4,11 @@ from flask_cors import CORS
 from pymongo import MongoClient
 from bson.objectid import ObjectId
 from bson.json_util import dumps
-import debug_output
 import datetime
-import os
+
+# Local files
+import debug_output
+import oauth
 
 app = Flask(__name__)
 CORS(app)
@@ -107,8 +109,9 @@ class Stats(Resource):
     # insert single stat
     def put(self):
         args = parser.parse_args()
+        userId = oauth.validate_user_id(args['userId']);
         result = db.statsCollection.insert_one({
-            'userId': args['userId'],
+            'userId': userId,
             'exerciseId': args['exerciseId'],
             'stats': args['stats']
         })

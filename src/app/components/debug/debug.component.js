@@ -239,8 +239,9 @@ class debugController {
 
   saveStats() {
     // If the user is not logged in, the stats are saved anyway with userId of -1
-    const userId = this.authService.getCurrentUserId();
-    this.statsService.putNewStats(userId, this.statistics, this.outputId);
+    this.authService.getCurrentUserId().then((userId) => {
+      this.statsService.putNewStats(userId, this.statistics, this.outputId);
+    });
   }
 
   exit($event) {
