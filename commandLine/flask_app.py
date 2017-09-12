@@ -135,13 +135,26 @@ class Scores(Resource):
         response = db.scoresCollection.find({})
         return { 'data': dumps(response) }
 
-    # insert single score
-    def put(self):
+    # delete all scores
+    def delete(self):
+        result = db.scoresCollection.delete_many({})
+        return "Deleted " + str(result.deleted_count)
+
+class SingleScore(Resource):
+    def get(self, exercise_id):
         args = parser.parse_args()
+        userId = oauth.validate_user_id(args['userId']);
+        response = db.scoresCollection.find({'userId': userId, 'exerciseId': exercise_id})
+        return { 'data': dumps(response) }
+
+    # insert single score
+    def put(self, exercise_id):
+        args = parser.parse_args()
+        userId = oauth.validate_user_id(args['userId']);
         result = db.scoresCollection.update_one(
             {
-                'userId': args['userId'], 
-                'exerciseId': args['exerciseId']
+                'userId': userId,
+                'exerciseId': exercise_id
             },
             {
                 '$set': {
@@ -149,21 +162,13 @@ class Scores(Resource):
                 }
             }, upsert=True
         )
-        return { 'inserted': dumps(result.inserted_id) }, 201
-
-    # delete all scores
-    def delete(self):
-        result = db.scoresCollection.delete_many({})
-        return "Deleted " + str(result.deleted_count)
-
-class SingleScore(Resource):
-    def get(self, user_id, exercise_id):
-        response = db.scoresCollection.find({'userId': user_id, 'exerciseId': exercise_id})
-        return { 'data': dumps(response) }
+        return { 'inserted': dumps(result.upserted_id) }, 201
 
 class AllUserScores(Resource):
-    def get(self, user_id):
-        response = db.scoresCollection.find({'userId': user_id})
+    def get(self):
+        args = parser.parse_args()
+        userId = oauth.validate_user_id(args['userId']);
+        response = db.scoresCollection.find({'userId': userId})
         return { 'data': dumps(response) }
 
 api.add_resource(ExercisesList, '/exercises-list')
@@ -173,8 +178,10 @@ api.add_resource(Sandbox, '/get-output')
 api.add_resource(Stats, '/stats')
 api.add_resource(SavedStats, '/stats/<string:exercise_id>')
 api.add_resource(Scores, '/scores')
-api.add_resource(SingleScore, '/scores/<string:user_id>/<string:exercise_id>')
-api.add_resource(AllUserScores, '/scores/<string:user_id>')
+
+# Send userId in get body
+api.add_resource(SingleScore, '/scores/<string:exercise_id>')
+api.add_resource(AllUserScores, '/scores')
 
 if __name__ == '__main__':
     app.run(debug=True, threaded=True)

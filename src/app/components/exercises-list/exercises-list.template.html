@@ -2,11 +2,11 @@
   <div ng-repeat="exercise in $ctrl.exerciseList" ui-sref="{{$ctrl.editState}}({ id: exercise.id })"
     layout="row" layout-align="start center" class="exercise">
     <span class="exerciseName">{{exercise.name}}</span>
-    <span flex class="exerciseDesc">{{exercise.description}}</span>
+    <span flex="70" class="exerciseDesc">{{exercise.description}}</span>
     <span flex-gt-md></span>
     <div class="stars" ng-if="!$ctrl.isAdmin" layout="row" layout-align="center center">
       <div ng-repeat="hasStar in $ctrl.starsArray(exercise.stars) track by $index">
-        <md-icon md-font-icon="fa" ng-class="hasStar ? 'fa-star goldStar' : 'fa-star-o'"></md-icon>
+        <md-icon md-font-icon="fa" class="starIcon" ng-class="hasStar ? 'fa-star' : 'fa-star-o'"></md-icon>
       </div>
     </div>
     <div class="rightButtons" ng-if="$ctrl.isAdmin" layout="row" layout-align="center center">

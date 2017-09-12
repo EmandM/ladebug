@@ -35,9 +35,7 @@ class AuthService {
   }
 
   getCurrentUserId() {
-    return this.checkSignedIn().then((isSignedIn) => {
-      return (isSignedIn) ? this.userId : -1;
-    });
+    return this.checkSignedIn().then(isSignedIn => (isSignedIn ? this.userId : -1));
   }
 
   signOut() {

@@ -7,7 +7,6 @@ import forEach from 'lodash/forEach';
 import parseInt from 'lodash/parseInt';
 import split from 'lodash/split';
 import moment from 'moment';
-import GuidHelper from '../../helpers/guid.helper';
 import TraceToCallStack from '../../helpers/trace-to-call-stack.helper';
 import template from './debug.template.html';
 import './debug.scss';
@@ -251,24 +250,7 @@ class debugController {
   calculateScore(userId) {
     const timeTakenMs = this.statistics.endTime.diff(this.startTime);
     const averageTimePerErrorMs = timeTakenMs / this.errorLines.length;
-
-    // if score is too low for any stars, default one star on completion
-    let numStars = 1;
-    if (averageTimePerErrorMs <= 240000) { // 7 minutes
-      numStars = 2;
-    }
-    if (averageTimePerErrorMs <= 180000) { // 5 minutes
-      numStars = 3;
-    }
-    if (averageTimePerErrorMs <= 120000) { // 3 minutes
-      numStars = 4;
-    }
-    if (averageTimePerErrorMs <= 60000) { // 1 minute
-      numStars = 5;
-    }
-
-    const encodedUserId = GuidHelper.convertUserId(userId);
-    this.scoresService.putScore(encodedUserId, this.exerciseId, numStars);
+    this.scoresService.putScore(userId, this.outputId, averageTimePerErrorMs);
   }
 
   back() {
