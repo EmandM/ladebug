@@ -59,12 +59,7 @@ class exercisesListController {
         if (userId === -1) {
           return false;
         }
-
-        // TODO
-        // remove this hard coded when auth loaded before page bug fixed
-        userId = 'eyJhbGciOiJSUzI1NiIsImtpZCI6IjMwM2IyODU1YTkxNDM4NTcwY2E3Mjg1MDQ5MTc0MWU5NmJkOTllZjgifQeyJhenAiOiI3MjgwNDQxMTk5NTAtbXBjZWEwMTgzbDdjODdsZmx1dGRpZGUxdmZkbXZqcmIuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJhdWQiOiI3MjgwNDQxMTk5NTAtbXBjZWEwMTgzbDdjODdsZmx1dGRpZGUxdmZkbXZqcmIuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJzdWIiOiIxMTA4NjEwMDY1ODA5NzE5ODI4MjUiLCJoZCI6ImF1Y2tsYW5kdW5pLmFjLm56IiwiZW1haWwiOiJlc3RlNzc1QGF1Y2tsYW5kdW5pLmFjLm56IiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImF0X2hhc2giOiJyemUtMzFtYzFKbVpoSTcyZGhROFF3IiwiaXNzIjoiYWNjb3VudHMuZ29vZ2xlLmNvbSIsImlhdCI6MTUwNTE4ODc3MywiZXhwIjoxNTA1MTkyMzczLCJuYW1lIjoiRWxpemFiZXRoIFN0ZXZlbnNvbiIsInBpY3R1cmUiOiJodHRwczovL2xoNC5nb29nbGV1c2VyY29udGVudC5jb20vLUxsU05IM0VSWG9RL0FBQUFBQUFBQUFJL0FBQUFBQUFBQUFBL0FQSnlwQTNfNEtOcEEwbmFuZzVVYWQ3Z2VFNXprX19vcEEvczk2LWMvcGhvdG8uanBnIiwiZ2l2ZW5fbmFtZSI6IkVsaXphYmV0aCIsImZhbWlseV9uYW1lIjoiU3RldmVuc29uIiwibG9jYWxlIjoiZW4tR0IifQVdavwFByN3Hv88q2UDLLIBFrFgPKr9cOyXOgwEwdbjkavQRw8KQY8HLZkriNw5UY0c6wbTPg05boFYJI1OEI23EAXBkA7AdRo8z7KxgQoAwhyWLy7Us6PJFybgQvvXmAmuta1KXCVqwEhmNonGzRXvbxNcrTjGq9xx3cPNYwTxLiuYEetO6RQUgZRo7z3OUbeaMTGfQXh4VGm0PWw2dg9GYOU0ZqrQmSeUrxrLAzoRCC79vme1PTXcAZJhAE7JwLPIOIExmjhmf1cYOgiHvdJIOgTXMUpdC4iJKDDVIs6vcb8gqtRthcuKPV0GEAQKWAzMNDWhQ';
-        const encodedUserId = GuidHelper.convertUserId(userId);
-        return this.getScores(encodedUserId);
+        return this.getScores(userId);
       });
   }
 
