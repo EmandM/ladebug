@@ -4,6 +4,11 @@
     <span class="exerciseName">{{exercise.name}}</span>
     <span flex class="exerciseDesc">{{exercise.description}}</span>
     <span flex-gt-md></span>
+    <div class="stars" ng-if="!$ctrl.isAdmin" layout="row" layout-align="center center">
+      <div ng-repeat="hasStar in $ctrl.starsArray(exercise.stars) track by $index">
+        <md-icon md-font-icon="fa" ng-class="hasStar ? 'fa-star goldStar' : 'fa-star-o'"></md-icon>
+      </div>
+    </div>
     <div class="rightButtons" ng-if="$ctrl.isAdmin" layout="row" layout-align="center center">
       <md-button class="md-icon-button actionButton md-accent" ng-click="$ctrl.showInfo(exercise.id, exercise.name)" stop-propagation>
         <md-icon md-font-icon="fa" class="fa-info-circle"></md-icon>

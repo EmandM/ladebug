@@ -20,6 +20,7 @@ parser.add_argument('errorLines')
 parser.add_argument('description')
 parser.add_argument('userId')
 parser.add_argument('stats')
+parser.add_argument('stars')
 parser.add_argument('exerciseId')
 
 client = MongoClient()
@@ -127,12 +128,53 @@ class SavedStats(Resource):
         response = db.statsCollection.find({'exerciseId': exercise_id})
         return { 'data': dumps(response) }
 
+
+class Scores(Resource):
+    # get all scores
+    def get(self):
+        response = db.scoresCollection.find({})
+        return { 'data': dumps(response) }
+
+    # insert single score
+    def put(self):
+        args = parser.parse_args()
+        result = db.scoresCollection.update_one(
+            {
+                'userId': args['userId'], 
+                'exerciseId': args['exerciseId']
+            },
+            {
+                '$set': {
+                    'stars': args['stars']
+                }
+            }, upsert=True
+        )
+        return { 'inserted': dumps(result.inserted_id) }, 201
+
+    # delete all scores
+    def delete(self):
+        result = db.scoresCollection.delete_many({})
+        return "Deleted " + str(result.deleted_count)
+
+class SingleScore(Resource):
+    def get(self, user_id, exercise_id):
+        response = db.scoresCollection.find({'userId': user_id, 'exerciseId': exercise_id})
+        return { 'data': dumps(response) }
+
+class AllUserScores(Resource):
+    def get(self, user_id):
+        response = db.scoresCollection.find({'userId': user_id})
+        return { 'data': dumps(response) }
+
 api.add_resource(ExercisesList, '/exercises-list')
 api.add_resource(SavedExercise, '/exercise/<string:exercise_id>')
 api.add_resource(SaveExercise, '/exercise')
 api.add_resource(Sandbox, '/get-output')
 api.add_resource(Stats, '/stats')
 api.add_resource(SavedStats, '/stats/<string:exercise_id>')
+api.add_resource(Scores, '/scores')
+api.add_resource(SingleScore, '/scores/<string:user_id>/<string:exercise_id>')
+api.add_resource(AllUserScores, '/scores/<string:user_id>')
 
 if __name__ == '__main__':
     app.run(debug=True, threaded=True)

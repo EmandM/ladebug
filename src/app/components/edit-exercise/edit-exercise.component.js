@@ -3,10 +3,10 @@ import template from './edit-exercise.template.html';
 import './edit-exercise.scss';
 
 class editExerciseController {
-  constructor(exerciseService, $state, $mdDialog, $q) {
+  constructor(exerciseService, $state, $mdToast, $q) {
     this.exerciseService = exerciseService;
     this.$state = $state;
-    this.$mdDialog = $mdDialog;
+    this.$mdToast = $mdToast;
     this.$q = $q;
 
     this.errorLines = [];
@@ -58,9 +58,9 @@ class editExerciseController {
     return this.editor.lineCount();
   }
 
-  submit($event) {
+  submit() {
     if (!this.code) {
-      this.errorMessage = 'Some code is required';
+      this.showErrorToast('Some code is required');
       return;
     }
 
@@ -72,7 +72,7 @@ class editExerciseController {
     this.codeHasError(this.code)
       .then((hasError) => {
         if (!hasError) {
-          this.showNoErrorDialog($event);
+          this.showErrorToast('Please ensure your code throws an exception');
           this.submitted = false;
           return;
         }
@@ -97,20 +97,19 @@ class editExerciseController {
       .then(response => response.error);
   }
 
-  showNoErrorDialog($event) {
-    this.$mdDialog.show(
-      this.$mdDialog.alert()
-        .clickOutsideToClose(true)
-        .title('Error')
-        .textContent('Please ensure your code throws an exception.')
-        .ariaLabel('Error alert')
-        .ok('OK')
-        .targetEvent($event),
+  showErrorToast(errorMessage) {
+    this.$mdToast.show(
+      this.$mdToast.simple()
+        .textContent(errorMessage)
+        .action('OK')
+        .highlightAction(true)
+        .highlightClass('md-accent')
+        .hideDelay(5000),
     );
   }
 }
 
-editExerciseController.$inject = ['ExerciseService', '$state', '$mdDialog', '$q'];
+editExerciseController.$inject = ['ExerciseService', '$state', '$mdToast', '$q'];
 
 angular.module('debugapp')
   .component('editExercise', {

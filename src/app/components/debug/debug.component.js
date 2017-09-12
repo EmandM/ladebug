@@ -7,15 +7,18 @@ import forEach from 'lodash/forEach';
 import parseInt from 'lodash/parseInt';
 import split from 'lodash/split';
 import moment from 'moment';
+import GuidHelper from '../../helpers/guid.helper';
 import TraceToCallStack from '../../helpers/trace-to-call-stack.helper';
 import template from './debug.template.html';
 import './debug.scss';
 
 class debugController {
-  constructor(exerciseService, authService, statsService, $mdDialog, $timeout, $state, $mdToast) {
+  constructor(exerciseService, authService, statsService, scoresService,
+    $mdDialog, $timeout, $state, $mdToast) {
     this.exerciseService = exerciseService;
     this.authService = authService;
     this.statsService = statsService;
+    this.scoresService = scoresService;
     this.$mdDialog = $mdDialog;
     this.$timeout = $timeout;
     this.$state = $state;
@@ -23,7 +26,7 @@ class debugController {
 
     this.selectedTabNum = 0;
 
-    // Object for breakpoints and flags => faster lookup than array.
+    // Object for breakpoints and flags
     this.breakpoints = {};
     this.flags = {};
     // Variables for stats collection
@@ -185,7 +188,15 @@ class debugController {
       this.statistics.timeTaken = this.formatAsMinutes(
         this.statistics.endTime.diff(this.startTime));
 
-      this.saveStats();
+      // If the user is not logged in, the stats are saved anyway with userId of -1
+      // but a score is not calculated
+      this.authService.getCurrentUserId()
+        .then((userId) => {
+          if (userId !== -1) {
+            this.calculateScore(userId);
+          }
+          this.statsService.putNewStats(userId, this.statistics, this.exerciseId);
+        });
 
       const statsObj = this.statistics;
       this.$mdDialog.show({
@@ -237,11 +248,33 @@ class debugController {
       });
   }
 
-  saveStats() {
-    // If the user is not logged in, the stats are saved anyway with userId of -1
-    this.authService.getCurrentUserId().then((userId) => {
-      this.statsService.putNewStats(userId, this.statistics, this.outputId);
-    });
+  calculateScore(userId) {
+    const timeTakenMs = this.statistics.endTime.diff(this.startTime);
+    const averageTimePerErrorMs = timeTakenMs / this.errorLines.length;
+
+    // if score is too low for any stars, default one star on completion
+    let numStars = 1;
+    if (averageTimePerErrorMs <= 240000) { // 7 minutes
+      numStars = 2;
+    }
+    if (averageTimePerErrorMs <= 180000) { // 5 minutes
+      numStars = 3;
+    }
+    if (averageTimePerErrorMs <= 120000) { // 3 minutes
+      numStars = 4;
+    }
+    if (averageTimePerErrorMs <= 60000) { // 1 minute
+      numStars = 5;
+    }
+
+    const encodedUserId = GuidHelper.convertUserId(userId);
+    this.scoresService.putScore(encodedUserId, this.exerciseId, numStars);
+  }
+
+  back() {
+    // if user came from sandbox mode, they are returned to this page
+    // with the code they wrote being displayed
+    this.$state.go('sandboxwithcode', { outputID: this.outputId });
   }
 
   exit($event) {
@@ -260,7 +293,7 @@ class debugController {
   }
 }
 
-debugController.$inject = ['ExerciseService', 'AuthService', 'StatsService',
+debugController.$inject = ['ExerciseService', 'AuthService', 'StatsService', 'ScoresService',
   '$mdDialog', '$timeout', '$state', '$mdToast'];
 
 angular.module('debugapp')
