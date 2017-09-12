@@ -48,12 +48,11 @@ class debugController {
       .then((response) => {
         this.codeString = response.debugInfo.code;
         this.codeTrace = response.debugInfo.trace;
-        if (response.id) {
+        if (response.name) {
           this.existingExercise = true;
           this.pageName = response.name;
           this.errorLines = response.errorLines;
           this.exerciseDescription = response.description;
-          this.exerciseId = response.id;
         }
         this.goToStart();
         this.outputLoaded = true;
@@ -165,7 +164,6 @@ class debugController {
     if (this.checkFlags()) {
       this.isEditing = true;
       this.selectedTabNum = 1;
-      this.goToEnd();
       return;
     }
 
