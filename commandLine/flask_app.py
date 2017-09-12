@@ -151,6 +151,10 @@ class SingleScore(Resource):
     def post(self, exercise_id):
         args = parser.parse_args()
         userId = oauth.validate_user_id(args['userId']);
+        existing =  db.scoresCollection.find_one({'userId': userId, 'exerciseId': exercise_id})
+        if (existing and int(existing['stars']) >= int(args['stars'])):
+            return { 'updated': dumps(existing.id) }
+
         result = db.scoresCollection.update_one(
             {
                 'userId': userId,
@@ -162,7 +166,7 @@ class SingleScore(Resource):
                 }
             }, upsert=True
         )
-        return { 'inserted': dumps(result.upserted_id) }, 201
+        return { 'updated': dumps(result.upserted_id) }
 
 class AllUserScores(Resource):
     def get(self):
