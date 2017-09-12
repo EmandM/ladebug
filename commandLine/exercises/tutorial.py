@@ -1,16 +1,22 @@
 '''
-  Use the column on the left to 'flag' errors in the code
-  Once an error is found, change tabs above to fix the error
-  Once fixed, change tabs again to run the new code
-  When all errors are fixed, submit your solution below
+  Use the column on the far left to 'flag' lines in the code that contain errors.
+  Find and flag an error line, then click the Fix Errors tabs above to edit the code.
+  Once you've fixed the error, click the Flag Errors tab to go back and run your code.
+  When all errors are fixed, submit your solution below.
+  For more hints, read the comments below.
 '''
 
 # 'def function_name():' defines a function in python. The line below is missing ()
 def count_to_five:
   result = []
 
-  # Set a breakpoint by clicking on the line number. Run the code and it will stop on the breakpoint
-  # Use the variable inspector to your right shows the value that variables hold
+  # Set a breakpoint by clicking on the column to the left of the line number. 
+  # Try this on line 18.
+  # Now, click the run/play button below and code execution will stop on the breakpoint.
+  # Check the value of stored variables at this line in the global variables card.
+  # You can use the step forward and step backward buttons on either side of the 
+  #   run/play button to move step by step through the code, and check the variables 
+  #   at each line.
   for i in range(0, 5):
     result.append(i)
 
