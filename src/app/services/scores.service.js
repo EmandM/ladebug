@@ -14,7 +14,12 @@ class ScoresService {
   }
 
   getScore(userId, exerciseId) {
-    return this.restangular.one('scores', userId, exerciseId).get()
+    return this.restangular.one('scores').one(userId).one(exerciseId).get()
+      .then(response => JSON.parse(response.data));
+  }
+
+  getAllScores(userId) {
+    return this.restangular.one('scores').one(userId).get()
       .then(response => JSON.parse(response.data));
   }
 }

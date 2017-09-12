@@ -135,11 +135,17 @@ class Scores(Resource):
     # insert single score
     def put(self):
         args = parser.parse_args()
-        result = db.scoresCollection.insert_one({
-            'userId': args['userId'],
-            'exerciseId': args['exerciseId'],
-            'stars': args['stars']
-        })
+        result = db.scoresCollection.update_one(
+            {
+                'userId': args['userId'], 
+                'exerciseId': args['exerciseId']
+            },
+            {
+                '$set': {
+                    'stars': args['stars']
+                }
+            }, upsert=True
+        )
         return { 'inserted': dumps(result.inserted_id) }, 201
 
     # delete all scores
@@ -147,9 +153,14 @@ class Scores(Resource):
         result = db.scoresCollection.delete_many({})
         return "Deleted " + str(result.deleted_count)
 
-class SavedScores(Resource):
+class SingleScore(Resource):
     def get(self, user_id, exercise_id):
         response = db.scoresCollection.find({'userId': user_id, 'exerciseId': exercise_id})
+        return { 'data': dumps(response) }
+
+class AllUserScores(Resource):
+    def get(self, user_id):
+        response = db.scoresCollection.find({'userId': user_id})
         return { 'data': dumps(response) }
 
 api.add_resource(ExercisesList, '/exercises-list')
@@ -159,7 +170,8 @@ api.add_resource(Sandbox, '/get-output')
 api.add_resource(Stats, '/stats')
 api.add_resource(SavedStats, '/stats/<string:exercise_id>')
 api.add_resource(Scores, '/scores')
-api.add_resource(SavedScores, '/scores/<string:user_id>/<string:exercise_id>')
+api.add_resource(SingleScore, '/scores/<string:user_id>/<string:exercise_id>')
+api.add_resource(AllUserScores, '/scores/<string:user_id>')
 
 if __name__ == '__main__':
     app.run(debug=True, threaded=True)

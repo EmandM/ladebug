@@ -7,6 +7,7 @@ import forEach from 'lodash/forEach';
 import parseInt from 'lodash/parseInt';
 import split from 'lodash/split';
 import moment from 'moment';
+import GuidHelper from '../../helpers/guid.helper';
 import TraceToCallStack from '../../helpers/trace-to-call-stack.helper';
 import template from './debug.template.html';
 import './debug.scss';
@@ -191,13 +192,13 @@ class debugController {
 
       // If the user is not logged in, the stats are saved anyway with userId of -1
       // but a score is not calculated
-      this.userId = this.authService.getCurrentUserId();
-      if (!this.userId) {
-        this.userId = -1;
-      } else {
-        this.calculateScore();
-      }
-      this.statsService.putNewStats(this.userId, this.statistics, this.exerciseId);
+      this.authService.getCurrentUserId()
+        .then((userId) => {
+          if (userId !== -1) {
+            this.calculateScore(userId);
+          }
+          this.statsService.putNewStats(userId, this.statistics, this.exerciseId);
+        });
 
       const statsObj = this.statistics;
       this.$mdDialog.show({
@@ -249,7 +250,7 @@ class debugController {
       });
   }
 
-  calculateScore() {
+  calculateScore(userId) {
     const timeTakenMs = this.statistics.endTime.diff(this.startTime);
     const averageTimePerErrorMs = timeTakenMs / this.errorLines.length;
 
@@ -268,7 +269,8 @@ class debugController {
       numStars = 5;
     }
 
-    this.scoresService.putScore(this.userId, this.exerciseId, numStars);
+    const encodedUserId = GuidHelper.convertUserId(userId);
+    this.scoresService.putScore(encodedUserId, this.exerciseId, numStars);
   }
 
   back() {
