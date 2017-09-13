@@ -10,6 +10,7 @@ import './home';
 import './number-chips';
 import './page-header';
 import './sandbox';
+import './stars';
 import './variable';
 import './correct-line';
 import './exercise-stats';

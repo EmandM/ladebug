@@ -4,11 +4,7 @@
     <span class="exerciseName">{{exercise.name}}</span>
     <span flex="70" class="exerciseDesc">{{exercise.description}}</span>
     <span flex-gt-md></span>
-    <div class="stars" ng-if="!$ctrl.isAdmin" layout="row" layout-align="center center">
-      <div ng-repeat="hasStar in $ctrl.starsArray(exercise.stars) track by $index">
-        <md-icon md-font-icon="fa" class="starIcon" ng-class="hasStar ? 'fa-star' : 'fa-star-o'"></md-icon>
-      </div>
-    </div>
+    <stars ng-if="!$ctrl.isAdmin" score="exercise.score"></stars>
     <div class="rightButtons" ng-if="$ctrl.isAdmin" layout="row" layout-align="center center">
       <md-button class="md-icon-button actionButton md-accent" ng-click="$ctrl.showInfo(exercise.id, exercise.name)" stop-propagation>
         <md-icon md-font-icon="fa" class="fa-info-circle"></md-icon>
