@@ -6,7 +6,7 @@
           ng-class="{'currentLine': $ctrl.isCurrentLine(lineNum)}" class="codeLine">
           <td class="iconCol" ng-click="$ctrl.toggleIcon(lineNum, 'flag')">
             <div class="spacer" layout="row" layout-align="center center">
-              <i class="fa fa-flag icon hint" ng-show="$first && !$ctrl.isEditing && !$ctrl.flags[lineNum]"></i>
+              <i class="fa fa-flag icon ghostIcon" ng-show="$first && !$ctrl.isEditing && !$ctrl.flags[lineNum]"></i>
               <i class="fa icon" ng-show="$ctrl.flags[lineNum]"
                 ng-class="$ctrl.isEditing ? 'fa-exclamation active' : 'fa-flag'"></i>
             </div>
@@ -24,8 +24,8 @@
           keep-in-view="$ctrl.isCurrentLine(lineNum)" class="codeLine">
         <td class="iconCol" ng-if="!$ctrl.isEditing" ng-click="$ctrl.toggleIcon(lineNum, 'breakpoint')">
           <div class="spacer" layout="row" layout-align="center center">
-            <i class="fa fa-circle icon" ng-show="$ctrl.breakpoints[lineNum]"
-              ng-class="{'fade': $ctrl.isCurrentLine(lineNum)}"></i>
+            <i class="fa fa-circle icon fade" ng-show="$ctrl.breakpoints[lineNum] || $first"
+              ng-class="{'ghostIcon': $first && !$ctrl.breakpoints[lineNum]}"></i>
             <i class="fa fa-arrow-right line-icon" ng-show="$ctrl.isCurrentLine(lineNum)"></i>
           </div>
         </td>

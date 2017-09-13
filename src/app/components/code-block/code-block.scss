@@ -52,13 +52,16 @@
     color: $color-accent;
     position: absolute;
   }
-  .icon.hint {
+  .icon.ghostIcon {
     color: $color-grey-darker;
   }
 
   .currentLine {
-    .icon.hint {
+    .icon.ghostIcon {
       color: $color-primary;
+    }
+    .icon.fade {
+      opacity: 0.4;
     }
   }
   .icon.active {

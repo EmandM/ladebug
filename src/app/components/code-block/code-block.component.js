@@ -50,7 +50,8 @@ class codeBlockController {
     return this.commentAndEmptyLines[lineNum - 1];
   }
 
-  toggleIcon(lineNum, iconType) {
+  // onlyTurnOn indicates to turn a breakpoint on not off.
+  toggleIcon(lineNum, iconType, onlyTurnOn) {
     if (this.isEditing) {
       return;
     }
@@ -58,10 +59,16 @@ class codeBlockController {
     if (iconType === 'breakpoint') {
       // if line is empty or is a comment, try put a breakpoint on the next line
       if (this.isWhitespaceOrComment(lineNum)) {
-        this.toggleIcon(lineNum + 1, iconType);
+        this.toggleIcon(lineNum + 1, iconType, true);
         return;
       }
     }
+
+    // Don't trigger iconAction if onlyTurnOn is true and the icon is already true.
+    if (onlyTurnOn && this[iconType + 's'][lineNum]) {
+      return;
+    }
+
     this.iconAction({ line: lineNum, icon: iconType });
   }
 
