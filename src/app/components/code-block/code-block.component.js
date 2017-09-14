@@ -29,10 +29,8 @@ class codeBlockController {
     forEach(this.codeByLines, (currentLine, lineIndex) => {
       const trimmedLine = trim(currentLine);
       if (trimmedLine === commentBlockMarker) {
-        if (!inCommentBlock) {
-          this.commentAndEmptyLines[lineIndex] = true;
-          this.blockComments[lineIndex] = true;
-        }
+        this.commentAndEmptyLines[lineIndex] = true;
+        this.blockComments[lineIndex] = true;
         inCommentBlock = !inCommentBlock;
       }
       if (inCommentBlock) {
