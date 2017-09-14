@@ -17,7 +17,7 @@
   </md-card>
 
   <md-card class="blockCard" flex>
-    <table class="blockTable">
+    <table class="blockTable code">
       <tbody>
         <tr ng-repeat="line in $ctrl.codeByLines track by $index" ng-init="lineNum = $index + 1"
           ng-class="{'currentLine': $ctrl.isCurrentLine(lineNum)}"
