@@ -42,12 +42,6 @@ class debugController {
       flagsSet: 0,
     };
     this.startTime = moment();
-
-    const time = FormatTime.unitsToMs(95, 'seconds');
-    this.$mdDialog.show({
-      template: `<md-dialog flex="40" flex-gt-md="30"><complete-exercise complete-time="${time}" score="4"></complete-exercise></md-dialog>`,
-      clickOutsideToClose: true,
-    });
   }
 
   $onInit() {
@@ -188,6 +182,7 @@ class debugController {
       this.statistics.endTime = moment();
       this.statistics.startTime = this.startTime;
       const timeTakenMs = this.statistics.endTime.diff(this.startTime);
+      const averageTimePerErrorMs = timeTakenMs / this.errorLines.length;
       this.statistics.timeTaken = FormatTime.msToHumanReadable(timeTakenMs);
 
       // If the user is not logged in, the stats are saved anyway with userId of -1
@@ -195,19 +190,15 @@ class debugController {
       this.authService.getCurrentUserId()
         .then((userId) => {
           if (userId !== -1) {
-            this.saveScore(userId, timeTakenMs);
+            this.scoresService.updateScore(userId, this.outputId, averageTimePerErrorMs);
           }
           this.statsService.putNewStats(userId, this.statistics, this.outputId);
         });
-
-      const statsObj = this.statistics;
+      const stars = this.scoresService.calculateStars(averageTimePerErrorMs);
       this.$mdDialog.show({
-        template: '<complete-exercise statistics="$ctrl.statistics"></complete-exercise>',
+        template: `<md-dialog flex="40" flex-gt-md="30"><complete-exercise complete-time="${timeTakenMs}" score="${stars}"></complete-exercise></md-dialog>`,
+        clickOutsideToClose: true,
         targetEvent: $event,
-        controller: [function () {
-          this.statistics = statsObj;
-        }],
-        controllerAs: '$ctrl',
       })
         .then(() => this.$state.go('home'))
         .catch(() => this.$state.go('home'));
@@ -248,11 +239,6 @@ class debugController {
         this.checkingCode = false;
         return (!response.error);
       });
-  }
-
-  saveScore(userId, timeTakenMs) {
-    const averageTimePerErrorMs = timeTakenMs / this.errorLines.length;
-    this.scoresService.updateScore(userId, this.outputId, averageTimePerErrorMs);
   }
 
   back() {
