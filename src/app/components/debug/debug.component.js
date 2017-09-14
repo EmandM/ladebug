@@ -1,14 +1,15 @@
 import angular from 'angular';
 import drop from 'lodash/drop';
 import every from 'lodash/every';
-import includes from 'lodash/includes';
 import findIndex from 'lodash/findIndex';
 import forEach from 'lodash/forEach';
+import includes from 'lodash/includes';
 import parseInt from 'lodash/parseInt';
 import split from 'lodash/split';
 import moment from 'moment';
-import TraceToCallStack from '../../helpers/trace-to-call-stack.helper';
 import FormatTime from '../../helpers/format-time.helper';
+import TraceToCallStack from '../../helpers/trace-to-call-stack.helper';
+
 import template from './debug.template.html';
 import './debug.scss';
 
@@ -41,6 +42,12 @@ class debugController {
       flagsSet: 0,
     };
     this.startTime = moment();
+
+    const time = FormatTime.unitsToMs(95, 'seconds');
+    this.$mdDialog.show({
+      template: `<md-dialog flex="40" flex-gt-md="30"><complete-exercise complete-time="${time}" score="4"></complete-exercise></md-dialog>`,
+      clickOutsideToClose: true,
+    });
   }
 
   $onInit() {
@@ -195,7 +202,7 @@ class debugController {
 
       const statsObj = this.statistics;
       this.$mdDialog.show({
-        template: '<correct-line statistics="$ctrl.statistics"></correct-line>',
+        template: '<complete-exercise statistics="$ctrl.statistics"></complete-exercise>',
         targetEvent: $event,
         controller: [function () {
           this.statistics = statsObj;

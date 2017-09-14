@@ -1,0 +1,22 @@
+<div class="odCompleteExercise">
+  <div class="header" layout="row">
+    <span flex></span>
+    <div class="md-display-1 title">Congratulations!</div>
+    <div flex layout="row" layout-align="end start">
+      <md-button type="button" ng-click="$ctrl.close()" aria-label="exit" class="md-icon-button">
+        <md-icon md-font-icon="fa" class="fa-times"></md-icon>
+      </md-button>
+    </div>
+  </div>
+  <div class="content" layout="column" layout-align="center center">
+      <div class="completeTime" layout="column" layout-align="center center">
+        <div class="heading">Completed In</div>
+        <div class="time">{{$ctrl.time}}</div>
+      </div>
+      <div><stars score="$ctrl.score" size="large"></stars></div>
+  </div>
+</div>
+
+<md-dialog-actions>
+  <md-button type="button" ng-click="$ctrl.close()" aria-label="Close">Close</md-button>
+</md-dialog-actions>

@@ -31,5 +31,6 @@ angular.module('debugapp')
     controller: starsController,
     bindings: {
       score: '<',
+      size: '@',
     },
   });

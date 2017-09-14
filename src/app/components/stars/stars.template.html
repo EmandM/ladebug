@@ -1,5 +1,5 @@
 
-<div class="odStars" layout="row">
+<div class="odStars" layout="row" ng-class="$ctrl.size">
   <md-icon ng-repeat="hasStar in $ctrl.starsArray track by $index" md-font-icon="fa"
     class="starIcon" ng-class="hasStar ? 'fa-star' : 'fa-star-o'">
   </md-icon>
