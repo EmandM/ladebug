@@ -197,7 +197,7 @@ class debugController {
           if (userId !== -1) {
             this.saveScore(userId, timeTakenMs);
           }
-          this.statsService.putNewStats(userId, this.statistics, this.exerciseId);
+          this.statsService.putNewStats(userId, this.statistics, this.outputId);
         });
 
       const statsObj = this.statistics;
