@@ -8,8 +8,13 @@ export default class FormatTime {
     const timeUnits = ['day', 'hour', 'minute', 'second'];
 
     forEach(timeUnits, (unit) => {
+      // moment.duration().minutes() gives the number of minutes in a duration between 0 and 59.
+      // .days(), .hours() and .seconds() all work the same way.
       const time = duration[unit + 's']();
+
+      // If there are more than 0 units in a time
       if (time > 0) {
+        // add the time, plus the unit name pluralised.
         output += ` ${time} ${(time === 1) ? unit : unit + 's'}`;
       }
     });
