@@ -16,10 +16,10 @@ class AuthService {
 
   loadApi() {
     const deferred = this.$q.defer();
-    if (!window.gapi) {
-      deferred.reject('GapiNotLoaded');
-    } else {
+    if (window.gapi) {
       gapi.load('auth2', () => { deferred.resolve(); });
+    } else {
+      deferred.reject('GapiNotLoaded');
     }
     return deferred.promise;
   }
