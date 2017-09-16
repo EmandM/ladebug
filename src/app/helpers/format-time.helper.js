@@ -1,16 +1,19 @@
 import moment from 'moment';
+import forEach from 'lodash/forEach';
 
 export default class FormatTime {
   static msToHumanReadable(msDuration) {
-    const duration = moment.utc(msDuration); // This breaks if the duration is longer than 24 hours
-    const seconds = duration.seconds();
-    const minutes = duration.minutes();
-    const hours = duration.hours();
-    const secondString = `${seconds} ${FormatTime.pluralise(seconds, 'second')} `;
-    const minuteString = `${minutes} ${FormatTime.pluralise(minutes, 'minute')} `;
-    const hourString = `${hours} ${FormatTime.pluralise(hours, 'hour')} `;
+    const duration = moment.duration(msDuration);
+    let output = '';
+    const timeUnits = ['day', 'hour', 'minute', 'second'];
 
-    return hours ? hourString + minuteString + secondString : minuteString + secondString;
+    forEach(timeUnits, (unit) => {
+      const time = duration[unit + 's']();
+      if (time > 0) {
+        output += ` ${time} ${(time === 1) ? unit : unit + 's'}`;
+      }
+    });
+    return output;
   }
 
   static pluralise(num, string) {
