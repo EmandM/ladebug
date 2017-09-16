@@ -1,13 +1,13 @@
 import angular from 'angular';
-import GoogleSignIn from 'google-sign-in';
 
 class AuthService {
   constructor($q) {
-    this.project = new GoogleSignIn.Project('728044119950-mpcea0183l7c87lflutdide1vfdmvjrb.apps.googleusercontent.com');
     this.currentUser = {};
     this.$q = $q;
 
-    this.authPromise = this.loadApi().then(() => gapi.auth2.init()
+    this.authPromise = this.loadApi().then(() => gapi.auth2.init({
+      client_id: '728044119950-mpcea0183l7c87lflutdide1vfdmvjrb.apps.googleusercontent.com',
+    })
       .then((authInstance) => {
         this.authInstance = authInstance;
         return authInstance;
