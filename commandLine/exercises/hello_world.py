@@ -2,8 +2,9 @@
 def getGreeting(language):
   if language == 'English':
     return helloInEnglish()
-  else if language == 'Maori':
+  elif language == 'Maori':
     return helloInMaori()
+  raise Exception('Language not detected')
 
 def helloInEnglish():
   return 'Hello World'
@@ -11,11 +12,7 @@ def helloInEnglish():
 def helloInMaori())
   return 'Kia Ora Aotūroa'
 
-greeting = getGreeting('maori')
-correct_result = 'Kia Ora Aotūroa'
-
-if greeting != correct_result:
-  raise Exception('Incorrect Result')
+print(getGreeting('maori'))
 
 print(greeting)
 
@@ -25,4 +22,4 @@ Description:
 
 Say hello in multiple languages!
 
-Error Lines: 10, 13
+Error Lines: 12, 15
