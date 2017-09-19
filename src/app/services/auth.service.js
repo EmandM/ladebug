@@ -1,4 +1,5 @@
 import angular from 'angular';
+import forEach from 'lodash/forEach';
 
 class AuthService {
   constructor($q) {
@@ -10,8 +11,11 @@ class AuthService {
     })
       .then((authInstance) => {
         this.authInstance = authInstance;
+        this.authInstance.isSignedIn.listen(this.onAuthChange.bind(this));
         return authInstance;
       }));
+
+    this.signInListeners = {};
   }
 
   loadApi() {
@@ -44,6 +48,20 @@ class AuthService {
         this.user = undefined;
         this.userId = undefined;
       });
+  }
+
+  addOnSignIn(key, func) {
+    this.signInListeners[key] = func;
+  }
+
+  removeOnSignIn(key) {
+    delete this.signInListeners[key];
+  }
+
+  onAuthChange(isSignIn) {
+    forEach(this.signInListeners, (listener) => {
+      listener(isSignIn);
+    });
   }
 }
 

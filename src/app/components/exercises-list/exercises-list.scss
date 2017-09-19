@@ -1,8 +1,14 @@
 @import '../../styles/colors';
 
 .odExercisesList {
-  .exercisesTitle {
-    margin-bottom: 8px;
+  .error {
+    width: 100%;
+
+    .errorText {
+      font-size: 14px;
+      color: $color-red-error;
+      margin-bottom: 4px;
+    }
   }
 
   .exercise {
@@ -25,6 +31,9 @@
       white-space: nowrap;
       padding: 0 12px;
       color: $color-text-med;
+    }
+    .fakeStar {
+      color: $color-grey-darker;
     }
 
     .rightButtons {

@@ -6,19 +6,24 @@ import template from './exercises-list.template.html';
 import './exercises-list.scss';
 
 class exercisesListController {
-  constructor(exerciseService, authService, scoresService, $state, $mdDialog) {
+  constructor(exerciseService, authService, scoresService, $state, $mdDialog, $scope) {
     this.exerciseService = exerciseService;
     this.authService = authService;
     this.scoresService = scoresService;
     this.$state = $state;
     this.$mdDialog = $mdDialog;
+    this.$scope = $scope;
+
+    this.authService.checkSignedIn()
+      .then((response) => { this.signedIn = response; });
+    this.authServiceKey = 'exercise-list';
+    this.authService.addOnSignIn(this.authServiceKey, this.onSignIn.bind(this));
   }
 
   $onInit() {
     if (!this.exerciseList) {
       this.loadExercises();
     }
-
     this.editState = (this.isAdmin) ? 'editexercise' : 'debugexisting';
   }
 
@@ -26,6 +31,20 @@ class exercisesListController {
     if (changesObj.exerciseList) {
       this.checkExercisesExist();
     }
+  }
+
+  $onDestroy() {
+    this.authService.removeOnSignIn(this.authServiceKey);
+  }
+
+  onSignIn(isSignIn) {
+    this.signedIn = isSignIn;
+    if (!isSignIn) {
+      this.scoresLoaded = true;
+      this.$scope.$apply();
+      return;
+    }
+    this.getUserScores().then(() => this.$scope.$apply());
   }
 
   loadExercises() {
@@ -46,16 +65,21 @@ class exercisesListController {
   }
 
   getUserScores() {
+    if (this.isAdmin) {
+      return false;
+    }
+    this.scoresLoaded = false;
     return this.authService.getCurrentUserId()
       .then(userId => this.scoresService.getAllScores(userId))
       .then((response) => {
-        const exerciseScores = [];
+        const exerciseScores = {};
         forEach(response, (exerciseScore) => {
           exerciseScores[exerciseScore.exerciseId] = parseInt(exerciseScore.stars, 10);
         });
         forEach(this.exerciseList, (exercise) => {
-          exercise.score = exerciseScores[exercise.id];
+          exercise.score = exerciseScores[exercise.id] || 0;
         });
+        this.scoresLoaded = true;
       });
   }
 
@@ -83,7 +107,7 @@ class exercisesListController {
 }
 
 exercisesListController.$inject = ['ExerciseService', 'AuthService',
-  'ScoresService', '$state', '$mdDialog'];
+  'ScoresService', '$state', '$mdDialog', '$scope'];
 
 angular.module('debugapp')
   .component('exercisesList', {

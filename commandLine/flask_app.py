@@ -181,7 +181,7 @@ api.add_resource(SaveExercise, '/exercise')
 api.add_resource(Sandbox, '/get-output')
 api.add_resource(Stats, '/stats')
 api.add_resource(SavedStats, '/stats/<string:exercise_id>')
-api.add_resource(Scores, '/scores')
+api.add_resource(Scores, '/debug-scores')
 
 # Send userId in get body
 api.add_resource(SingleScore, '/scores/<string:exercise_id>')

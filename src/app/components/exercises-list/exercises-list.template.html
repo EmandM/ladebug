@@ -1,10 +1,17 @@
 <div layout="column" ng-if="$ctrl.exercisesLoaded" layout-align="start start" class="odExercisesList">
+  <div layout="row" ng-if="!$ctrl.signedIn" class="error">
+    <span flex></span>
+    <span class="errorText">Sign in to save your score.</span>
+  </div>
   <div ng-repeat="exercise in $ctrl.exerciseList" ui-sref="{{$ctrl.editState}}({ id: exercise.id })"
     layout="row" layout-align="start center" class="exercise">
     <span class="exerciseName">{{exercise.name}}</span>
-    <span flex="70" class="exerciseDesc">{{exercise.description}}</span>
-    <span flex-gt-md></span>
-    <stars ng-if="!$ctrl.isAdmin" score="exercise.score"></stars>
+    <span flex class="exerciseDesc">{{exercise.description}}</span>
+    <span flex-gt-md="10"></span>
+    <div ng-if="!$ctrl.isAdmin && $ctrl.scoresLoaded" layout="row">
+      <stars ng-if="$ctrl.signedIn" score="exercise.score"></stars>
+      <md-icon ng-if="!$ctrl.signedIn" ng-repeat="star in [1,2,3,4,5]" md-font-icon="fa" class="fa-star fakeStar"></md-icon>
+    </div>
     <div class="rightButtons" ng-if="$ctrl.isAdmin" layout="row" layout-align="center center">
       <md-button class="md-icon-button actionButton md-accent" ng-click="$ctrl.showInfo(exercise.id, exercise.name)" stop-propagation>
         <md-icon md-font-icon="fa" class="fa-info-circle"></md-icon>
