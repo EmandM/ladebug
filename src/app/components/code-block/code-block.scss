@@ -14,10 +14,6 @@
     width: 100%;
   }
 
-  .currentLine {
-    background-color: $color-primary-light-4;
-  }
-
   .codeLine:focus {
     outline: none;
   }
@@ -37,7 +33,7 @@
       box-shadow: inset 1px 1px 0px 0px $color-grey-med;
     }
 
-    .codeCell {
+    .codeCell:not(.currentLine) {
       background-color: $color-white;
     }
 
@@ -58,6 +54,10 @@
   }
   .icon.ghostIcon {
     color: $color-grey-darker;
+  }
+  
+  .codeLine.currentLine {
+    background-color: $color-primary-light-4;
   }
 
   .currentLine {

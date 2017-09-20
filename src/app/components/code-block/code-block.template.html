@@ -32,7 +32,8 @@
           <td class="midCol" ng-click="$ctrl.toggleIcon(lineNum, 'breakpoint')">
             <code><pre class="lineNumbers">{{lineNum}}</pre></code>
           </td>
-          <td ng-if="!$ctrl.isEditing || !$ctrl.flags[lineNum]" class="codeCell">
+          <td ng-if="!$ctrl.isEditing || !$ctrl.flags[lineNum]" class="codeCell"
+            ng-class="{'currentLine': $ctrl.isCurrentLine(lineNum)}">
             <div class="userCode code-block" hljs hljs-language="python" hljs-source="line"
               ng-class="{'blockComment': $ctrl.blockComments[$index]}"></div>
           </td>
