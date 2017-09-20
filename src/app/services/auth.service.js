@@ -42,7 +42,7 @@ class AuthService {
   loadUser(googleUser) {
     this.user = googleUser.getBasicProfile();
     this.userId = googleUser.getAuthResponse().id_token;
-    this.onAuthChange(true);
+    this.onAuthChange(true, true);
   }
 
   checkSignedIn() {
@@ -82,7 +82,11 @@ class AuthService {
     delete this.signInListeners[key];
   }
 
-  onAuthChange(isSignIn) {
+  onAuthChange(isSignIn, fromLoadUser) {
+    if (isSignIn && !fromLoadUser) {
+      this.loadUser(this.authInstance.currentUser.get());
+    }
+
     forEach(this.signInListeners, (listener) => {
       listener(isSignIn);
     });

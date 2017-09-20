@@ -185,24 +185,31 @@ class debugController {
       const averageTimePerErrorMs = timeTakenMs / this.errorLines.length;
       this.statistics.timeTaken = FormatTime.msToHumanReadable(timeTakenMs);
 
-      // If the user is not logged in, the stats are saved anyway with userId of -1
-      // but a score is not saved
-      this.authService.getCurrentUserId()
-        .then((userId) => {
-          if (userId !== -1) {
-            this.scoresService.updateScore(userId, this.outputId, averageTimePerErrorMs);
-          }
-          this.statsService.putNewStats(userId, this.statistics, this.outputId);
-        });
+      const onDialogClose = () => {
+        this.saveScore(averageTimePerErrorMs);
+        this.$state.go('home');
+      };
+
       const stars = this.scoresService.calculateStars(averageTimePerErrorMs);
       this.$mdDialog.show({
         template: `<md-dialog flex="40" flex-gt-md="30"><complete-exercise complete-time="${timeTakenMs}" score="${stars}"></complete-exercise></md-dialog>`,
         clickOutsideToClose: true,
         targetEvent: $event,
-      })
-        .then(() => this.$state.go('home'))
-        .catch(() => this.$state.go('home'));
+      }).then(onDialogClose.bind(this))
+        .catch(onDialogClose.bind(this));
     });
+  }
+
+  saveScore(averageTimePerErrorMs) {
+    // If the user is not logged in, the stats are saved anyway with userId of -1
+    // but a score is not saved
+    this.authService.getCurrentUserId()
+      .then((userId) => {
+        if (userId !== -1) {
+          this.scoresService.updateScore(userId, this.outputId, averageTimePerErrorMs);
+        }
+        this.statsService.putNewStats(userId, this.statistics, this.outputId);
+      });
   }
 
   incorrectSubmission() {

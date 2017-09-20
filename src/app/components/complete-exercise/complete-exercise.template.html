@@ -14,6 +14,8 @@
         <div class="time">{{$ctrl.time}}</div>
       </div>
       <div><stars score="$ctrl.score" size="large"></stars></div>
+      <div ng-if="!$ctrl.signedIn" class="errorText">Sign in to save your score.</div>
+      <div id="modalSignIn" ng-show="!$ctrl.signedIn" class="signIn"></div>
   </div>
 </div>
 

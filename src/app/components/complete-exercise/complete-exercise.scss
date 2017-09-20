@@ -1,3 +1,5 @@
+@import '../../styles/colors';
+
 .odCompleteExercise {
     .header .title {
         margin: 24px 0 12px;
@@ -13,6 +15,12 @@
             .time {
                 font-weight: bold;
             }
+        }
+
+        .errorText {
+            color: $color-red-error;
+            font-size: 14px;
+            margin: 12px 0;
         }
     }
 }
