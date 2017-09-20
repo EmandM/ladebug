@@ -7,6 +7,9 @@ class ScoresService {
   }
 
   updateScore(userId, exerciseId, averageTimePerErrorMs) {
+    if (userId === -1) {
+      return false;
+    }
     const stars = this.calculateStars(averageTimePerErrorMs);
     return this.restangular.one('scores', exerciseId).customPOST({
       userId,
@@ -15,11 +18,17 @@ class ScoresService {
   }
 
   getScore(userId, exerciseId) {
+    if (userId === -1) {
+      return false;
+    }
     return this.restangular.one('scores', exerciseId).customGET('', { userId })
       .then(response => JSON.parse(response.data));
   }
 
   getAllScores(userId) {
+    if (userId === -1) {
+      return [];
+    }
     return this.restangular.one('scores').customGET('', { userId })
       .then(response => JSON.parse(response.data));
   }

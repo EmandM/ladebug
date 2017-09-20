@@ -3,6 +3,8 @@ CLIENT_ID = '728044119950-mpcea0183l7c87lflutdide1vfdmvjrb.apps.googleuserconten
 
 def validate_user_id(userId):
     # (Receive token by HTTPS POST)
+    if userId == -1:
+        return -1
 
     try:
         idinfo = client.verify_id_token(userId, CLIENT_ID)
