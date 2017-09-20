@@ -14,8 +14,6 @@ def helloInMaori())
 
 print(getGreeting('maori'))
 
-print(greeting)
-
 
 '''
 Description:
@@ -23,3 +21,4 @@ Description:
 Say hello in multiple languages!
 
 Error Lines: 12, 15
+'''
