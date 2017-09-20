@@ -186,8 +186,11 @@ class debugController {
       this.statistics.timeTaken = FormatTime.msToHumanReadable(timeTakenMs);
 
       const onDialogClose = () => {
-        this.saveScore(averageTimePerErrorMs);
-        this.$state.go('home');
+        this.outputLoaded = false;
+        this.saveScore(averageTimePerErrorMs)
+          .then(() => {
+            this.$state.go('home');
+          });
       };
 
       const stars = this.scoresService.calculateStars(averageTimePerErrorMs);
@@ -203,12 +206,13 @@ class debugController {
   saveScore(averageTimePerErrorMs) {
     // If the user is not logged in, the stats are saved anyway with userId of -1
     // but a score is not saved
-    this.authService.getCurrentUserId()
+    return this.authService.getCurrentUserId()
       .then((userId) => {
         if (userId !== -1) {
-          this.scoresService.updateScore(userId, this.outputId, averageTimePerErrorMs);
+          return this.scoresService.updateScore(userId, this.outputId, averageTimePerErrorMs)
+            .then(() => this.statsService.putNewStats(userId, this.statistics, this.outputId));
         }
-        this.statsService.putNewStats(userId, this.statistics, this.outputId);
+        return this.statsService.putNewStats(userId, this.statistics, this.outputId);
       });
   }
 

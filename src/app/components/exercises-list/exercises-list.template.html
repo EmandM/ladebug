@@ -1,5 +1,5 @@
 <div layout="column" ng-if="$ctrl.exercisesLoaded" layout-align="start start" class="odExercisesList">
-  <div layout="row" ng-if="!$ctrl.signedIn" class="error">
+  <div layout="row" ng-if="$ctrl.scoresLoaded && !$ctrl.signedIn" class="error">
     <span flex></span>
     <span class="errorText">Sign in to save your score.</span>
   </div>
