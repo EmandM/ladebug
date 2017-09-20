@@ -30,7 +30,6 @@
     .midCol {
       width: 20px;
       outline: none;
-      vertical-align: top;
     }
     .editCol {
       border: 1px solid $color-grey-med;
@@ -38,9 +37,10 @@
       box-shadow: inset 1px 1px 0px 0px $color-grey-med;
     }
 
-    pre code {
-      white-space: pre-wrap;
+    .codeCell {
+      background-color: $color-white;
     }
+
     .blockComment pre code {
       color: $color-green-comment;
     }
