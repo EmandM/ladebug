@@ -6,40 +6,64 @@ class AuthService {
     this.currentUser = {};
     this.$q = $q;
 
-    this.authPromise = this.loadApi().then(() => gapi.auth2.init({
-      client_id: '728044119950-mpcea0183l7c87lflutdide1vfdmvjrb.apps.googleusercontent.com',
-    })
-      .then((authInstance) => {
-        this.authInstance = authInstance;
-        this.authInstance.isSignedIn.listen(this.onAuthChange.bind(this));
-        return authInstance;
-      }));
+    this.loadAuthInstance().then(() => {
+      this.authInstance.isSignedIn.listen(this.onAuthChange.bind(this));
+    });
 
     this.signInListeners = {};
   }
 
+  // Returns promise that checks that gapi exists.
   loadApi() {
-    const deferred = this.$q.defer();
-    if (window.gapi) {
-      gapi.load('auth2', () => { deferred.resolve(); });
-    } else {
-      deferred.reject('GapiNotLoaded');
+    if (!this.loadAuthPromise) {
+      const deferred = this.$q.defer();
+      if (window.gapi) {
+        gapi.load('auth2', () => { deferred.resolve(); });
+      } else {
+        deferred.reject('GapiNotLoaded');
+      }
+      this.loadAuthPromise = deferred.promise;
     }
-    return deferred.promise;
+    return this.loadAuthPromise;
+  }
+
+  loadAuthInstance() {
+    if (!this.authInstancePromise) {
+      this.authInstancePromise = this.loadApi().then(() => gapi.auth2.init({
+        client_id: '728044119950-mpcea0183l7c87lflutdide1vfdmvjrb.apps.googleusercontent.com',
+      }).then((authInstance) => {
+        this.authInstance = authInstance;
+        return authInstance;
+      }));
+    }
+    return this.authInstancePromise;
   }
 
   loadUser(googleUser) {
     this.user = googleUser.getBasicProfile();
     this.userId = googleUser.getAuthResponse().id_token;
-    return this.user;
+    this.onAuthChange(true);
   }
 
   checkSignedIn() {
-    return this.authPromise.then(() => this.authInstance.isSignedIn.get());
+    return this.loadAuthInstance().then(() => this.authInstance.isSignedIn.get());
   }
 
   getCurrentUserId() {
     return this.checkSignedIn().then(isSignedIn => (isSignedIn ? this.userId : -1));
+  }
+
+  getUserInfo() {
+    return this.user;
+  }
+
+  renderSignInButton(buttonId) {
+    if (!window.gapi) {
+      return;
+    }
+    gapi.signin2.render(buttonId, {
+      onSuccess: this.loadUser.bind(this),
+    });
   }
 
   signOut() {

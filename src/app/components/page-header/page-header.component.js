@@ -8,21 +8,27 @@ class headerController {
     this.authService = authService;
     this.$scope = $scope;
 
-    if (window.gapi) {
-      gapi.signin2.render('signInButton', {
-        onSuccess: this.signIn.bind(this),
+    this.authService.loadApi()
+      .catch(() => {
+        this.noGapi = true;
       });
-    } else {
-      this.noGapi = true;
-    }
+    this.authServiceKey = 'page-header';
+    this.authService.addOnSignIn(this.authServiceKey, this.authChange.bind(this));
+    this.authService.renderSignInButton('signInButton');
+  }
+  $onDestroy() {
+    this.authService.removeOnSignIn(this.authServiceKey);
   }
 
   applyScope() {
     this.$scope.$apply();
   }
 
-  signIn(googleUser) {
-    const userInfo = this.authService.loadUser(googleUser);
+  authChange(isSignedIn) {
+    if (!isSignedIn) {
+      return;
+    }
+    const userInfo = this.authService.getUserInfo();
     this.userName = userInfo.getName();
     this.userImage = userInfo.getImageUrl();
     this.userEmail = userInfo.getEmail();
