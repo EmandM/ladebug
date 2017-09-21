@@ -22,7 +22,11 @@
         <md-input-container class="textInput">
           <label>Exercise Description</label>
           <textarea ng-model="$ctrl.description" aria-label="exercise description" name="exerciseDescription"
-            rows="3" autocomplete="off"></textarea>
+            rows="3" autocomplete="off" maxlength="85" ></textarea>
+          <div layout="row">
+            <div flex><span></span></div>
+            <p class="charsRemaining" layout-align="right">{{ 85 - $ctrl.description.length + ' chars remaining' }}</p>
+          </div>
         </md-input-container>
       </md-card>
 
