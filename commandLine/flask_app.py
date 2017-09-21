@@ -115,7 +115,7 @@ class Stats(Resource):
     # insert single stat
     def put(self):
         args = parser.parse_args()
-        userId = oauth.validate_user_id(args['userId']);
+        userId = oauth.validate_user_id(args['userId'])
         result = db.statsCollection.insert_one({
             'userId': userId,
             'exerciseId': args['exerciseId'],
@@ -148,17 +148,17 @@ class Scores(Resource):
 class SingleScore(Resource):
     def get(self, exercise_id):
         args = parser.parse_args()
-        userId = oauth.validate_user_id(args['userId']);
+        userId = oauth.validate_user_id(args['userId'])
         response = db.scoresCollection.find({'userId': userId, 'exerciseId': exercise_id})
         return { 'data': dumps(response) }
 
     # insert single score
     def post(self, exercise_id):
         args = parser.parse_args()
-        userId = oauth.validate_user_id(args['userId']);
+        userId = oauth.validate_user_id(args['userId'])
         existing =  db.scoresCollection.find_one({'userId': userId, 'exerciseId': exercise_id})
         if (existing and int(existing['stars']) >= int(args['stars'])):
-            return { 'updated': dumps(existing.id) }
+            return { 'updated': dumps(existing) }
 
         result = db.scoresCollection.update_one(
             {
@@ -176,7 +176,7 @@ class SingleScore(Resource):
 class AllUserScores(Resource):
     def get(self):
         args = parser.parse_args()
-        userId = oauth.validate_user_id(args['userId']);
+        userId = oauth.validate_user_id(args['userId'])
         response = db.scoresCollection.find({'userId': userId})
         return { 'data': dumps(response) }
 

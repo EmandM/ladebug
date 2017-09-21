@@ -35,6 +35,10 @@ class editExerciseController {
       });
   }
 
+  $onDestroy() {
+    this.$mdToast.hide();
+  }
+
   getCreateInfo() {
     if (!this.createId) {
       return;

@@ -11,7 +11,7 @@ def count_to_five:
   result = []
 
   # Set a breakpoint by clicking on the column to the left of the line number. 
-  # Try this on line 18.
+  # Try this on line 21.
   # Now, click the run/play button below and code execution will stop on the breakpoint.
   # Check the value of stored variables at this line in the global variables card.
   # You can use the step forward and step backward buttons on either side of the 
@@ -38,4 +38,5 @@ This is a tutorial on how to use Ladebug.
 
 Read the comments above to solve the tutorial exercise.
 
-Error Lines: 9, 14, 15
+Error Lines: 10, 20
+'''

@@ -37,6 +37,10 @@
       .textInput {
         width: 100%;
         margin-bottom: 0px;
+
+        .charsRemaining {
+          font-size: 10px;
+        }
       }
     }
 

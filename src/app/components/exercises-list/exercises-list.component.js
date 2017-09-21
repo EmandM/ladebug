@@ -95,10 +95,20 @@ class exercisesListController {
     });
   }
 
-  delete(exercise) {
-    this.exercisesLoaded = false;
-    this.exerciseService.deleteExercise(exercise.id)
-      .then(() => this.loadExercises());
+  delete(exercise, $event) {
+    this.$mdDialog.show(
+      this.$mdDialog.confirm()
+        .title('Are you sure you want to delete this exercise?')
+        .textContent('This cannot be undone.')
+        .ariaLabel('Delete the exercise?')
+        .targetEvent($event)
+        .ok('Yes')
+        .cancel('Cancel'),
+    ).then(() => {
+      this.exercisesLoaded = false;
+      this.exerciseService.deleteExercise(exercise.id)
+        .then(() => this.loadExercises());
+    });
   }
 
   checkExercisesExist() {

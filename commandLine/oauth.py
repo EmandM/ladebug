@@ -21,6 +21,6 @@ def validate_user_id(userId):
             # if idinfo['hd'] != GSUITE_DOMAIN_NAME:
             #    raise crypt.AppIdentityError("Wrong hosted domain.")
     except crypt.AppIdentityError:
-        return -1;
+        return -1
 
     return idinfo['sub']
