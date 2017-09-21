@@ -43,19 +43,20 @@ module.exports = (function () {
     ],
   };
 
+
   /**
-   * Output
-   * Reference: http://webpack.github.io/docs/configuration.html#output
-   * Should be an empty object if it's generating a test build
-   * Karma will handle setting it up for you when it's a test build
-   */
+     * Output
+     * Reference: http://webpack.github.io/docs/configuration.html#output
+     * Should be an empty object if it's generating a test build
+     * Karma will handle setting it up for you when it's a test build
+     */
   config.output = isTest ? {} : {
     // Absolute output directory
     path: `${__dirname}/dist`,
 
     // Output path from the view of the page
     // Uses webpack-dev-server in development
-    publicPath: isProd ? '/' : 'http://localhost:8080/',
+    publicPath: isProd ? './' : 'http://localhost:8080/',
 
     // Filename for entry points
     // Only adds hash in build mode
@@ -67,24 +68,18 @@ module.exports = (function () {
   };
 
   /**
-   * Devtool
-   * Reference: http://webpack.github.io/docs/configuration.html#devtool
-   * Type of sourcemap to use per build type
-   */
-  if (isTest) {
-    config.devtool = 'inline-source-map';
-  } else if (isProd) {
-    config.devtool = 'source-map';
-  } else {
-    config.devtool = '#inline-source-map';
-  }
+     * Devtool
+     * Reference: http://webpack.github.io/docs/configuration.html#devtool
+     * Type of sourcemap to use per build type
+     */
+  config.devtool = '#inline-source-map';
 
   /**
-   * Loaders
-   * Reference: http://webpack.github.io/docs/configuration.html#module-loaders
-   * List: http://webpack.github.io/docs/list-of-loaders.html
-   * This handles most of the magic responsible for converting modules
-   */
+     * Loaders
+     * Reference: http://webpack.github.io/docs/configuration.html#module-loaders
+     * List: http://webpack.github.io/docs/list-of-loaders.html
+     * This handles most of the magic responsible for converting modules
+     */
 
   // Initialize module
   config.module = {
@@ -97,20 +92,12 @@ module.exports = (function () {
       loader: 'babel-loader',
       exclude: /node_modules/,
     }, {
-      // CSS LOADER
-      // Reference: https://github.com/webpack/css-loader
-      // Allow loading css through js
-      test: /\.css$/,
-      loader: ExtractTextPlugin.extract({
-        fallbackLoader: 'style-loader',
-        loader: 'css-loader' }),
-    }, {
       // Reference: https://github.com/webpack/extract-text-webpack-plugin
       // Extract css files in production builds
       //
       // Reference: https://github.com/webpack/style-loader
       // Use style-loader in development.
-      test: /\.scss$/,
+      test: /\.(scss|css)$/,
       loader: isTest ? 'null-loader' : ExtractTextPlugin.extract({
         fallbackLoader: 'style-loader',
         loader: [
@@ -126,7 +113,7 @@ module.exports = (function () {
       // Rename the file using the asset hash
       // Pass along the updated reference to your code
       // You can add here any file extension you want to get copied to your output
-      test: /\.(png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)$/,
+      test: /\.(png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot|mp4|swf)$/,
       loader: 'file-loader',
     }, {
       // HTML LOADER
@@ -162,17 +149,7 @@ module.exports = (function () {
     });
   }
 
-  config.plugins = [
-    new webpack.optimize.CommonsChunkPlugin({
-      names: ['vendor'],
-      minChunks: 2,
-    }),
-    new CopyWebpackPlugin([
-      { from: 'node_modules/**/*.html', to: '.' },
-      // { from: 'src/index.html', to: '.' },
-      { from: 'node_modules/font-awesome/fonts/**', to: '.' },
-    ]),
-  ];
+  config.plugins = [];
 
   // Skip rendering index.html in test mode
   if (!isTest) {
@@ -183,15 +160,27 @@ module.exports = (function () {
         template: './src/index.html',
         inject: 'body',
       }),
-
+      new webpack.optimize.CommonsChunkPlugin({
+        names: ['vendor'],
+        minChunks: 2,
+      }),
       // Reference: https://github.com/webpack/extract-text-webpack-plugin
       // Extract css files
       // Disabled when in test mode or not in build mode
       new ExtractTextPlugin({
-        filename: 'css/[name].css',
+        filename: '[name].css',
         disable: !isProd,
         allChunks: true,
       }));
+  }
+
+  if (!isProd) {
+    config.plugins.push(new CopyWebpackPlugin([
+      { from: 'node_modules/**/*.html', to: '.' },
+      // { from: 'src/index.html', to: '.' },
+      { from: 'node_modules/font-awesome/fonts/**', to: '.' },
+      { from: 'src/img/favicon.ico', to: './src' },
+    ]));
   }
 
   // Add build specific plugins
@@ -199,32 +188,29 @@ module.exports = (function () {
     config.plugins.push(
       // Reference: http://webpack.github.io/docs/list-of-plugins.html#noerrorsplugin
       // Only emit files when there are no errors
-      new webpack.NoErrorsPlugin(),
-
-      // Reference: http://webpack.github.io/docs/list-of-plugins.html#dedupeplugin
-      // Dedupe modules in the output
-      new webpack.optimize.DedupePlugin(),
+      new webpack.NoEmitOnErrorsPlugin(),
 
       // Reference: http://webpack.github.io/docs/list-of-plugins.html#uglifyjsplugin
       // Minify all javascript, switch loaders to minimizing mode
-      new webpack.optimize.UglifyJsPlugin(),
+      new webpack.optimize.UglifyJsPlugin({
+        sourceMap: true,
+      }),
 
       // Copy assets from the public folder
       // Reference: https://github.com/kevlened/copy-webpack-plugin
-      new CopyWebpackPlugin([{
-        from: `${__dirname}/src`,
-      }]));
+      new CopyWebpackPlugin([
+        { from: 'src/img/favicon.ico', to: '.' },
+      ]));
   }
 
   /**
-   * Dev server configuration
-   * Reference: http://webpack.github.io/docs/configuration.html#devserver
-   * Reference: http://webpack.github.io/docs/webpack-dev-server.html
-   */
+     * Dev server configuration
+     * Reference: http://webpack.github.io/docs/configuration.html#devserver
+     * Reference: http://webpack.github.io/docs/webpack-dev-server.html
+     */
   config.devServer = {
     contentBase: './src',
     stats: 'minimal',
-    historyApiFallback: true,
   };
 
   return config;
