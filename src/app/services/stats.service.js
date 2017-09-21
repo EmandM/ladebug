@@ -41,7 +41,8 @@ class StatsService {
         .diff(moment((statsData.startTime).slice(0, -5)));
     this.averageStats.incorrectGuesses += statsData.incorrectGuesses;
     this.averageStats.breakpointsSet += statsData.breakpointsSet;
-    this.averageStats.flagsSet += statsData.flagsSet;
+    this.averageStats.correctFlags += statsData.correctFlags;
+    this.averageStats.incorrectFlags += statsData.incorrectFlags;
     this.averageStats.run += statsData.run;
     this.averageStats.stepForward += statsData.stepForward;
     this.averageStats.stepBack += statsData.stepBack;
@@ -75,7 +76,8 @@ class StatsService {
   resetAverageStats() {
     this.averageStats.incorrectGuesses = 0;
     this.averageStats.breakpointsSet = 0;
-    this.averageStats.flagsSet = 0;
+    this.averageStats.correctFlags = 0;
+    this.averageStats.incorrectFlags = 0;
     this.averageStats.run = 0;
     this.averageStats.stepForward = 0;
     this.averageStats.stepBack = 0;
