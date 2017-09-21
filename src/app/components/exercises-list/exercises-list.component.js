@@ -99,6 +99,7 @@ class exercisesListController {
     this.$mdDialog.show(
       this.$mdDialog.confirm()
         .title('Are you sure you want to delete this exercise?')
+        .textContent('This cannot be undone.')
         .ariaLabel('Delete the exercise?')
         .targetEvent($event)
         .ok('Yes')
