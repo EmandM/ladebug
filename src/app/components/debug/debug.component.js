@@ -184,18 +184,26 @@ class debugController {
       this.statistics.endTime = moment();
       this.statistics.startTime = this.startTime;
       const timeTakenMs = this.statistics.endTime.diff(this.startTime);
-      const averageTimePerErrorMs = timeTakenMs / this.errorLines.length;
       this.statistics.timeTaken = FormatTime.msToHumanReadable(timeTakenMs);
+
+      // add ten seconds for every wrong flag
+      const timeAddForWrongFlag = this.statistics.incorrectFlags * 10000;
+      // add twenty seconds for every wrong flag
+      const timeAddForWrongSubmission = this.statistics.incorrectGuesses * 20000;
+      // average total time taken by number of error lines
+      const averageTimePerErrorMs = timeTakenMs / this.errorLines.length;
+
+      const timeForScoreCalc = timeAddForWrongFlag + timeAddForWrongSubmission + averageTimePerErrorMs;
 
       const onDialogClose = () => {
         this.outputLoaded = false;
-        this.saveScore(averageTimePerErrorMs)
+        this.saveScore(timeForScoreCalc)
           .then(() => {
             this.$state.go('home');
           });
       };
 
-      const stars = this.scoresService.calculateStars(averageTimePerErrorMs);
+      const stars = this.scoresService.calculateStars(timeForScoreCalc);
       this.$mdDialog.show({
         template: `<md-dialog flex="40" flex-gt-md="30"><complete-exercise complete-time="${timeTakenMs}" score="${stars}"></complete-exercise></md-dialog>`,
         clickOutsideToClose: true,
@@ -205,13 +213,13 @@ class debugController {
     });
   }
 
-  saveScore(averageTimePerErrorMs) {
+  saveScore(timeForScoreCalc) {
     // If the user is not logged in, the stats are saved anyway with userId of -1
     // but a score is not saved
     return this.authService.getCurrentUserId()
       .then((userId) => {
         if (userId !== -1) {
-          return this.scoresService.updateScore(userId, this.outputId, averageTimePerErrorMs)
+          return this.scoresService.updateScore(userId, this.outputId, timeForScoreCalc)
             .then(() => this.statsService.putNewStats(userId, this.statistics, this.outputId));
         }
         return this.statsService.putNewStats(userId, this.statistics, this.outputId);
