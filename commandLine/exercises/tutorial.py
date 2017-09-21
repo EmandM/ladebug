@@ -34,9 +34,8 @@ if output != correct_result:
 '''
 Description:
 
-This is a tutorial on how to use Ladebug.
-
-Read the comments above to solve the tutorial exercise.
+This is a tutorial on how to use Ladebug. 
+Follow the instructions in the comments.
 
 Error Lines: 10, 20
 '''

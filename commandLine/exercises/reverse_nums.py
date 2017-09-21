@@ -27,7 +27,7 @@ for i in range(2):
 
 
 '''
-  Description:
+Description:
 Reverse an array of space separated integers.
 
 eg: '3 6 9 12' becomes '12 9 6 3'

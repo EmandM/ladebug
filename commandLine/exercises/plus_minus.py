@@ -34,7 +34,8 @@ if output != correct_result:
 
 
 '''
-  Description: Given an array of integers, calculate which fraction of its elements are positive, which fraction of its elements are negative, and which fraction of its elements are zeroes, respectively.
+  Description:
+  Calculate the fraction of positive, negative and zero elements in an array of ints.
 
   Error lines: 12, 14, 16, 19
 '''
