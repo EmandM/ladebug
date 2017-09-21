@@ -28,6 +28,10 @@ class sandboxController {
       });
   }
 
+  $onDestroy() {
+    this.$mdToast.hide();
+  }
+
   submit() {
     if (this.code) {
       this.submitted = true;

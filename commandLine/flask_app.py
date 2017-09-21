@@ -153,7 +153,7 @@ class SingleScore(Resource):
         userId = oauth.validate_user_id(args['userId'])
         existing =  db.scoresCollection.find_one({'userId': userId, 'exerciseId': exercise_id})
         if (existing and int(existing['stars']) >= int(args['stars'])):
-            return { 'updated': dumps(existing.id) }
+            return { 'updated': dumps(existing) }
 
         result = db.scoresCollection.update_one(
             {

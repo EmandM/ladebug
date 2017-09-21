@@ -61,6 +61,10 @@ class debugController {
       });
   }
 
+  $onDestroy() {
+    this.$mdToast.hide();
+  }
+
   updateTraceIndex() {
     this.memory = TraceToCallStack.toStack(this.codeTrace[this.currentTraceIndex]);
     this.visibleFrameId = this.memory[this.memory.length - 1].id;
