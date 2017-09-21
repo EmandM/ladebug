@@ -39,7 +39,8 @@ class debugController {
       goToEnd: 0,
       goToStart: 0,
       breakpointsSet: 0,
-      flagsSet: 0,
+      incorrectFlags: 0,
+      correctFlags: 0,
     };
     this.startTime = moment();
   }
@@ -98,7 +99,8 @@ class debugController {
     if (iconType === 'flag') {
       this.flags[lineNumber] = !this.flags[lineNumber];
       if (this.flags[lineNumber]) {
-        this.statistics.flagsSet += 1;
+        const flagType = includes(this.errorLines, lineNumber) ? 'correct' : 'incorrect';
+        this.statistics[flagType + 'Flags'] += 1;
       }
     }
   }

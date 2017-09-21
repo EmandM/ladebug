@@ -22,17 +22,18 @@
         <tr ng-repeat="line in $ctrl.codeByLines track by $index" ng-init="lineNum = $index + 1"
           ng-class="{'currentLine': $ctrl.isCurrentLine(lineNum)}"
           keep-in-view="$ctrl.isCurrentLine(lineNum)" class="codeLine">
-        <td class="iconCol" ng-if="!$ctrl.isEditing" ng-click="$ctrl.toggleIcon(lineNum, 'breakpoint')">
-          <div class="spacer" layout="row" layout-align="center center">
-            <i class="fa fa-circle icon fade" ng-show="$ctrl.breakpoints[lineNum] || $first"
-              ng-class="{'ghostIcon': $first && !$ctrl.breakpoints[lineNum]}"></i>
-            <i class="fa fa-arrow-right line-icon" ng-show="$ctrl.isCurrentLine(lineNum)"></i>
-          </div>
-        </td>
-        <td class="midCol" ng-click="$ctrl.toggleIcon(lineNum, 'breakpoint')">
-          <code><pre class="lineNumbers">{{lineNum}}</pre></code>
-        </td>
-          <td ng-if="!$ctrl.isEditing || !$ctrl.flags[lineNum]">
+          <td class="iconCol" ng-if="!$ctrl.isEditing" ng-click="$ctrl.toggleIcon(lineNum, 'breakpoint')">
+            <div class="spacer" layout="row" layout-align="center center">
+              <i class="fa fa-circle icon fade" ng-show="$ctrl.breakpoints[lineNum] || $first"
+                ng-class="{'ghostIcon': $first && !$ctrl.breakpoints[lineNum]}"></i>
+              <i class="fa fa-arrow-right line-icon" ng-show="$ctrl.isCurrentLine(lineNum)"></i>
+            </div>
+          </td>
+          <td class="midCol" ng-click="$ctrl.toggleIcon(lineNum, 'breakpoint')">
+            <code><pre class="lineNumbers">{{lineNum}}</pre></code>
+          </td>
+          <td ng-if="!$ctrl.isEditing || !$ctrl.flags[lineNum]" class="codeCell"
+            ng-class="{'currentLine': $ctrl.isCurrentLine(lineNum)}">
             <div class="userCode code-block" hljs hljs-language="python" hljs-source="line"
               ng-class="{'blockComment': $ctrl.blockComments[$index]}"></div>
           </td>

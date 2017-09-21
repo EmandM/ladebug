@@ -14,10 +14,6 @@
     width: 100%;
   }
 
-  .currentLine {
-    background-color: $color-primary-light-4;
-  }
-
   .codeLine:focus {
     outline: none;
   }
@@ -30,7 +26,6 @@
     .midCol {
       width: 20px;
       outline: none;
-      vertical-align: top;
     }
     .editCol {
       border: 1px solid $color-grey-med;
@@ -38,9 +33,10 @@
       box-shadow: inset 1px 1px 0px 0px $color-grey-med;
     }
 
-    pre code {
-      white-space: pre-wrap;
+    .codeCell:not(.currentLine) {
+      background-color: $color-white;
     }
+
     .blockComment pre code {
       color: $color-green-comment;
     }
@@ -58,6 +54,10 @@
   }
   .icon.ghostIcon {
     color: $color-grey-darker;
+  }
+  
+  .codeLine.currentLine {
+    background-color: $color-primary-light-4;
   }
 
   .currentLine {
