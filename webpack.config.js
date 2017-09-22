@@ -200,6 +200,7 @@ module.exports = (function () {
       // Reference: https://github.com/kevlened/copy-webpack-plugin
       new CopyWebpackPlugin([
         { from: 'src/img/favicon.ico', to: '.' },
+        { from: 'package.json', to: '.' },
       ]));
   }
 
