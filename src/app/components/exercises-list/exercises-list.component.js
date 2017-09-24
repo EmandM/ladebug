@@ -39,12 +39,12 @@ class exercisesListController {
 
   onSignIn(isSignIn) {
     this.signedIn = isSignIn;
-    if (!isSignIn) {
+    if (!isSignIn || this.isAdmin) {
       this.scoresLoaded = true;
       this.$scope.$apply();
       return;
     }
-    this.getUserScores().then(() => this.$scope.$apply());
+    this.getUserScores();
   }
 
   loadExercises() {
@@ -55,7 +55,7 @@ class exercisesListController {
         // response always 'true' and an object even if empty (is not null)
         // therefore check to see if it contains exercises
         this.checkExercisesExist();
-        if (this.exercisesExist) {
+        if (this.exercisesExist && !this.isAdmin) {
           this.getUserScores();
         }
       })
@@ -65,9 +65,6 @@ class exercisesListController {
   }
 
   getUserScores() {
-    if (this.isAdmin) {
-      return false;
-    }
     this.scoresLoaded = false;
     return this.authService.getCurrentUserId()
       .then(userId => this.scoresService.getAllScores(userId))
