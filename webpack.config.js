@@ -212,6 +212,7 @@ module.exports = (function () {
   config.devServer = {
     contentBase: './src',
     stats: 'minimal',
+    historyApiFallback: true,
   };
 
   return config;
