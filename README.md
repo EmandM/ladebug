@@ -29,7 +29,7 @@ go to [http://localhost:8080](http://localhost:8080) in your browser for the stu
 ## Local Development
 Follow these steps to run the server locally.
 
-### Flask Server
+#### Flask Server
 Install Python 3.x and the corresponding pip on your machine. https://www.python.org/downloads/.
 Ensure both are added to your PATH. The python installer gives the option to do this automatically.
 
@@ -40,11 +40,11 @@ $ pip install Flask Flask-Cors Flask-RESTful Werkzeug pymongo oauth2client
 ```
 
 
-### MongoDB Database
+#### MongoDB Database
 Download and install [MongoDB](https://www.mongodb.com/download-center?jmp=tutorials&_ga=2.254687240.1618150711.1506248764-1727796482.1505700843)
 
 
-### AngularJS Client
+#### AngularJS Client
 Update line 8 of [app.config.js](https://github.com/EmandM/learnToDebug/blob/master/src/app/app.config.js) to point to the flask server.
 
 ```javascript
