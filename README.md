@@ -45,7 +45,7 @@ Download and install [MongoDB](https://www.mongodb.com/download-center?jmp=tutor
 
 
 #### AngularJS Client
-Update line 8 of [app.config.js](https://github.com/EmandM/ladebug/blob/master/src/app/app.config.js) to point to the flask server.
+Update line 8 of [app.config.js](/src/app/app.config.js) to point to the flask server.
 
 ```javascript
 restangularProvider.setBaseUrl('http://127.0.0.1:5000');
@@ -64,4 +64,8 @@ $ python ./commandLine/flask_app.py
 $ python3 ./commandLine/flask_app.py
 
 ```
+
+# License
+
+[MIT](/LICENSE)
 
