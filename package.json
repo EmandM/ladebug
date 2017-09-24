@@ -1,5 +1,5 @@
 {
-  "name": "learn-to-debug",
+  "name": "ladebug",
   "scripts": {
     "lint": "eslint .",
     "lint-fix": "eslint --fix .",
@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/EmandM/learnToDebug.git"
+    "url": "https://github.com/EmandM/ladebug.git"
   },
   "dependencies": {
     "angular": "^1.6.4",
@@ -32,7 +32,7 @@
     "moment": "^2.18.1",
     "restangular": "^1.6.1",
     "roboto-fontface": "^0.8.0"
-  }, 
+  },
   "devDependencies": {
     "babel-core": "^6.2.1",
     "babel-loader": "^7.1.1",
