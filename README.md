@@ -60,7 +60,7 @@ $ npm run dev
 # In another command prompt run
 $ python ./commandLine/flask_app.py
 
-# Or explicitly run pyton3 if another python version is installed
+# Or explicitly run python3 if another python version is installed
 $ python3 ./commandLine/flask_app.py
 
 ```
