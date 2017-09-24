@@ -2,8 +2,6 @@
 
 Ladebug is an online tool aimed at helping novice programmers improve their debugging skills.
 
-This is set up with [AngularJs](https://angularjs.org/), [Angular Material](https://material.angularjs.org/latest/), [Ui Router](https://ui-router.github.io/), [Restangular](https://github.com/mgonto/restangular), [Lodash](https://lodash.com/), [MomentJs](https://momentjs.com/), and [Font Awesome](http://fontawesome.io/).
-
 >Warning: Make sure you're using the latest version of Node.js and NPM
 
 ### Installation
@@ -23,7 +21,9 @@ $ npm install
 Follow the instructions at http://flask.pocoo.org/docs/0.12/installation/
 
 #### MongoDB
-Follow the instructions at https://docs.mongodb.com/manual/tutorial/install-mongodb-on-windows/
+For Windows follow the instructions at https://docs.mongodb.com/manual/tutorial/install-mongodb-on-windows/
+For Linux, follow the instructions at https://docs.mongodb.com/manual/administration/install-on-linux/ 
+For OS X, follow the instructions at https://docs.mongodb.com/manual/tutorial/install-mongodb-on-os-x/
 
 ### Run Instructions
 ```bash
