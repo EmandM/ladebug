@@ -2,8 +2,6 @@
 
 Ladebug is an online tool aimed at helping novice programmers improve their debugging skills.
 
-[![Dependency Status](https://david-dm.org/EmandM/learnToDebug/status.svg)](https://david-dm.org/EmandM/learnToDebug#info=dependencies) [![devDependency Status](https://david-dm.org/EmandM/learnToDebug/dev-status.svg)](https://david-dm.org/EmandM/learnToDebug#info=devDependencies)
-
 This is set up with [AngularJs](https://angularjs.org/), [Angular Material](https://material.angularjs.org/latest/), [Ui Router](https://ui-router.github.io/), [Restangular](https://github.com/mgonto/restangular), [Lodash](https://lodash.com/), [MomentJs](https://momentjs.com/), and [Font Awesome](http://fontawesome.io/).
 
 >Warning: Make sure you're using the latest version of Node.js and NPM
