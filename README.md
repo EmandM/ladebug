@@ -21,9 +21,9 @@ $ npm install
 Follow the instructions at http://flask.pocoo.org/docs/0.12/installation/
 
 #### MongoDB
-For Windows follow the instructions at https://docs.mongodb.com/manual/tutorial/install-mongodb-on-windows/
-For Linux, follow the instructions at https://docs.mongodb.com/manual/administration/install-on-linux/ 
-For OS X, follow the instructions at https://docs.mongodb.com/manual/tutorial/install-mongodb-on-os-x/
+For Windows follow the instructions at https://docs.mongodb.com/manual/tutorial/install-mongodb-on-windows/ <br>
+For Linux, follow the instructions at https://docs.mongodb.com/manual/administration/install-on-linux/ <br>
+For OS X, follow the instructions at https://docs.mongodb.com/manual/tutorial/install-mongodb-on-os-x/ <br>
 
 ### Run Instructions
 ```bash
@@ -46,4 +46,4 @@ $ C:\Program Files\MongoDB\Server\3.4\bin\mongod.exe
 $ C:\Program Files\MongoDB\Server\3.4\bin\mongo.exe
 ```
 
-go to [http://localhost:8080](http://localhost:8080) in your browser.
+go to [http://localhost:8080](http://localhost:8080) in your browser for the student home page or [http://localhost:8080/admin](http://localhost:8080/admin) for the admin home page.
