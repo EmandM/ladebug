@@ -7,7 +7,6 @@ import includes from 'lodash/includes';
 import parseInt from 'lodash/parseInt';
 import split from 'lodash/split';
 import moment from 'moment';
-import FormatTime from '../../helpers/format-time.helper';
 import TraceToCallStack from '../../helpers/trace-to-call-stack.helper';
 
 import template from './debug.template.html';
@@ -188,26 +187,18 @@ class debugController {
       this.statistics.endTime = moment();
       this.statistics.startTime = this.startTime;
       const timeTakenMs = this.statistics.endTime.diff(this.startTime);
-      this.statistics.timeTaken = FormatTime.msToHumanReadable(timeTakenMs);
+      this.statistics.timeTaken = timeTakenMs;
 
-      // add ten seconds for every wrong flag
-      const timeAddForWrongFlag = this.statistics.incorrectFlags * 10000;
-      // add twenty seconds for every wrong flag
-      const timeAddForWrongSubmission = this.statistics.incorrectGuesses * 20000;
-      // average total time taken by number of error lines
-      const averageTimePerErrorMs = timeTakenMs / this.errorLines.length;
-
-      const timeForScoreCalc = timeAddForWrongFlag + timeAddForWrongSubmission + averageTimePerErrorMs;
-
+      const stars = this.scoresService.calculateStars(timeTakenMs,
+        this.errorLines.length, this.statistics.incorrectFlags, this.statistics.incorrectGuesses);
       const onDialogClose = () => {
         this.outputLoaded = false;
-        this.saveScore(timeForScoreCalc)
+        this.saveScore(stars)
           .then(() => {
             this.$state.go('home');
           });
       };
 
-      const stars = this.scoresService.calculateStars(timeForScoreCalc);
       this.$mdDialog.show({
         template: `<md-dialog flex="40" flex-gt-md="30"><complete-exercise complete-time="${timeTakenMs}" score="${stars}"></complete-exercise></md-dialog>`,
         clickOutsideToClose: true,
@@ -217,16 +208,16 @@ class debugController {
     });
   }
 
-  saveScore(timeForScoreCalc) {
+  saveScore(stars) {
     // If the user is not logged in, the stats are saved anyway with userId of -1
     // but a score is not saved
     return this.authService.getCurrentUserId()
       .then((userId) => {
+        this.statsService.putNewStats(userId, this.statistics, this.outputId);
         if (userId !== -1) {
-          return this.scoresService.updateScore(userId, this.outputId, timeForScoreCalc)
-            .then(() => this.statsService.putNewStats(userId, this.statistics, this.outputId));
+          return this.scoresService.updateScore(userId, this.outputId, stars);
         }
-        return this.statsService.putNewStats(userId, this.statistics, this.outputId);
+        return false;
       });
   }
 
@@ -251,6 +242,7 @@ class debugController {
     this.checkingCode = checking;
     const codeByLines = split(this.codeString, '\n');
     forEach(this.flags, (flagValue, flagLine) => {
+      // if user updated text, then replace existing text with new
       if (flagValue.updatedText) {
         const index = parseInt(flagLine) - 1;
         codeByLines[index] = flagValue.updatedText;
