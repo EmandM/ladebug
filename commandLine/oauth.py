@@ -4,6 +4,7 @@ CLIENT_ID = '728044119950-mpcea0183l7c87lflutdide1vfdmvjrb.apps.googleuserconten
 def validate_user_id(userId):
     # (Receive token by HTTPS POST)
     if userId == -1:
+        print('USER ID -1')
         return -1
 
     try:
@@ -21,6 +22,7 @@ def validate_user_id(userId):
             # if idinfo['hd'] != GSUITE_DOMAIN_NAME:
             #    raise crypt.AppIdentityError("Wrong hosted domain.")
     except crypt.AppIdentityError:
+        print('PARSED TO -1')
         return -1
 
     return idinfo['sub']

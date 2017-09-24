@@ -49,4 +49,19 @@
   .exercise:hover {
     background-color: $color-grey-lightest;
   }
+
+  .exercise.admin {
+    // margin: 8px 0;
+    border: none;
+    background-color: $color-primary-light-5;
+  }
+
+  .listTable {
+    border-collapse: collapse;
+    width: 100%;
+
+    .listCell {
+       width: 1%;
+    }
+  }
 }

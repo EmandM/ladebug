@@ -1,4 +1,5 @@
 from flask import Flask, request
+import os
 from flask_restful import reqparse, abort, Api, Resource
 from flask_cors import CORS
 from pymongo import MongoClient
@@ -23,8 +24,12 @@ parser.add_argument('stats')
 parser.add_argument('stars')
 parser.add_argument('exerciseId')
 
-client = MongoClient()
-db = client.debuggerTest #TODO don't forget to change this for deployment
+MONGO_URL = os.environ.get('MONGO_URL')
+if not MONGO_URL:
+    MONGO_URL = "mongodb://localhost:27017/rest"
+
+client = MongoClient(MONGO_URL)
+db = client.heroku_ddnsv6wr #TODO don't forget to change this for deployment
 
 class ExercisesList(Resource):
     # get all exercises

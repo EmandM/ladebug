@@ -6,3 +6,4 @@ commandLine/__pycache__/
 .idea
 npm-debug
 package-lock.json
+*.pyc

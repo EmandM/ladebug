@@ -1,53 +1,49 @@
 # Ladebug
 
-[![Dependency Status](https://david-dm.org/EmandM/learnToDebug/status.svg)](https://david-dm.org/EmandM/learnToDebug#info=dependencies) [![devDependency Status](https://david-dm.org/EmandM/learnToDebug/dev-status.svg)](https://david-dm.org/EmandM/learnToDebug#info=devDependencies)
-
-This is set up with [AngularJs](https://angularjs.org/), [Angular Material](https://material.angularjs.org/latest/), [Ui Router](https://ui-router.github.io/), [Restangular](https://github.com/mgonto/restangular), [Lodash](https://lodash.com/), [MomentJs](https://momentjs.com/), and [Font Awesome](http://fontawesome.io/).
+Ladebug is an online tool aimed at helping novice programmers improve their debugging skills.
 
 >Warning: Make sure you're using the latest version of Node.js and NPM
 
-### Quick start
-
-> Clone/Download the repo then add components inside [`/src/app/components`](/src/app/components)
-> Access these components from `app.routing.js` inside [`/src/app/app.routing.js`](/src/app/app.routing.js)
-
+### Installation
+#### Ladebug
 ```bash
 # clone the repo
 $ git clone https://github.com/EmandM/learnToDebug.git web-app
 
-# change directory to your app
+# change directory to the project
 $ cd web-app
 
 # install the dependencies with npm
 $ npm install
+```
+
+#### Flask
+Follow the instructions at http://flask.pocoo.org/docs/0.12/installation/
+
+#### MongoDB
+For Windows follow the instructions at https://docs.mongodb.com/manual/tutorial/install-mongodb-on-windows/ <br>
+For Linux, follow the instructions at https://docs.mongodb.com/manual/administration/install-on-linux/ <br>
+For OS X, follow the instructions at https://docs.mongodb.com/manual/tutorial/install-mongodb-on-os-x/ <br>
+
+### Run Instructions
+```bash
+# change directory to where the project is
+$ cd web-app
 
 # start the server
 $ npm run dev
+
+# change directory to commandLine within the project
+$ cd commandLine/
+
+# start the Flask server
+$ python flask_app.py
+
+# start MongoDB
+$ C:\Program Files\MongoDB\Server\3.4\bin\mongod.exe
+
+# connect to MongoDB
+$ C:\Program Files\MongoDB\Server\3.4\bin\mongo.exe
 ```
 
-go to [http://localhost:8080](http://localhost:8080) in your browser.
-
-## Developing
-
-### Build files
-
-* single run: `npm run build`
-* build files and watch: `npm run dev`
-
-### Linter
-
-This project has Javascript linting built in. The webpack server will not start if there are linting errors.
-Most code editors will show lint errors inside the editor with some setup.
-* Run linter: `npm run lint`
-* Fix common errors: `npm run lint-fix`
-
-## Testing
-
-#### 1. Unit Tests
-
-* single run: `npm run test`
-* live mode (TDD style): `npm run test-watch`
-
-# License
-
-[MIT](/LICENSE)
+go to [http://localhost:8080](http://localhost:8080) in your browser for the student home page or [http://localhost:8080/admin](http://localhost:8080/admin) for the admin home page.
