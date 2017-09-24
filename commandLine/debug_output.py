@@ -22,7 +22,6 @@ def pythonStringToJson(inputString):
     last_trace = output_trace[-1]
     # Add final execution line for final newline if there is no error
     if 'exception_msg' not in last_trace:
-        print('adding output line')
         # Count number of lines in the code
         numLines = input_code.count('\n') + 1
         new_trace = last_trace.copy()
@@ -32,7 +31,6 @@ def pythonStringToJson(inputString):
     # Finalise output
     ret = dict(code=input_code, trace=output_trace)
     json_output = json.dumps(ret, indent=None)
-    print(json_output)
     out_s.write(json_output)
 
   py_logger.exec_script_str_local(inputString,
@@ -45,8 +43,5 @@ def pythonStringToJson(inputString):
 
 if __name__ == '__main__':
   output = pythonStringToJson('print("hello world")')
-  for i in range(10):
-    print(i)
-
   print(output)
 

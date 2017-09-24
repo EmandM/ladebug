@@ -26,10 +26,10 @@ parser.add_argument('exerciseId')
 
 MONGO_URL = os.environ.get('MONGO_URL')
 if not MONGO_URL:
-    MONGO_URL = "mongodb://localhost:27017/rest"
+    MONGO_URL = "mongodb://localhost:27017/heroku_ddnsv6wr"
 
 client = MongoClient(MONGO_URL)
-db = client.heroku_ddnsv6wr #TODO don't forget to change this for deployment
+db = client.heroku_ddnsv6wr
 
 class ExercisesList(Resource):
     # get all exercises
