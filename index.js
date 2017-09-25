@@ -1,17 +1,13 @@
 /* eslint-disable */
+const express = require('express');
+const app = express();
 
-var express = require('express');
-var path = require('path');
+app.set('port', (process.env.PORT || 3000));
 
-module.exports = {
-    app: function () {
-      const app = express();
-      const indexPath = path.join(__dirname, '/dist/index.html');
-      const publicPath = express.static(__dirname);
-  
-      app.use('/dist', publicPath)
-      app.get('/', function (_, res) { res.sendFile(indexPath) });
-  
-      return app;
-    },
-  };
+app.get('/', function (req, res) {
+  res.send('Hello World!');
+});
+
+app.listen(3000, function () {
+  console.log('Example app listening on port', app.get('port'));
+});
