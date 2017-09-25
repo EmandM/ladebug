@@ -8,9 +8,10 @@
     "lint-fix": "eslint --fix .",
     "build": "rimraf dist && webpack --bail --progress --profile",
     "dev": "webpack-dev-server",
-    "start": "webpack-dev-server --history-api-fallback --inline --progress",
+    "start": "node index.js",
     "test-watch": "karma start --auto-watch --no-single-run",
-    "test": "karma start"
+    "test": "karma start",
+    "heroku-postbuild": "rimraf dist && webpack --bail --progress --profile"
   },
   "repository": {
     "type": "git",
@@ -27,13 +28,15 @@
     "angular-ui-codemirror": "^0.3.0",
     "angular-ui-router": "^0.4.2",
     "codemirror": "^5.27.4",
+    "connect": "^3.6.5",
     "csshake": "^1.5.2",
     "font-awesome": "^4.7.0",
     "highlight.js": "^9.12.0",
     "lodash": "^4.17.4",
     "moment": "^2.18.1",
     "restangular": "^1.6.1",
-    "roboto-fontface": "^0.8.0"
+    "roboto-fontface": "^0.8.0",
+    "serve-static": "^1.12.6"
   },
   "devDependencies": {
     "babel-core": "^6.2.1",
