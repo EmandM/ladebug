@@ -2,9 +2,11 @@
 
 Ladebug is an online tool aimed at helping novice programmers improve their debugging skills.
 
+[Use Ladebug](https://ladebug.herokuapp.com/)
+
 
 ## Run Instructions
-Currently the AngularJS client points to a hosted server, so only the client needs to be run locally
+Currently the AngularJS client points to a hosted server, so the client can be run locally without needing to install the server
 
 Ensure you have the latest version of [NodeJS](https://nodejs.org/en/download/) and [npm](https://www.npmjs.com/get-npm)
 
