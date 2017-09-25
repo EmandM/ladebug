@@ -10,8 +10,7 @@
     "dev": "webpack-dev-server",
     "start": "webpack-dev-server --history-api-fallback --inline --progress",
     "test-watch": "karma start --auto-watch --no-single-run",
-    "test": "karma start",
-    "heroku-postbuild": "webpack --config ./webpack.config.js --progress"
+    "test": "karma start"
   },
   "repository": {
     "type": "git",
@@ -29,15 +28,12 @@
     "angular-ui-router": "^0.4.2",
     "codemirror": "^5.27.4",
     "csshake": "^1.5.2",
-    "express": "^4.15.4",
     "font-awesome": "^4.7.0",
     "highlight.js": "^9.12.0",
     "lodash": "^4.17.4",
     "moment": "^2.18.1",
     "restangular": "^1.6.1",
-    "roboto-fontface": "^0.8.0",
-    "webpack-dev-middleware": "^1.12.0",
-    "webpack-hot-middleware": "^2.19.1"
+    "roboto-fontface": "^0.8.0"
   },
   "devDependencies": {
     "babel-core": "^6.2.1",
