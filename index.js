@@ -6,9 +6,8 @@ const port = (process.env.PORT || 3000)
 app.set('port', port);
 app.use(express.static(__dirname + '/dist'));
 
-app.get('/', function (req, res) {
-//   res.send(path.join(__dirname, '/dist/index.html'));
-  res.send('Hello World!');
+app.get('/*', function (req, res) {
+  res.sendFile(__dirname + '/dist/index.html');
 });
 
 app.listen(port, function () {
