@@ -43,7 +43,7 @@ module.exports = (function () {
     ],
   };
 
-  config.target = 'node';
+  // config.target = 'node-webkit';
 
   /**
      * Output
@@ -126,7 +126,7 @@ module.exports = (function () {
       test: require.resolve('codemirror'),
       use: [{
         loader: 'expose-loader',
-        options: 'CodeMirror',
+        query: 'CodeMirror',
       }],
     }],
   };
@@ -200,8 +200,7 @@ module.exports = (function () {
       // Copy assets from the public folder
       // Reference: https://github.com/kevlened/copy-webpack-plugin
       new CopyWebpackPlugin([
-        { from: 'src/img/favicon.ico', to: '.' },
-        { from: 'package.json', to: '.' },
+        { from: 'src/img', to: './img' },
       ]));
   }
 
