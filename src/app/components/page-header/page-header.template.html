@@ -5,11 +5,11 @@
       <span class="button-text" ui-sref="home">Ladebug</span>
     </md-button>
     <span flex></span>
-    <div id="signInButton" ng-show="!$ctrl.userLoaded" class="signIn"></div>
-    <md-menu md-offset="0 50" class="menu">
+    <div id="signInButton" ng-show="$ctrl.authLoaded && !$ctrl.isSignedIn" class="signIn"></div>
+    <md-menu md-offset="0 50" class="menu" ng-show="$ctrl.authLoaded">
       <md-button aria-label="Open logout menu" class="menuButton"
-        ng-show="$ctrl.userLoaded" ng-click="$mdMenu.open($event)">
-        <img src="{{$ctrl.userImage}}" class="userPhoto">
+        ng-show="$ctrl.isSignedIn" ng-click="$mdMenu.open($event)">
+        <img src="{{$ctrl.userImage}}" class="userPhoto" ng-if="$ctrl.isSignedIn">
       </md-button>
       <md-menu-content class="menuContent">
         <md-menu-item>
