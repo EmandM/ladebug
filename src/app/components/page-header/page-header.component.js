@@ -9,17 +9,14 @@ class headerController {
     this.$scope = $scope;
     this.$timeout = $timeout;
 
-    this.authService.checkSignedIn()
-      .then((isSignedIn) => {
-        this.loadAuth(isSignedIn);
-        this.authLoaded = true;
-      })
-      .catch((error) => {
-        console.log('error: ', error);
-        this.noGapi = true;
-      });
     this.authServiceKey = 'page-header';
     this.authService.addOnSignIn(this.authServiceKey, this.authChange.bind(this));
+    this.authService.renderSignInButton('signInButton');
+
+    this.authService.loadApi()
+      .catch(() => {
+        this.noGapi = true;
+      });
   }
 
   $onDestroy() {
@@ -31,6 +28,7 @@ class headerController {
   }
 
   authChange(isSignedIn) {
+    this.authLoaded = true;
     this.loadAuth(isSignedIn);
     this.applyScope();
   }

@@ -6,8 +6,9 @@ class AuthService {
     this.currentUser = {};
     this.$q = $q;
 
-    this.loadAuthInstance().then(() => {
-      this.authInstance.isSignedIn.listen(this.onAuthChange.bind(this));
+    this.checkSignedIn().then((isSignedIn) => {
+      this._onAuthChange(isSignedIn);
+      this.authInstance.isSignedIn.listen(this._onAuthChange.bind(this));
     });
 
     this.signInListeners = {};
@@ -15,21 +16,21 @@ class AuthService {
 
   // Returns promise that checks that gapi exists.
   loadApi() {
-    if (!this.loadAuthPromise) {
+    if (!this._loadAuthPromise) {
       const deferred = this.$q.defer();
       if (window.gapi) {
         gapi.load('auth2', () => { deferred.resolve(); });
       } else {
         deferred.reject('GapiNotLoaded');
       }
-      this.loadAuthPromise = deferred.promise;
+      this._loadAuthPromise = deferred.promise;
     }
-    return this.loadAuthPromise;
+    return this._loadAuthPromise;
   }
 
-  loadAuthInstance() {
-    if (!this.authInstancePromise) {
-      this.authInstancePromise = this.loadApi().then(() => {
+  _loadAuthInstance() {
+    if (!this._authInstancePromise) {
+      this._authInstancePromise = this.loadApi().then(() => {
         const deferred = this.$q.defer();
         // auth2.init() returns a GoogleAuth instance. gapi.auth2 is also a GoogleAuth instance
         // GoogleAuth.then() is a custom defined function. Takes onInit() and onError() as args.
@@ -45,17 +46,11 @@ class AuthService {
         return deferred.promise;
       });
     }
-    return this.authInstancePromise;
-  }
-
-  loadUser(googleUser) {
-    this.user = googleUser.getBasicProfile();
-    this.userId = googleUser.getAuthResponse().id_token;
-    this.onAuthChange(true, true);
+    return this._authInstancePromise;
   }
 
   checkSignedIn() {
-    return this.loadAuthInstance().then(() => this.authInstance.isSignedIn.get());
+    return this._loadAuthInstance().then(() => this.authInstance.isSignedIn.get());
   }
 
   getCurrentUserId() {
@@ -70,9 +65,7 @@ class AuthService {
     if (!window.gapi) {
       return;
     }
-    gapi.signin2.render(buttonId, {
-      onSuccess: this.loadUser.bind(this),
-    });
+    gapi.signin2.render(buttonId);
   }
 
   signOut() {
@@ -91,9 +84,11 @@ class AuthService {
     delete this.signInListeners[key];
   }
 
-  onAuthChange(isSignIn, fromLoadUser) {
-    if (isSignIn && !fromLoadUser) {
-      this.loadUser(this.authInstance.currentUser.get());
+  _onAuthChange(isSignIn) {
+    if (isSignIn) {
+      const googleUser = this.authInstance.currentUser.get();
+      this.user = googleUser.getBasicProfile();
+      this.userId = googleUser.getAuthResponse().id_token;
     }
 
     forEach(this.signInListeners, (listener) => {
