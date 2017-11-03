@@ -29,12 +29,21 @@ class AuthService {
 
   loadAuthInstance() {
     if (!this.authInstancePromise) {
-      this.authInstancePromise = this.loadApi().then(() => gapi.auth2.init({
-        client_id: '728044119950-mpcea0183l7c87lflutdide1vfdmvjrb.apps.googleusercontent.com',
-      }).then((authInstance) => {
-        this.authInstance = authInstance;
-        return authInstance;
-      }));
+      this.authInstancePromise = this.loadApi().then(() => {
+        const deferred = this.$q.defer();
+        // auth2.init() returns a GoogleAuth instance. gapi.auth2 is also a GoogleAuth instance
+        // GoogleAuth.then() is a custom defined function. Takes onInit() and onError() as args.
+        // Do not chain this .then() It is not a normal .then() Will result in an infinte loop
+        gapi.auth2.init({
+          client_id: '728044119950-mpcea0183l7c87lflutdide1vfdmvjrb.apps.googleusercontent.com',
+        }).then((authInstance) => {
+          // authInstance is a GoogleAuth instance
+          // NEVER RESOLVE A PROMISE WITH authInstance. EVERYTHING WILL BREAK.
+          this.authInstance = authInstance;
+          deferred.resolve(true);
+        }, () => deferred.reject('Auth2 initialisation error'));
+        return deferred.promise;
+      });
     }
     return this.authInstancePromise;
   }
