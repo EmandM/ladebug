@@ -26,7 +26,7 @@ class ScoresService {
   }
 
   getAllScores(userId) {
-    if (userId === -1) {
+    if (!userId || userId === -1) {
       return [];
     }
     return this.restangular.one('scores').customGET('', { userId })

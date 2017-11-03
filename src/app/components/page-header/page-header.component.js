@@ -20,7 +20,6 @@ class headerController {
       });
     this.authServiceKey = 'page-header';
     this.authService.addOnSignIn(this.authServiceKey, this.authChange.bind(this));
-    this.authService.renderSignInButton('signInButton');
   }
 
   $onDestroy() {
