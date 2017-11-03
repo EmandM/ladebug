@@ -25,7 +25,6 @@
     "angular-material": "^1.1.3",
     "angular-messages": "^1.6.4",
     "angular-mocks": "^1.5.0",
-    "angular-ui-codemirror": "^0.3.0",
     "angular-ui-router": "^0.4.2",
     "codemirror": "^5.27.4",
     "connect": "^3.6.5",
