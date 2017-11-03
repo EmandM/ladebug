@@ -8,7 +8,7 @@
     "lint-fix": "eslint --fix .",
     "build": "rimraf dist && webpack --bail --progress --profile",
     "dev": "webpack-dev-server",
-    "start": "node index.js",
+    "start": "node express.js",
     "test-watch": "karma start --auto-watch --no-single-run",
     "test": "karma start",
     "heroku-postbuild": "rimraf dist && webpack --bail --progress --profile"
