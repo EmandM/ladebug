@@ -37,6 +37,20 @@
         </div>
       </md-card>
 
+      <md-card class="inputCard testCasesCard">
+        <label class="title">Test Cases</label>
+        <div class="testCase">
+          <span class="testCaseTitle">Input</span>
+          <div class="codemirrorContainer">
+            <codemirror-line ng-model="$ctrl.input"></codemirror-line>
+          </div>
+          <span class="testCaseTitle">Expected Output</span>
+          <div class="codemirrorContainer">
+            <codemirror-line ng-model="$ctrl.expectedOutput"></codemirror-line>
+          </div>
+        </div>
+      </md-card>
+
       <div layout="row" layout-align="end center">
         <span class="errorMessage" ng-show="!$ctrl.code">{{$ctrl.errorMessage}}</span>
       </div>

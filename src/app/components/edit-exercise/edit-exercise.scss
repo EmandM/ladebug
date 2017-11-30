@@ -44,6 +44,36 @@
       }
     }
 
+    .inputCard.testCasesCard {
+      padding: 12px 14px;
+
+
+      .title {
+        font-size: 14px;
+        padding: 0 0 4px;
+        color: $color-text-med;
+      }
+
+      .testCase {
+        background-color: $color-grey-lightest;
+        padding: 2px 8px;
+        margin: 2px;
+
+        .testCaseTitle {
+          font-size: 12px;
+        }
+
+        .codemirrorContainer {
+          padding: 2px 0;
+          
+          .CodeMirror {
+            padding: 2px 0;
+            background-color: $color-grey-med;
+          }
+        }
+      }
+    }
+
     .errorLinesCard {
       padding-top: 30px;
     }
