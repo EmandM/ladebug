@@ -12,9 +12,12 @@ class ExerciseService {
     this.exerciseList = undefined;
   }
 
-  runSandbox(pythonString) {
+  runSandbox(pythonString, entryFunction, testCases) {
+    const testCaseJson = JSON.stringify(testCases);
     return this.restangular.one('get-output').customPOST({
       codeString: pythonString,
+      entryFunction,
+      testCases: testCaseJson,
     }).then((response) => {
       const responseId = GuidHelper.createGuid();
       const cachedOutput = {
@@ -81,6 +84,8 @@ class ExerciseService {
       description: data.description,
       codeString: data.codeString,
       errorLines: bugLines,
+      entryFunction: data.entryFunction,
+      testCases: JSON.stringify(data.testCases),
     };
   }
 
