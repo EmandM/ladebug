@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, json
 import os
 from flask_restful import reqparse, abort, Api, Resource
 from flask_cors import CORS
@@ -23,6 +23,8 @@ parser.add_argument('userId')
 parser.add_argument('stats')
 parser.add_argument('stars')
 parser.add_argument('exerciseId')
+parser.add_argument('entryFunction')
+parser.add_argument('testCases')
 
 MONGO_URL = os.environ.get('MONGO_URL')
 if not MONGO_URL:
@@ -52,16 +54,19 @@ class SavedExercise(Resource):
     # update single exercise by id
     def post(self, exercise_id):
         args = parser.parse_args()
-        jsonOutput = debug_output.pythonStringToJson(args['codeString'])
+        jsonOutput = debug_output.pythonStringToJson(args['codeString'], args['entryFunction'], json.loads(args['testCases']))
         db.exercisesCollection.update_one({
             '_id': ObjectId(exercise_id)
         }, {
             '$set': {
                 'name': args['name'],
                 'bug_lines': args['errorLines'],
+                'code_string': args['codeString'],
                 'debug_info': jsonOutput,
                 'description': args['description'],
-                'last_updated': datetime.datetime.now().isoformat()
+                'last_updated': datetime.datetime.now().isoformat(),
+                'entry_function': args['entryFunction'],
+                'test_cases': json.loads(args['testCases'])
             }
         })
         return { 'updated': exercise_id, 'debugInfo': jsonOutput }
@@ -76,14 +81,16 @@ class SaveExercise(Resource):
     # insert single exercise
     def put(self):
         args = parser.parse_args()
-        jsonOutput = debug_output.pythonStringToJson(args['codeString'])
+        jsonOutput = debug_output.pythonStringToJson(args['codeString'], args['entryFunction'], json.loads(args['testCases']))
         result = db.exercisesCollection.insert_one({
             'name': args['name'],
             'bug_lines': args['errorLines'],
             'debug_info': jsonOutput,
             'description': args['description'],
             'created_on': datetime.datetime.now().isoformat(),
-            'last_updated': datetime.datetime.now().isoformat()
+            'last_updated': datetime.datetime.now().isoformat(),
+            'entry_function': args['entryFunction'],
+            'test_cases': json.loads(args['testCases'])
         })
 
         created_id = str(result.inserted_id)
@@ -101,7 +108,7 @@ class Sandbox(Resource):
     # convert single sandbox code to JSON information
     def post(self):
         args = parser.parse_args()
-        response = debug_output.pythonStringToJson(args['codeString'])
+        response = debug_output.pythonStringToJson(args['codeString'], args['entryFunction'], json.loads(args['testCases']))
         return {'data': response}
 
 
