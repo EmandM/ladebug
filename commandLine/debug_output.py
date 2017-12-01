@@ -6,6 +6,44 @@ try:
 except:
     import io as StringIO  # py3
 
+
+def removeTestsFromOutput(test_code, input_code, output_trace):
+    test_code_len = len(test_code.split('\n'))
+
+    split_input = input_code.split('\n')
+    split_input_without_test = split_input[:(len(split_input) - test_code_len)]
+    input_len = len(split_input_without_test)
+
+    new_output = [trace for trace in output_trace if "line" not in trace or trace["line"] <= input_len]
+
+    last_trace = output_trace[-1]
+    new_trace = last_trace.copy()
+    new_trace['line'] = input_len + 1
+    new_output.append(new_trace)
+
+    for trace in new_output:
+        # assign globals to a variable for ease of use.
+        global_vals = trace.get("globals")
+
+        if global_vals is None:
+            continue
+        trace["current_test"] = {
+            "input": global_vals.get("current_test"),
+            "expected_output": global_vals.get("expected_result"),
+            "test_num": global_vals.get("test_num")
+        }
+
+        # Remove all global vars relating to tests
+        global_vals.pop("tests", None)
+        global_vals.pop("expected_outputs", None)
+        global_vals.pop("current_test", None)
+        global_vals.pop("expected_result", None)
+        global_vals.pop("test_num", None)
+        global_vals.pop("output", None)
+
+    return ['\n'.join(split_input_without_test), new_output]
+
+
 '''
 converts python code (sent in as string) to JSON and returns this
 as a string
@@ -20,14 +58,14 @@ def pythonStringToJson(input_string, entry_function, test_cases):
         inputs = [d['input'] for d in test_cases]
         expected_out = [d['expectedOutput'] for d in test_cases]
         test_s = '''
-args = {}
+tests = {}
 expected_outputs = {}
 
-for i in range({}):
-    arg = args[i]
-    expected_result = expected_outputs[i]
+for test_num in range({}):
+    current_test = tests[test_num]
+    expected_result = expected_outputs[test_num]
     
-    output = {}(arg)
+    output = {}(current_test)
     print(output)
     
     if output != expected_result:
@@ -35,6 +73,7 @@ for i in range({}):
 '''.format(str(inputs), str(expected_out), len(test_cases), entry_function)
 
     def json_finalizer(input_code, output_trace):
+        input_code, output_trace = removeTestsFromOutput(test_s, input_code, output_trace)
         # Add final newline to code
         finalChar = input_code[-1]
         if finalChar != '\n':

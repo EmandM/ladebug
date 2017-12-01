@@ -47,13 +47,15 @@ class debugController {
   $onInit() {
     this.exerciseService.getOutputById(this.outputId)
       .then((response) => {
-        this.codeString = response.debugInfo.code;
+        this.codeString = response.code_string;
         this.codeTrace = response.debugInfo.trace;
         if (response.name) {
           this.existingExercise = true;
           this.pageName = response.name;
           this.errorLines = response.errorLines;
           this.exerciseDescription = response.description;
+          this.tests = response.test_cases;
+          this.funcName = response.entry_function;
         }
         this.goToStart();
         this.outputLoaded = true;
@@ -249,7 +251,7 @@ class debugController {
       }
     });
     const newCodeString = codeByLines.join('\n');
-    return this.exerciseService.runSandbox(newCodeString)
+    return this.exerciseService.runSandbox(newCodeString, this.funcName, this.tests)
       .then((response) => {
         this.codeString = response.debugInfo.code;
         this.codeTrace = response.debugInfo.trace;
