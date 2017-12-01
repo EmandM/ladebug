@@ -15,7 +15,7 @@
           <md-tab label="Fix Errors" ng-click="$ctrl.toEditing()"></md-tab>
         </md-tabs>
         <div class="codeBlock" id="codeBlock" flex>
-          <code-block code-string="$ctrl.codeString" current-line="$ctrl.codeTrace[$ctrl.currentTraceIndex].line"
+          <code-block code-string="$ctrl.codeString" current-line="$ctrl.currentTrace.line"
             breakpoints="$ctrl.breakpoints" flags="$ctrl.flags" existing-exercise="$ctrl.existingExercise"
             icon-action="$ctrl.toggleIcon(line, icon)" is-editing="$ctrl.isEditing"></code-block>
         </div>
@@ -51,6 +51,25 @@
     </div>
 
     <div class="rhs" layout="column" flex>
+      <md-card class="tests">
+        <div class="md-card-content">
+          <div class="header" layout="row">
+            <span class="md-subhead">Current Test</span>
+            <span flex></span>
+            <span>{{$ctrl.currentTest.test_num ? $ctrl.currentTest.test_num + 1 : 0}} of {{$ctrl.tests.length}}</span>
+          </div>
+          <div layout="row" class="content">
+            <div flex>
+              <variable is-primitive="true" name="'Input'" type="'string'"
+                value="$ctrl.currentTest.input" name-as-heading="true"></variable>
+            </div>
+            <div flex>
+                <variable is-primitive="true" name="'Expected Output'" type="'string'"
+                  value="$ctrl.currentTest.expected_output" name-as-heading="true"></variable>
+            </div>
+          </div>
+        </div>
+      </md-card>
       <md-card class="memory">
         <div class="md-card-content code-block" ng-repeat="frame in $ctrl.memory">
           <div class="md-subhead frameHeading" ng-click="$ctrl.openStackFrame(frame.id)"
@@ -66,15 +85,15 @@
           </div>
         </div>
       </md-card>
-      <md-card class="displayCard exceptions" ng-show="$ctrl.codeTrace[$ctrl.currentTraceIndex].exception_msg">
+      <md-card class="displayCard exceptions" ng-show="$ctrl.currentTrace.exception_msg">
         <div class="md-title cardHeading">Error</div>
         <div class="code-block">
-          <code><pre>{{$ctrl.codeTrace[$ctrl.currentTraceIndex].exception_msg}}</pre></code>
+          <code><pre>{{$ctrl.currentTrace.exception_msg}}</pre></code>
         </div>
       </md-card>
       <md-card class="displayCard">
         <div class="md-title cardHeading outHeading">Output</div>
-        <div class="md-card-content code-block" hljs hljs-source="$ctrl.codeTrace[$ctrl.currentTraceIndex].stdout">
+        <div class="md-card-content code-block" hljs hljs-source="$ctrl.currentTrace.stdout">
         </div>
       </md-card>
 

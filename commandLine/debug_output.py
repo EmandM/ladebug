@@ -16,6 +16,10 @@ def removeTestsFromOutput(test_code, input_code, output_trace):
 
     new_output = [trace for trace in output_trace if "line" not in trace or trace["line"] <= input_len]
 
+    # If anything has been dropped, drop first line of output
+    if len(output_trace) != len(new_output):
+        new_output.pop(0)
+
     last_trace = output_trace[-1]
     new_trace = last_trace.copy()
     new_trace['line'] = input_len + 1
@@ -27,6 +31,7 @@ def removeTestsFromOutput(test_code, input_code, output_trace):
 
         if global_vals is None:
             continue
+
         trace["current_test"] = {
             "input": global_vals.get("current_test"),
             "expected_output": global_vals.get("expected_result"),

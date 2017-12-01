@@ -66,15 +66,14 @@ class debugController {
     this.$mdToast.hide();
   }
 
-  updateTraceIndex() {
-    this.memory = TraceToCallStack.toStack(this.codeTrace[this.currentTraceIndex]);
-    this.visibleFrameId = this.memory[this.memory.length - 1].id;
-  }
-
   moveDebugger(newTraceIndex, buttonName) {
+    this.currentTrace = this.codeTrace[newTraceIndex];
+    this.currentTest = this.currentTrace.current_test;
     this.currentTraceIndex = newTraceIndex;
+
     this.statistics[buttonName] += 1;
-    this.updateTraceIndex();
+    this.memory = TraceToCallStack.toStack(this.currentTrace);
+    this.visibleFrameId = this.memory[this.memory.length - 1].id;
   }
 
   goToStart() { this.moveDebugger(0, 'goToStart'); }
