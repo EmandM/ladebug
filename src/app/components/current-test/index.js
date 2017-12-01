@@ -1,0 +1,1 @@
+import './current-test.component';

@@ -7,13 +7,8 @@ class variableController {
   // constructor() { }
 
   $onChanges() {
-    this.variable = this.variable || {};
-    this.variable.name = this.variable.name || this.name;
-    this.variable.value = this.variable.value || this.value;
-    this.variable.type = this.variable.type || this.type;
-
     this.isString = (this.variable.type === 'string');
-    this.isPrimitive = this.isPrimitive || this.variable.isPrimitive;
+    this.isPrimitive = this.variable.isPrimitive;
     this.hasName = (this.variable.name !== undefined);
   }
 
@@ -30,10 +25,6 @@ angular.module('debugapp')
     controller: variableController,
     bindings: {
       variable: '<',
-      isPrimitive: '<?',
       nameAsHeading: '<?',
-      name: '<?',
-      value: '<?',
-      type: '<?',
     },
   });

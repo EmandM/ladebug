@@ -4,6 +4,7 @@ import './choose-file';
 import './code-block';
 import './codemirror-line';
 import './complete-exercise';
+import './current-test';
 import './debug';
 import './edit-exercise';
 import './exercise-stats';
