@@ -108,7 +108,10 @@ class Sandbox(Resource):
     # convert single sandbox code to JSON information
     def post(self):
         args = parser.parse_args()
-        response = debug_output.pythonStringToJson(args['codeString'], args['entryFunction'], json.loads(args['testCases']))
+        test_cases = args['testCases']
+        if test_cases != None:
+            test_cases = json.loads(test_cases)
+        response = debug_output.pythonStringToJson(args['codeString'], args['entryFunction'], test_cases)
         return {'data': response}
 
 

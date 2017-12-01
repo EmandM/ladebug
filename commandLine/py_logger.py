@@ -1543,7 +1543,6 @@ def exec_script_str(script_str, raw_input_lst_json, options_json, finalizer_func
 # expressions whose values to probe at each step (advanced)
 def exec_script_str_local(script_str, raw_input_lst_json, cumulative_mode, heap_primitives, finalizer_func,
                           probe_exprs=None):
-    print(script_str)
     # TODO: add py_crazy_mode option here too ...
     logger = PGLogger(cumulative_mode, heap_primitives, False, finalizer_func, disable_security_checks=True,
                       probe_exprs=probe_exprs)
