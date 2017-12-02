@@ -1,5 +1,4 @@
 import angular from 'angular';
-import isString from 'lodash/isString';
 import map from 'lodash/map';
 import template from './edit-exercise.template.html';
 import './edit-exercise.scss';
@@ -150,8 +149,8 @@ class editExerciseController {
     return JSON.parse(arg);
   }
 
-  stringify(arg) {
-    return isString(arg) ? `'${arg}'` : arg;
+  stringify(arg, type) {
+    return type === 'string' ? `'${arg}'` : arg;
   }
 }
 
