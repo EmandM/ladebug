@@ -1,7 +1,7 @@
 import map from 'lodash/map';
 
 export default class VarHelper {
-  static objToVar(obj, name) {
+  static objToVar(obj, name, type) {
     if (!obj) {
       return {
         value: 'None',
@@ -11,7 +11,10 @@ export default class VarHelper {
       };
     }
 
-    const type = typeof obj;
+    if (!type) {
+      type = typeof obj;
+    }
+
     if (type === 'number' || type === 'boolean' || type === 'string') {
       return {
         value: obj,
