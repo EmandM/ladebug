@@ -1,13 +1,40 @@
 import py_logger
 import json
+import numbers
 
 try:
     import StringIO  # NB: don't use cStringIO since it doesn't support unicode!!!
 except:
     import io as StringIO  # py3
 
+# takes val and type, returns tuple val and type
+# used to parse json type data and
+def load_value(val):
+    new_val = eval(val)
 
-def removeTestsFromOutput(test_code, input_code, output_trace):
+    # custom type names to match those given by the py_tutor code
+    if isinstance(new_val, numbers.Number):
+        return new_val, 'number'
+
+    val_type = type(new_val)
+    if val_type is bool:
+        return new_val, 'boolean'
+    if val_type is str:
+        return new_val, 'string'
+
+    # else return type name
+    return new_val, val_type.__name__
+
+def load_test_cases(json_test_cases):
+    test_cases = json.loads(json_test_cases)
+    for i in range(len(test_cases)):
+        test_case = test_cases[i]
+        test_case["input"], test_case["input_type"] = load_value(test_case.get("input"))
+        test_case["expected_output"], test_case["output_type"] = load_value(test_case.get("expected_output"))
+
+    return test_cases
+
+def removeTestsFromOutput(test_code, test_cases, input_code, output_trace):
     test_code_len = len(test_code.split('\n'))
 
     split_input = input_code.split('\n')
@@ -29,14 +56,19 @@ def removeTestsFromOutput(test_code, input_code, output_trace):
         # assign globals to a variable for ease of use.
         global_vals = trace.get("globals")
 
-        if global_vals is None:
-            continue
+        test_num = 0 if global_vals is None else global_vals.get("test_num")
+        test_num = 0 if test_num is None else test_num
 
         trace["current_test"] = {
-            "input": global_vals.get("current_test"),
-            "expected_output": global_vals.get("expected_result"),
-            "test_num": global_vals.get("test_num")
+            "input": test_cases[test_num].get("input"),
+            "input_type": test_cases[test_num].get("input_type"),
+            "expected_output": test_cases[test_num].get("expected_output"),
+            "output_type": test_cases[test_num].get("output_type"),
+            "test_num": test_num
         }
+
+        if global_vals is None:
+            continue
 
         # Remove all global vars relating to tests
         global_vals.pop("tests", None)
@@ -56,12 +88,14 @@ as a string
 
 
 def pythonStringToJson(input_string, entry_function, test_cases):
+    test_cases = load_test_cases(test_cases)
     out_s = StringIO.StringIO()
     test_s = ''
 
     if entry_function is not None and test_cases is not None:
         inputs = [d['input'] for d in test_cases]
-        expected_out = [d['expectedOutput'] for d in test_cases]
+        expected_out = [d['expected_output'] for d in test_cases]
+        print("Inputs: " + str(inputs) + ", Outputs: " + str(expected_out))
         test_s = '''
 tests = {}
 expected_outputs = {}
@@ -69,7 +103,7 @@ expected_outputs = {}
 for test_num in range({}):
     current_test = tests[test_num]
     expected_result = expected_outputs[test_num]
-    
+
     output = {}(current_test)
     print(output)
     
@@ -78,7 +112,7 @@ for test_num in range({}):
 '''.format(str(inputs), str(expected_out), len(test_cases), entry_function)
 
     def json_finalizer(input_code, output_trace):
-        input_code, output_trace = removeTestsFromOutput(test_s, input_code, output_trace)
+        input_code, output_trace = removeTestsFromOutput(test_s, test_cases, input_code, output_trace)
         # Add final newline to code
         finalChar = input_code[-1]
         if finalChar != '\n':
