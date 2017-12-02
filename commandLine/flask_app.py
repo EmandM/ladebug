@@ -1,4 +1,4 @@
-from flask import Flask, request, json
+from flask import Flask, request
 import os
 from flask_restful import reqparse, abort, Api, Resource
 from flask_cors import CORS
@@ -54,7 +54,7 @@ class SavedExercise(Resource):
     # update single exercise by id
     def post(self, exercise_id):
         args = parser.parse_args()
-        jsonOutput = debug_output.pythonStringToJson(args['codeString'], args['entryFunction'], json.loads(args['testCases']))
+        jsonOutput = debug_output.pythonStringToJson(args['codeString'], args['entryFunction'], args['testCases'])
         db.exercisesCollection.update_one({
             '_id': ObjectId(exercise_id)
         }, {
@@ -66,7 +66,7 @@ class SavedExercise(Resource):
                 'description': args['description'],
                 'last_updated': datetime.datetime.now().isoformat(),
                 'entry_function': args['entryFunction'],
-                'test_cases': json.loads(args['testCases'])
+                'test_cases': args['testCases']
             }
         })
         return { 'updated': exercise_id, 'debugInfo': jsonOutput }
@@ -81,7 +81,7 @@ class SaveExercise(Resource):
     # insert single exercise
     def put(self):
         args = parser.parse_args()
-        jsonOutput = debug_output.pythonStringToJson(args['codeString'], args['entryFunction'], json.loads(args['testCases']))
+        jsonOutput = debug_output.pythonStringToJson(args['codeString'], args['entryFunction'], args['testCases'])
         result = db.exercisesCollection.insert_one({
             'name': args['name'],
             'bug_lines': args['errorLines'],
@@ -90,7 +90,7 @@ class SaveExercise(Resource):
             'created_on': datetime.datetime.now().isoformat(),
             'last_updated': datetime.datetime.now().isoformat(),
             'entry_function': args['entryFunction'],
-            'test_cases': json.loads(args['testCases'])
+            'test_cases': args['testCases']
         })
 
         created_id = str(result.inserted_id)
@@ -108,10 +108,7 @@ class Sandbox(Resource):
     # convert single sandbox code to JSON information
     def post(self):
         args = parser.parse_args()
-        test_cases = args['testCases']
-        if test_cases != None:
-            test_cases = json.loads(test_cases)
-        response = debug_output.pythonStringToJson(args['codeString'], args['entryFunction'], test_cases)
+        response = debug_output.pythonStringToJson(args['codeString'], args['entryFunction'], args['testCases'])
         return {'data': response}
 
 
