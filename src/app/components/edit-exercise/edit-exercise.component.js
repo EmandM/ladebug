@@ -40,8 +40,8 @@ class editExerciseController {
         this.exerciseLoaded = true;
         this.entryFunction = response.entry_function;
         this.tests = map(response.testCases, (testCase) => {
-          const input = this.stringify(testCase.input, testCase.input_type);
-          const expectedOutput = this.stringify(testCase.expected_output, testCase.output_type);
+          const input = testCase.input;
+          const expectedOutput = testCase.expected_output;
           return { input, expectedOutput };
         });
       });
@@ -139,18 +139,14 @@ class editExerciseController {
     );
   }
 
-  parseString(arg) {
-    // check length is 2 or greater, and that the outer two characters are matching quote characters
-    if (arg.length > 1 &&
-      ((arg.substr(0, 1) === '"' && arg.substr(arg.length - 1, arg.length) === '"') ||
-      (arg.substr(0, 1) === "'" && arg.substr(arg.length - 1, arg.length) === "'"))) {
-      return arg.substr(1, arg.length - 2);
-    }
-    return JSON.parse(arg);
+  addTest() {
+    this.tests.push({
+      input: '',
+      expectedOutput: '',
+    });
   }
-
-  stringify(arg, type) {
-    return type === 'string' ? `'${arg}'` : arg;
+  removeTest(index) {
+    this.tests.splice(index, 1);
   }
 }
 

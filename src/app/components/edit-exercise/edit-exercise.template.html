@@ -1,8 +1,7 @@
 <div class="odEditExercise" ng-if="$ctrl.create || $ctrl.exerciseLoaded">
   <form ng-submit="$ctrl.submit()" name="$ctrl.codeEntryForm" novalidate class="codeEntryForm" layout="row">
     <md-card flex="65" class="codeArea">
-      <textarea ui-codemirror="{ onLoad: $ctrl.codeMirrorLoaded.bind($ctrl) }"
-        ui-codemirror-opts="$ctrl.opts" ng-model="$ctrl.code"></textarea>
+      <textarea ui-codemirror="{ onLoad: $ctrl.codeMirrorLoaded.bind($ctrl) }" ui-codemirror-opts="$ctrl.opts" ng-model="$ctrl.code"></textarea>
     </md-card>
 
     <div layout="column" flex class="codeDetails">
@@ -10,7 +9,7 @@
         <div class="nameDescContainer" flex>
           <md-input-container class="textInput">
             <label>Exercise Name</label>
-            <input ng-model="$ctrl.name" aria-label="exercise name" name="exerciseName" required autocomplete="off"/>
+            <input ng-model="$ctrl.name" aria-label="exercise name" name="exerciseName" required autocomplete="off" />
             <div ng-messages="$ctrl.codeEntryForm.exerciseName.$error">
               <div ng-message="required">Name is required.</div>
             </div>
@@ -21,10 +20,12 @@
       <md-card class="inputCard">
         <md-input-container class="textInput">
           <label>Exercise Description</label>
-          <textarea ng-model="$ctrl.description" aria-label="exercise description" name="exerciseDescription"
-            rows="3" autocomplete="off" maxlength="85" ></textarea>
+          <textarea ng-model="$ctrl.description" aria-label="exercise description" name="exerciseDescription" rows="3" autocomplete="off"
+            maxlength="85"></textarea>
           <div layout="row">
-            <div flex><span></span></div>
+            <div flex>
+              <span></span>
+            </div>
             <p class="charsRemaining" layout-align="right">{{ 85 - $ctrl.description.length + ' chars remaining' }}</p>
           </div>
         </md-input-container>
@@ -32,28 +33,40 @@
 
       <md-card class="inputCard errorLinesCard" layout="row" layout-align="start center">
         <div flex>
-          <number-chips ng-model="$ctrl.errorLines" max-chip-num="$ctrl.getLineCount()"
-            form="$ctrl.codeEntryForm"></number-chips>
+          <number-chips ng-model="$ctrl.errorLines" max-chip-num="$ctrl.getLineCount()" form="$ctrl.codeEntryForm"></number-chips>
         </div>
       </md-card>
 
       <md-card class="inputCard testCasesCard">
         <label class="title">Test Cases</label>
-        <div class="testCase">
+        <div class="testCase entry">
           <span class="testCaseTitle">Entry Function</span>
           <div class="codemirrorContainer">
             <codemirror-line ng-model="$ctrl.entryFunction"></codemirror-line>
           </div>
         </div>
-        <div class="testCase" ng-repeat="testCase in $ctrl.tests">
-          <span class="testCaseTitle">Input</span>
-          <div class="codemirrorContainer">
-            <codemirror-line ng-model="testCase.input"></codemirror-line>
+        <div class="testCase" ng-repeat="testCase in $ctrl.tests" layout="row">
+          <div flex>
+            <span class="testCaseTitle">Input</span>
+            <div class="codemirrorContainer">
+              <codemirror-line ng-model="testCase.input"></codemirror-line>
+            </div>
+            <span class="testCaseTitle">Expected Output</span>
+            <div class="codemirrorContainer">
+              <codemirror-line ng-model="testCase.expectedOutput"></codemirror-line>
+            </div>
           </div>
-          <span class="testCaseTitle">Expected Output</span>
-          <div class="codemirrorContainer">
-            <codemirror-line ng-model="testCase.expectedOutput"></codemirror-line>
+          <div layout="column" layout-align="center center">
+            <md-button class="md-icon-button" ng-click="$ctrl.removeTest($index)">
+              <i class="fa fa-trash" aria-hidden="true"></i>
+            </md-button>
           </div>
+        </div>
+        <div layout="row" layout-align="end center">
+          <md-button class="addButton" ng-click="$ctrl.addTest()">
+            <span class="addTest">Add Test</span>
+            <i class="fa fa-plus" aria-hidden="true"></i>
+          </md-button>
         </div>
       </md-card>
 
@@ -63,8 +76,8 @@
       <span flex></span>
       <div layout="row" layout-align="end center">
         <md-button type="button" class="md-raised md-accent codeButton" aria-label="clear" ui-sref="admin">Cancel</md-button>
-        <md-button type="submit" class="md-primary codeButton" ng-disabled="$ctrl.submitted"
-          ng-class="{'md-raised': !$ctrl.submitted}" aria-label="debug">Save</md-button>
+        <md-button type="submit" class="md-primary codeButton" ng-disabled="$ctrl.submitted" ng-class="{'md-raised': !$ctrl.submitted}"
+          aria-label="debug">Save</md-button>
       </div>
     </div>
   </form>
