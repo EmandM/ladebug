@@ -1,5 +1,6 @@
 import angular from 'angular';
 import isString from 'lodash/isString';
+import map from 'lodash/map';
 import template from './edit-exercise.template.html';
 import './edit-exercise.scss';
 
@@ -11,6 +12,11 @@ class editExerciseController {
     this.$q = $q;
 
     this.errorLines = [];
+
+    this.tests = [{
+      input: '',
+      expectedOutput: '',
+    }];
 
     this.opts = {
       lineNumbers: true,
@@ -34,8 +40,11 @@ class editExerciseController {
         this.description = response.description;
         this.exerciseLoaded = true;
         this.entryFunction = response.entry_function;
-        this.input = this.stringify(response.test_cases[0].input);
-        this.expectedOutput = this.stringify(response.test_cases[0].expectedOutput);
+        this.tests = map(response.testCases, (testCase) => {
+          const input = this.stringify(testCase.input, testCase.input_type);
+          const expectedOutput = this.stringify(testCase.expected_output, testCase.output_type);
+          return { input, expectedOutput };
+        });
       });
   }
 
@@ -71,7 +80,7 @@ class editExerciseController {
       this.showErrorToast('Some code is required');
       return;
     }
-    if (!this.input || !this.expectedOutput) {
+    if (this.tests.length <= 0) {
       this.showErrorToast('A test case is required');
       return;
     }
@@ -79,16 +88,16 @@ class editExerciseController {
     if (!this.codeEntryForm.$valid) {
       return;
     }
-    let input;
-    let expectedOutput;
-    try {
-      input = this.parseString(this.input);
-      expectedOutput = this.parseString(this.expectedOutput);
-    } catch (e) {
-      this.showErrorToast('Incorrect test case format');
-      return;
-    }
-    const testCases = [{ input, expectedOutput }];
+
+    const testCases = map(this.tests, (testCase) => {
+      const input = testCase.input;
+      const expectedOutput = testCase.expectedOutput;
+      return {
+        input,
+        expected_output: expectedOutput,
+      };
+    });
+
     this.submitted = true;
     this.codeHasError(this.code, this.entryFunction, testCases)
       .then((hasError) => {

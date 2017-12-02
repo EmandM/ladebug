@@ -45,14 +45,14 @@
             <codemirror-line ng-model="$ctrl.entryFunction"></codemirror-line>
           </div>
         </div>
-        <div class="testCase">
+        <div class="testCase" ng-repeat="testCase in $ctrl.tests">
           <span class="testCaseTitle">Input</span>
           <div class="codemirrorContainer">
-            <codemirror-line ng-model="$ctrl.input"></codemirror-line>
+            <codemirror-line ng-model="testCase.input"></codemirror-line>
           </div>
           <span class="testCaseTitle">Expected Output</span>
           <div class="codemirrorContainer">
-            <codemirror-line ng-model="$ctrl.expectedOutput"></codemirror-line>
+            <codemirror-line ng-model="testCase.expectedOutput"></codemirror-line>
           </div>
         </div>
       </md-card>
