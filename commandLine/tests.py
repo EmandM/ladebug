@@ -72,8 +72,9 @@ def format_output(test_code, test_cases, input_code, output_trace):
     split_input = input_code.split('\n')
     split_input_without_test = split_input[:(len(split_input) - test_code_len)]
     input_len = len(split_input_without_test)
-
-    new_output = [trace for trace in output_trace if "line" not in trace or trace["line"] <= input_len]
+    print('before removal: ' + str([d['line'] for d in output_trace]))
+    new_output = [trace for trace in output_trace if "line" not in trace or trace["line"] < input_len]
+    print('after removal: ' + str([d['line'] for d in new_output]))
 
     # If anything has been dropped, drop first line of output
     if len(output_trace) != len(new_output):
@@ -81,7 +82,7 @@ def format_output(test_code, test_cases, input_code, output_trace):
 
     last_trace = output_trace[-1]
     new_trace = last_trace.copy()
-    new_trace['line'] = input_len + 1
+    new_trace['line'] = input_len
     new_output.append(new_trace)
 
     for trace in new_output:

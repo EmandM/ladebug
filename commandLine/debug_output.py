@@ -23,15 +23,6 @@ def pythonStringToJson(input_string, entry_function, test_cases):
     def json_finalizer(input_code, output_trace):
         input_code, output_trace = tests.format_output(test_s, test_cases, input_code, output_trace)
 
-        last_trace = output_trace[-1]
-        # Add final execution line for final newline if there is no error
-        if 'exception_msg' not in last_trace:
-            # Count number of lines in the code
-            numLines = input_code.count('\n') + 1
-            new_trace = last_trace.copy()
-            new_trace['line'] = numLines
-            output_trace.append(new_trace)
-
         # Finalise output
         ret = dict(code=input_code, trace=output_trace)
         json_output = json.dumps(ret, indent=None)
