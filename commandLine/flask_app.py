@@ -10,6 +10,7 @@ import datetime
 # Local files
 import debug_output
 import oauth
+import tests
 
 app = Flask(__name__)
 CORS(app)
@@ -33,11 +34,20 @@ if not MONGO_URL:
 client = MongoClient(MONGO_URL)
 db = client.heroku_ddnsv6wr
 
+
+# Add final newline to string
+def add_newline(string):
+    final_char = string[-1]
+    if final_char != '\n':
+        string += '\n'
+    return string
+
+
 class ExercisesList(Resource):
     # get all exercises
     def get(self):
         response = db.exercisesCollection.find({})
-        return { 'data': dumps(response) }
+        return {'data': dumps(response)}
 
     # deletes all exercises
     def delete(self):
@@ -49,27 +59,28 @@ class SavedExercise(Resource):
     # get single exercise by id
     def get(self, exercise_id):
         response = db.exercisesCollection.find_one({'_id': ObjectId(exercise_id)})
-        return { 'data': dumps(response) }
+        return {'data': dumps(response)}
 
     # update single exercise by id
     def post(self, exercise_id):
         args = parser.parse_args()
-        jsonOutput = debug_output.pythonStringToJson(args['codeString'], args['entryFunction'], args['testCases'])
+        code_string = add_newline(args['codeString'])
+        json_output = debug_output.pythonStringToJson(code_string, args['entryFunction'], args['testCases'])
         db.exercisesCollection.update_one({
             '_id': ObjectId(exercise_id)
         }, {
             '$set': {
                 'name': args['name'],
                 'bug_lines': args['errorLines'],
-                'code_string': args['codeString'],
-                'debug_info': jsonOutput,
+                'code_string': code_string,
+                'debug_info': json_output,
                 'description': args['description'],
                 'last_updated': datetime.datetime.now().isoformat(),
                 'entry_function': args['entryFunction'],
-                'test_cases': args['testCases']
+                'test_cases': tests.add_types(args['testCases'])
             }
         })
-        return { 'updated': exercise_id, 'debugInfo': jsonOutput }
+        return {'updated': exercise_id, 'debugInfo': json_output}
 
     # delete single exercise by id
     def delete(self, exercise_id):
@@ -81,16 +92,18 @@ class SaveExercise(Resource):
     # insert single exercise
     def put(self):
         args = parser.parse_args()
-        jsonOutput = debug_output.pythonStringToJson(args['codeString'], args['entryFunction'], args['testCases'])
+        code_string = add_newline(args['codeString'])
+        json_output = debug_output.pythonStringToJson(code_string, args['entryFunction'], args['testCases'])
         result = db.exercisesCollection.insert_one({
             'name': args['name'],
             'bug_lines': args['errorLines'],
-            'debug_info': jsonOutput,
+            'debug_info': json_output,
             'description': args['description'],
             'created_on': datetime.datetime.now().isoformat(),
+            'code_string': code_string,
             'last_updated': datetime.datetime.now().isoformat(),
             'entry_function': args['entryFunction'],
-            'test_cases': args['testCases']
+            'test_cases': tests.add_types(args['testCases'])
         })
 
         created_id = str(result.inserted_id)
@@ -101,7 +114,7 @@ class SaveExercise(Resource):
                 'id': created_id
             }
         }, upsert=False)
-        return { 'inserted': created_id, 'debugInfo': jsonOutput }, 201
+        return {'inserted': created_id, 'debugInfo': json_output}, 201
 
 
 class Sandbox(Resource):
@@ -116,8 +129,8 @@ class Stats(Resource):
     # get all stats
     def get(self):
         response = db.statsCollection.find({})
-        #TODO what to do if response is null
-        return { 'data': dumps(response) }
+        # TODO what to do if response is null
+        return {'data': dumps(response)}
 
     # insert single stat
     def put(self):
@@ -128,44 +141,46 @@ class Stats(Resource):
             'exerciseId': args['exerciseId'],
             'stats': args['stats']
         })
-        return { 'inserted': dumps(result.inserted_id) }, 201
+        return {'inserted': dumps(result.inserted_id)}, 201
 
     # delete all stats
     def delete(self):
         result = db.statsCollection.delete_many({})
         return "Deleted " + str(result.deleted_count)
 
+
 class SavedStats(Resource):
     def get(self, exercise_id):
         response = db.statsCollection.find({'exerciseId': exercise_id})
-        return { 'data': dumps(response) }
+        return {'data': dumps(response)}
 
 
 class Scores(Resource):
     # get all scores
     def get(self):
         response = db.scoresCollection.find({})
-        return { 'data': dumps(response) }
+        return {'data': dumps(response)}
 
     # delete all scores
     def delete(self):
         result = db.scoresCollection.delete_many({})
         return "Deleted " + str(result.deleted_count)
 
+
 class SingleScore(Resource):
     def get(self, exercise_id):
         args = parser.parse_args()
         userId = oauth.validate_user_id(args['userId'])
         response = db.scoresCollection.find({'userId': userId, 'exerciseId': exercise_id})
-        return { 'data': dumps(response) }
+        return {'data': dumps(response)}
 
     # insert single score
     def post(self, exercise_id):
         args = parser.parse_args()
         userId = oauth.validate_user_id(args['userId'])
-        existing =  db.scoresCollection.find_one({'userId': userId, 'exerciseId': exercise_id})
+        existing = db.scoresCollection.find_one({'userId': userId, 'exerciseId': exercise_id})
         if (existing and int(existing['stars']) >= int(args['stars'])):
-            return { 'updated': dumps(existing) }
+            return {'updated': dumps(existing)}
 
         result = db.scoresCollection.update_one(
             {
@@ -178,14 +193,16 @@ class SingleScore(Resource):
                 }
             }, upsert=True
         )
-        return { 'updated': dumps(result.upserted_id) }
+        return {'updated': dumps(result.upserted_id)}
+
 
 class AllUserScores(Resource):
     def get(self):
         args = parser.parse_args()
         userId = oauth.validate_user_id(args['userId'])
         response = db.scoresCollection.find({'userId': userId})
-        return { 'data': dumps(response) }
+        return {'data': dumps(response)}
+
 
 api.add_resource(ExercisesList, '/exercises-list')
 api.add_resource(SavedExercise, '/exercise/<string:exercise_id>')
