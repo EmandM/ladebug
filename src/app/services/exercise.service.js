@@ -48,6 +48,8 @@ class ExerciseService {
 
         // Parse debugInfo as it is saved in the server as a string
         output.debugInfo = JSON.parse(output.debug_info);
+        output.testCases = JSON.parse(output.test_cases);
+
         if (output.bug_lines) {
           output.errorLines = JSON.parse(output.bug_lines);
         } else if (output.bug_line) {
