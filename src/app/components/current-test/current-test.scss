@@ -13,7 +13,13 @@
   }
 
   .content{
-    padding: 4px 8px;
+    padding: 0 8px;
     
+    .childContent {
+      padding: 8px 8px;
+    }
+    .childContent.first {
+      border-right: 1px solid $color-grey-darker;
+    }
   }
 }
