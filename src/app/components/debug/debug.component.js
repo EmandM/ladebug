@@ -54,7 +54,7 @@ class debugController {
           this.pageName = response.name;
           this.errorLines = response.errorLines;
           this.exerciseDescription = response.description;
-          this.tests = response.test_cases;
+          this.tests = response.testCases;
           this.funcName = response.entry_function;
         }
         this.goToStart();
