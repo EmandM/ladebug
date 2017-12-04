@@ -1,6 +1,6 @@
-from flask import Flask, request
+from flask import Flask, abort
 import os
-from flask_restful import reqparse, abort, Api, Resource
+from flask_restful import reqparse, Api, Resource
 from flask_cors import CORS
 from pymongo import MongoClient
 from bson.objectid import ObjectId
@@ -65,6 +65,12 @@ class SavedExercise(Resource):
     def post(self, exercise_id):
         args = parser.parse_args()
         code_string = add_newline(args['codeString'])
+
+        try:
+            test_cases = tests.add_types(args['testCases'])
+        except Exception as e:
+            raise abort('400', type(e).__name__ + ': ' + str(e))
+
         json_output = debug_output.pythonStringToJson(code_string, args['entryFunction'], args['testCases'])
         db.exercisesCollection.update_one({
             '_id': ObjectId(exercise_id)
@@ -77,7 +83,7 @@ class SavedExercise(Resource):
                 'description': args['description'],
                 'last_updated': datetime.datetime.now().isoformat(),
                 'entry_function': args['entryFunction'],
-                'test_cases': tests.add_types(args['testCases'])
+                'test_cases': test_cases
             }
         })
         return {'updated': exercise_id, 'debugInfo': json_output}
@@ -93,6 +99,7 @@ class SaveExercise(Resource):
     def put(self):
         args = parser.parse_args()
         code_string = add_newline(args['codeString'])
+
         json_output = debug_output.pythonStringToJson(code_string, args['entryFunction'], args['testCases'])
         result = db.exercisesCollection.insert_one({
             'name': args['name'],
@@ -123,6 +130,18 @@ class Sandbox(Resource):
         args = parser.parse_args()
         response = debug_output.pythonStringToJson(args['codeString'], args['entryFunction'], args['testCases'])
         return {'data': response}
+
+class Tests(Resource):
+    # ensure test format is correct
+    def post(self):
+        args = parser.parse_args()
+
+        try:
+            test_cases = tests.add_types(args['testCases'])
+        except Exception as e:
+            return { 'valid': False, 'error': type(e).__name__ + ': ' + str(e) }
+
+        return { 'valid': True, 'data': test_cases}
 
 
 class Stats(Resource):
@@ -208,6 +227,7 @@ api.add_resource(ExercisesList, '/exercises-list')
 api.add_resource(SavedExercise, '/exercise/<string:exercise_id>')
 api.add_resource(SaveExercise, '/exercise')
 api.add_resource(Sandbox, '/get-output')
+api.add_resource(Tests, '/validate-tests')
 api.add_resource(Stats, '/stats')
 api.add_resource(SavedStats, '/stats/<string:exercise_id>')
 api.add_resource(Scores, '/debug-scores')

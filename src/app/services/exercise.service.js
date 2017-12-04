@@ -1,5 +1,6 @@
 import angular from 'angular';
 import find from 'lodash/find';
+import map from 'lodash/map';
 import GuidHelper from '../helpers/guid.helper';
 
 class ExerciseService {
@@ -102,6 +103,25 @@ class ExerciseService {
     this.clearExerciseOutputCache(id);
     return this.restangular.one('exercise', id).customPOST(this.getExerciseObj(data))
       .then(this.parseDebugInfo);
+  }
+
+  validateTests(tests) {
+    const testCases = map(tests, (testCase) => {
+      const input = testCase.input;
+      const expectedOutput = testCase.expectedOutput;
+      return {
+        input,
+        expected_output: expectedOutput,
+      };
+    });
+
+    return this.restangular.one('validate-tests').customPOST({ testCases: JSON.stringify(testCases) })
+      .then((response) => {
+        if (response.valid) {
+          return JSON.parse(response.data);
+        }
+        return this.$q.reject({ invalidTypes: true, message: response.error });
+      });
   }
 
   softCreateExercise(name, codeString) {

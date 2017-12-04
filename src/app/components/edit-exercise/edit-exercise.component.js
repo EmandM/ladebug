@@ -87,18 +87,13 @@ class editExerciseController {
     if (!this.codeEntryForm.$valid) {
       return;
     }
-
-    const testCases = map(this.tests, (testCase) => {
-      const input = testCase.input;
-      const expectedOutput = testCase.expectedOutput;
-      return {
-        input,
-        expected_output: expectedOutput,
-      };
-    });
-
+    let testCases;
     this.submitted = true;
-    this.codeHasError(this.code, this.entryFunction, testCases)
+    this.exerciseService.validateTests(this.tests)
+      .then((tests) => {
+        testCases = tests;
+        return this.codeHasError(this.code, this.entryFunction, testCases);
+      })
       .then((hasError) => {
         if (!hasError) {
           this.showErrorToast('Please ensure your code throws an exception');
@@ -118,7 +113,10 @@ class editExerciseController {
           this.exerciseService.updateExercise(this.exerciseId, data);
         promise.then(() => this.$state.go('admin'));
       })
-      .catch(() => {
+      .catch((err) => {
+        if (err.invalidTypes) {
+          this.showErrorToast('Invalid Test\n' + err.message);
+        }
         this.submitted = false;
       });
   }
