@@ -52,7 +52,8 @@
 
     <div class="rhs" layout="column" flex>
       <md-card class="tests">
-        <current-test all-tests="$ctrl.tests" current-test="$ctrl.currentTrace.current_test"></current-test>
+        <current-test all-tests="$ctrl.tests" current-test="$ctrl.currentTrace.current_test"
+          entry-function="{{$ctrl.funcName}}"></current-test>
       </md-card>
       <md-card class="memory">
         <div class="md-card-content code-block" ng-repeat="frame in $ctrl.memory">

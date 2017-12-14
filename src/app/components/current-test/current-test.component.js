@@ -20,7 +20,7 @@ class currentTestController {
     }
     this.testNum = this.currentTest.test_num + 1;
 
-    this.inputVariable = VarHelper.objToVar(this.currentTest.input, 'Input', this.currentTest.input_type);
+    this.inputVariable = VarHelper.objToVar(this.currentTest.input, 'input', this.currentTest.input_type);
     this.outputVariable = VarHelper.objToVar(this.currentTest.expected_output, 'Expected Output', this.currentTest.output_type);
   }
 }
@@ -34,5 +34,6 @@ angular.module('debugapp')
     bindings: {
       allTests: '<',
       currentTest: '<',
+      entryFunction: '@',
     },
   });

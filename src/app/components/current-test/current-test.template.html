@@ -1,8 +1,13 @@
 <div class="md-card-content odCurrentTest">
-    <div class="header" layout="row" layout-align="start center">
-      <span class="md-subhead">Current Test</span>
-      <span flex></span>
-      <span class="numTest">{{$ctrl.testNum}} of {{$ctrl.totalTests}}</span>
+    <div class="header">
+      <div layout="row" layout-align="start center">
+          <span class="md-subhead">Current Test</span>
+          <span flex></span>
+          <span class="numTest">{{$ctrl.testNum}} of {{$ctrl.totalTests}}</span>
+      </div>
+      <div>
+        <code><pre class="testStructure">print({{$ctrl.entryFunction}}(input))</pre></code>
+      </div>
     </div>
     <div layout="row" class="content">
       <div flex class="childContent first">
