@@ -5,6 +5,7 @@
     <code class="vText" ng-if="$ctrl.hasName && !$ctrl.nameAsHeading"><pre>{{$ctrl.variable.name}}:</pre></code>
     <span class="vText hName" ng-if="$ctrl.hasName && $ctrl.nameAsHeading">{{$ctrl.variable.name}}:</span>
     <span class="vValue vText">{{$ctrl.variable.type}}</span>
+    <span class="vValue vText" ng-if="$ctrl.variable.type === 'list'">({{$ctrl.variable.value.length}})</span>
     <span flex></span>
   </div>
   <div class="children" ng-show="$ctrl.visible">
@@ -16,7 +17,7 @@
   <code class="pName" ng-if="$ctrl.hasName && !$ctrl.nameAsHeading"><pre>{{$ctrl.variable.name}}:</pre></code>
   <span class="hName" ng-if="$ctrl.hasName && $ctrl.nameAsHeading">{{$ctrl.variable.name}}:</span>
   <code ng-if="$ctrl.isString"><pre>"</pre></code>
-  <code ng-class="$ctrl.isString ? 'strValue' : 'numValue'"><pre>{{$ctrl.variable.value}}</pre></code>
+  <code ng-class="$ctrl.getClass()"><pre>{{$ctrl.variable.value}}</pre></code>
   <code ng-if="$ctrl.isString"><pre>"</pre></code>
   <span flex></span>
 </div>

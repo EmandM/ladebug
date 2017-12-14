@@ -15,6 +15,16 @@ class variableController {
     this.hasName = (this.variable.name !== undefined);
   }
 
+  getClass() {
+    if (this.isString) {
+      return 'strValue';
+    }
+    if (this.variable.type === 'boolean') {
+      return 'boolValue';
+    }
+    return 'numValue';
+  }
+
   toggleVisibility() {
     this.visible = !this.visible;
   }

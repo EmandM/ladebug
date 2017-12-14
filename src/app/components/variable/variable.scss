@@ -2,6 +2,8 @@
 
 .odVariable {
   min-height: 24px;
+  overflow: auto;
+
   .varContainer {
     height: 24px;
   }
@@ -18,9 +20,11 @@
     text-transform: capitalize;
     margin: 0 4px;
     color: $color-text-med;
+    white-space: nowrap;
   }
   .vText {
     font-size: 14px;
+    white-space: nowrap;
   }
 }
 .odVariable.pText {
@@ -30,14 +34,21 @@
   .pName {
     margin-left: 24px;
     margin-right: 4px;
+    white-space: nowrap;
   }
   .hName {
     margin-right: 4px;
+    white-space: nowrap;
   }
   .numValue {
-    color: $color-purple;
+    color: $color-green-number;
+    white-space: nowrap;
   }
   .strValue {
-    color: $color-green-dark;
+    color: $color-green-comment;
+  }
+  .boolValue {
+    color: $color-purple;
+    text-transform: capitalize;
   }
 }
