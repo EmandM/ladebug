@@ -8,13 +8,13 @@ def load_value(val):
     new_val = eval(val)
 
     # custom type names to match those given by the py_tutor code
+    if isinstance(new_val, bool):
+        return new_val, 'boolean'
+
     if isinstance(new_val, numbers.Number):
         return new_val, 'number'
 
-    val_type = type(new_val)
-    if val_type is bool:
-        return new_val, 'boolean'
-    if val_type is str:
+    if isinstance(new_val, str):
         return new_val, 'string'
 
     # else return type name
