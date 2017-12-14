@@ -53,8 +53,23 @@ export default class TraceToCallStack {
   }
 
   static matchReferences(heap, variables) {
-    return map(variables, (variableValue, variableName) =>
-      TraceToCallStack.addNameToVariable(variableName, variableValue, heap));
+    // map is built for array type objects, we're using a bit of a hack to use it for objects
+    // This hack breaks if there is a key in the object named length (map uses .length internally)
+    // Get around this by changing the length value to a string
+    let lengthValue;
+    if (variables.hasOwnProperty('length')) {
+      lengthValue = variables.length;
+      variables.length = 'placeholder';
+    }
+
+    const vars = map(variables, (variableValue, variableName) => {
+      if (variableName === 'length') {
+        variableValue = lengthValue;
+      }
+      return TraceToCallStack.addNameToVariable(variableName, variableValue, heap);
+    });
+
+    return vars;
   }
 
   static getValue(value, heap) {
