@@ -2,7 +2,7 @@ import map from 'lodash/map';
 
 export default class VarHelper {
   static objToVar(obj, name, type) {
-    if (!obj) {
+    if (!type && !obj) {
       return {
         value: 'None',
         type: 'None',
