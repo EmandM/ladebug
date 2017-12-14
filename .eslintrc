@@ -10,7 +10,8 @@
     "no-param-reassign": 0,
     "class-methods-use-this": 0,
     "prefer-template": 0,
-    "no-underscore-dangle": 0
+    "no-underscore-dangle": 0,
+    "no-prototype-builtins": 0
   },
   "globals": {
     "gapi": true
