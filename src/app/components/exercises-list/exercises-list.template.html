@@ -3,7 +3,7 @@
     <span flex></span>
     <span class="errorText">Sign in to save your score.</span>
   </div>
-  <div ng-repeat="exercise in $ctrl.exerciseList" ui-sref="{{$ctrl.editState}}({ id: exercise.id })"
+  <div ng-repeat="exercise in $ctrl.exerciseList | orderBy: 'order'" ui-sref="{{$ctrl.editState}}({ id: exercise.id })"
     layout="row" layout-align="start center" class="exercise" ng-class="{'admin': $ctrl.isAdmin}">
     <span class="exerciseName">{{exercise.name}}</span>
     <span flex class="exerciseDesc">{{exercise.description}}</span>
