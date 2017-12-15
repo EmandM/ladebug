@@ -226,6 +226,7 @@ class debugController {
     this.statistics.incorrectGuesses += 1;
     this.shakeScreen();
     this.showErrorToast('There are still errors in the code.');
+    this.goToEnd();
   }
 
   shakeScreen() {

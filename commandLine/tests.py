@@ -50,18 +50,22 @@ def get_test_string(test_cases, entry_function):
     expected_out = [d['expected_output'] for d in test_cases]
     print("Inputs: " + str(inputs) + ", Outputs: " + str(expected_out))
     test_string = '''
-tests = {}
-expected_outputs = {}
+tests = {0}
+expected_outputs = {1}
 
-for test_num in range({}):
+for test_num in range({2}):
     current_test = tests[test_num]
     expected_result = expected_outputs[test_num]
 
-    output = {}(current_test)
-    print(output)
+    output = {3}(current_test)
+    print('---- Test ' + str(test_num) + ' of {2} ----')
+    print('print({3}(' + str(current_test) + ')) = ' + str(output))
     
     if output != expected_result:
         raise Exception("Incorrect Output")
+        
+print('---- All Tests Passed ----')
+
 '''.format(str(inputs), str(expected_out), len(test_cases), entry_function)
     return test_string
 

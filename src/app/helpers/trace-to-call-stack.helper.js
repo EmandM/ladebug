@@ -68,7 +68,7 @@ export default class TraceToCallStack {
       }
       return TraceToCallStack.addNameToVariable(variableName, variableValue, heap);
     });
-
+    variables.length = lengthValue;
     return vars;
   }
 
