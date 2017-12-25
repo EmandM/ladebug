@@ -21,7 +21,8 @@ def pythonStringToJson(input_string, entry_function, test_cases):
         test_s = tests.get_test_string(test_cases, entry_function)
 
     def json_finalizer(input_code, output_trace):
-        input_code, output_trace = tests.format_output(test_s, test_cases, input_code, output_trace)
+        if test_cases:
+            input_code, output_trace = tests.format_output(test_s, test_cases, input_code, output_trace)
 
         # Finalise output
         ret = dict(code=input_code, trace=output_trace)
