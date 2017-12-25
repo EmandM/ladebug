@@ -39,6 +39,9 @@
 
     .blockComment pre code {
       color: $color-green-comment;
+      .hljs-keyword, .hljs-literal, .hljs-symbol, .hljs-bullet, .hljs-meta, .hljs-number, .hljs-link {
+        color: $color-green-comment;
+      }
     }
   }
 

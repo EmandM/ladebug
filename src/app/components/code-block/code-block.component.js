@@ -21,23 +21,28 @@ class codeBlockController {
 
   // Function to find comment blocks and save their line numbers
   calculateCommentBlockLines() {
-    let inCommentBlock = false;
+    let inSingleCommentBlock = false;
+    let inDoubleCommentBlock = false;
     // Triple quotes are a marker for comment blocks in python
-    const commentBlockMarker = '\'\'\'';
+    const singleCommentBlockMarker = '\'\'\'';
+    const doubleCommentBlockMarker = '"""';
     this.commentAndEmptyLines = {};
     this.blockComments = {};
     forEach(this.codeByLines, (currentLine, lineIndex) => {
       const trimmedLine = trim(currentLine);
-      if (trimmedLine === commentBlockMarker) {
-        this.commentAndEmptyLines[lineIndex] = true;
-        this.blockComments[lineIndex] = true;
-        inCommentBlock = !inCommentBlock;
+
+      if (trimmedLine === singleCommentBlockMarker && !inDoubleCommentBlock) {
+        inSingleCommentBlock = !inSingleCommentBlock;
       }
-      if (inCommentBlock) {
+      if (trimmedLine === doubleCommentBlockMarker && !inSingleCommentBlock) {
+        inDoubleCommentBlock = !inDoubleCommentBlock;
+      }
+      if (inSingleCommentBlock || inDoubleCommentBlock) {
         this.commentAndEmptyLines[lineIndex] = true;
         this.blockComments[lineIndex] = true;
         return;
       }
+
       if (!trimmedLine || startsWith(trimmedLine, '#')) {
         this.commentAndEmptyLines[lineIndex] = true;
       }
