@@ -57,7 +57,9 @@ export default class TraceToCallStack {
     // This hack breaks if there is a key in the object named length (map uses .length internally)
     // Get around this by changing the length value to a string
     let lengthValue;
+    let hasLength = false;
     if (variables.hasOwnProperty('length')) {
+      hasLength = true;
       lengthValue = variables.length;
       variables.length = 'placeholder';
     }
@@ -68,7 +70,9 @@ export default class TraceToCallStack {
       }
       return TraceToCallStack.addNameToVariable(variableName, variableValue, heap);
     });
-    variables.length = lengthValue;
+    if (hasLength) {
+      variables.length = lengthValue;
+    }
     return vars;
   }
 
