@@ -15,7 +15,9 @@ class exercisesListController {
     this.$scope = $scope;
 
     this.authService.checkSignedIn()
-      .then((response) => { this.signedIn = response; });
+      .then((response) => { this.signedIn = response; })
+      .catch(() => { this.signedIn = false; });
+
     this.authServiceKey = 'exercise-list';
     this.authService.addOnSignIn(this.authServiceKey, this.onSignIn.bind(this));
   }

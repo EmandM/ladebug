@@ -1,5 +1,6 @@
 import angular from 'angular';
 import forEach from 'lodash/forEach';
+import constant from 'lodash/constant';
 
 class AuthService {
   constructor($q) {
@@ -28,6 +29,7 @@ class AuthService {
     return this._loadAuthPromise;
   }
 
+  // private method
   _loadAuthInstance() {
     if (!this._authInstancePromise) {
       this._authInstancePromise = this.loadApi().then(() => {
@@ -50,7 +52,8 @@ class AuthService {
   }
 
   checkSignedIn() {
-    return this._loadAuthInstance().then(() => this.authInstance.isSignedIn.get());
+    return this._loadAuthInstance().then(() => this.authInstance.isSignedIn.get())
+      .catch(constant(false));
   }
 
   getCurrentUserId() {
@@ -84,6 +87,7 @@ class AuthService {
     delete this.signInListeners[key];
   }
 
+  // private method
   _onAuthChange(isSignIn) {
     if (isSignIn) {
       const googleUser = this.authInstance.currentUser.get();
