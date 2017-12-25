@@ -1,6 +1,7 @@
 import map from 'lodash/map';
 import isArray from 'lodash/isArray';
 import toLower from 'lodash/toLower';
+import VarHelper from './variable.helper';
 
 export default class TraceToCallStack {
   /*
@@ -58,7 +59,7 @@ export default class TraceToCallStack {
     // Get around this by changing the length value to a string
     let lengthValue;
     let hasLength = false;
-    if (variables.hasOwnProperty('length')) {
+    if (variables && variables.hasOwnProperty('length')) {
       hasLength = true;
       lengthValue = variables.length;
       variables.length = 'placeholder';
@@ -78,11 +79,11 @@ export default class TraceToCallStack {
 
   static getValue(value, heap) {
     if (!isArray(value)) {
-      return {
-        type: typeof value,
-        value,
-        isPrimitive: true,
-      };
+      if (value === null) {
+        return VarHelper.createVariable('None', 'None', true);
+      }
+
+      return VarHelper.createVariable(value, typeof value, true);
     }
 
     if (value[0] === 'REF') {
@@ -108,10 +109,7 @@ export default class TraceToCallStack {
       finalValue = map(values, varValue => TraceToCallStack.getValue(varValue, heap));
     }
 
-    return {
-      type: toLower(type),
-      value: finalValue,
-    };
+    return VarHelper.createVariable(finalValue, toLower(type));
   }
 
   static addNameToVariable(name, variable, heap) {

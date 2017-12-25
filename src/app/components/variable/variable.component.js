@@ -19,7 +19,7 @@ class variableController {
     if (this.isString) {
       return 'strValue';
     }
-    if (this.variable.type === 'boolean') {
+    if (this.variable.type === 'boolean' || this.variable.type === 'None') {
       return 'boolValue';
     }
     return 'numValue';

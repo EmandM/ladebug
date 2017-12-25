@@ -17,6 +17,9 @@ def load_value(val):
     if isinstance(new_val, str):
         return new_val, 'string'
 
+    if new_val is None:
+        return new_val, 'None'
+
     # else return type name
     return new_val, val_type.__name__
 
