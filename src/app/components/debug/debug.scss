@@ -22,6 +22,7 @@
 
     .debugButton {
       min-width: 0;
+      width: calc(100% - 16px);
       background-color: $color-white;
     }
   }

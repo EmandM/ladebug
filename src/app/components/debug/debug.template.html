@@ -22,36 +22,39 @@
       </md-content>
 
       <div class="debugButtons" layout="row">
-        <md-button class="md-raised debugButton" flex ng-click="$ctrl.goToStart()"
-          ng-disabled="$ctrl.currentTraceIndex <= 0 || $ctrl.isEditing">
-          <md-icon md-font-icon="fa" class="fa-fast-backward"></md-icon>
-          <md-tooltip md-direction="bottom">Go To Start</md-tooltip>
-        </md-button>
-        <md-button class="md-raised debugButton" flex ng-click="$ctrl.stepBack()"
-          ng-disabled="$ctrl.currentTraceIndex <= 0 || $ctrl.isEditing">
-          <md-icon md-font-icon="fa" class="fa-step-backward"></md-icon>
-          <md-tooltip md-direction="bottom">Step Backward</md-tooltip>
-        </md-button>
-        <md-button class="md-raised debugButton" flex ng-click="$ctrl.run()"
-          ng-disabled="$ctrl.currentTraceIndex >= $ctrl.codeTrace.length - 1 || $ctrl.isEditing" >
-          <md-icon md-font-icon="fa" class="fa-play"></md-icon>
-          <md-tooltip md-direction="bottom">Run</md-tooltip>
-        </md-button>
-        <md-button class="md-raised debugButton" flex ng-click="$ctrl.stepForward()"
-          ng-disabled="$ctrl.currentTraceIndex >= $ctrl.codeTrace.length - 1 || $ctrl.isEditing">
-          <md-icon md-font-icon="fa" class="fa-step-forward"></md-icon>
-          <md-tooltip md-direction="bottom">Step Forward</md-tooltip>
-        </md-button>
-        <md-button class="md-raised debugButton" flex ng-click="$ctrl.goToEnd()"
-          ng-disabled="$ctrl.currentTraceIndex >= $ctrl.codeTrace.length - 1 || $ctrl.isEditing">
-          <md-icon md-font-icon="fa" class="fa-fast-forward"></md-icon>
-          <md-tooltip md-direction="bottom">Go To End</md-tooltip>
-        </md-button>
+        <div flex>
+            <md-button class="md-raised debugButton" ng-click="$ctrl.goToStart()"
+              ng-disabled="$ctrl.currentTraceIndex <= 0 || $ctrl.isEditing">
+              <md-icon md-font-icon="fa" class="fa-fast-backward"></md-icon>
+              <md-tooltip md-direction="bottom">Go To Start</md-tooltip>
+            </md-button>
+        </div>
+        <div flex>
+          <md-button class="md-raised debugButton" flex ng-click="$ctrl.stepBack()"
+            ng-disabled="$ctrl.currentTraceIndex <= 0 || $ctrl.isEditing">
+            <md-icon md-font-icon="fa" class="fa-backward"></md-icon>
+            <md-tooltip md-direction="bottom">Step Backward</md-tooltip>
+          </md-button>
+        </div>
+        <div flex>
+          <md-button class="md-raised debugButton" flex ng-click="$ctrl.run()"
+            ng-disabled="$ctrl.currentTraceIndex >= $ctrl.codeTrace.length - 1 || $ctrl.isEditing" >
+            <md-icon md-font-icon="fa" class="fa-play"></md-icon>
+            <md-tooltip md-direction="bottom">Run</md-tooltip>
+          </md-button>
+        </div>
+        <div flex>
+          <md-button class="md-raised debugButton" flex ng-click="$ctrl.stepForward()"
+            ng-disabled="$ctrl.currentTraceIndex >= $ctrl.codeTrace.length - 1 || $ctrl.isEditing">
+            <md-icon md-font-icon="fa" class="fa-forward"></md-icon>
+            <md-tooltip md-direction="bottom">Step Forward</md-tooltip>
+          </md-button>
+        </div>
       </div>
     </div>
 
     <div class="rhs" layout="column" flex>
-      <md-card class="tests" ng-if="$ctrl.tests">
+      <md-card class="tests">
         <current-test all-tests="$ctrl.tests" current-test="$ctrl.currentTrace.current_test"
           entry-function="{{$ctrl.funcName}}"></current-test>
       </md-card>
