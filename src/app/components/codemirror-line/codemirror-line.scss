@@ -5,5 +5,9 @@
     .CodeMirror-lines {
       padding: 0;
     }
+
+    .CodeMirror-scroll {
+      overflow: visible !important;
+    }
   }
 }
