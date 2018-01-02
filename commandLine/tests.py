@@ -82,10 +82,6 @@ def format_output(test_code, test_cases, input_code, output_trace):
 
     new_output = [trace for trace in output_trace if "line" not in trace or trace["line"] < input_len]
 
-    # If anything has been dropped, drop first line of output
-    if len(output_trace) != len(new_output) and len(new_output) > 1:
-        new_output.pop(0)
-
     last_trace = output_trace[-1]
     new_trace = last_trace.copy()
     new_trace['line'] = input_len
