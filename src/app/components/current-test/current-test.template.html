@@ -3,7 +3,8 @@
       <div layout="row" layout-align="start center">
           <span class="md-subhead">Current Test</span>
           <span flex></span>
-          <span class="numTest">{{$ctrl.testNum}} of {{$ctrl.totalTests}}</span>
+          <span class="numTest">{{$ctrl.testNum}}</span>
+          <span class="totalTest">/{{$ctrl.totalTests}}</span>
       </div>
       <div>
         <code><pre class="testStructure">print({{$ctrl.entryFunction}}(input))</pre></code>

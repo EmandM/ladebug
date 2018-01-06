@@ -61,8 +61,9 @@ for test_num in range({2}):
     expected_result = expected_outputs[test_num]
 
     output = {3}(current_test)
-    print('---- Test ' + str(test_num) + ' of {2} ----')
-    print('print({3}(' + str(current_test) + ')) = ' + str(output))
+    print('---- Test ' + str(test_num + 1) + ' of {2} ----')
+    print('{3}(' + str(repr(current_test)) + ') => ' + str(output) + '\\n')
+    
     
     if output != expected_result:
         raise Exception("Incorrect Output")
