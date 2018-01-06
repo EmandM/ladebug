@@ -71,7 +71,6 @@ class SavedExercise(Resource):
         except Exception as e:
             raise abort('400', type(e).__name__ + ': ' + str(e))
 
-        json_output = debug_output.pythonStringToJson(code_string, args['entryFunction'], args['testCases'])
         db.exercisesCollection.update_one({
             '_id': ObjectId(exercise_id)
         }, {
@@ -79,14 +78,12 @@ class SavedExercise(Resource):
                 'name': args['name'],
                 'bug_lines': args['errorLines'],
                 'code_string': code_string,
-                'debug_info': json_output,
                 'description': args['description'],
                 'last_updated': datetime.datetime.now().isoformat(),
                 'entry_function': args['entryFunction'],
                 'test_cases': test_cases
             }
         })
-        return {'updated': exercise_id, 'debugInfo': json_output}
 
     # delete single exercise by id
     def delete(self, exercise_id):
@@ -100,11 +97,9 @@ class SaveExercise(Resource):
         args = parser.parse_args()
         code_string = add_newline(args['codeString'])
 
-        json_output = debug_output.pythonStringToJson(code_string, args['entryFunction'], args['testCases'])
         result = db.exercisesCollection.insert_one({
             'name': args['name'],
             'bug_lines': args['errorLines'],
-            'debug_info': json_output,
             'description': args['description'],
             'created_on': datetime.datetime.now().isoformat(),
             'code_string': code_string,
@@ -121,7 +116,6 @@ class SaveExercise(Resource):
                 'id': created_id
             }
         }, upsert=False)
-        return {'inserted': created_id, 'debugInfo': json_output}, 201
 
 
 class Sandbox(Resource):

@@ -13,7 +13,7 @@ class ExerciseService {
     this.exerciseList = undefined;
   }
 
-  runSandbox(pythonString, entryFunction, testCases) {
+  runSandbox(pythonString, entryFunction, testCases, outputId) {
     const testCaseJson = JSON.stringify(testCases);
     return this.restangular.one('get-output').customPOST({
       codeString: pythonString,
@@ -22,7 +22,7 @@ class ExerciseService {
     }).then((response) => {
       const responseId = GuidHelper.createGuid();
       const cachedOutput = {
-        id: responseId,
+        id: outputId || responseId,
         debugInfo: JSON.parse(response.data),
       };
       cachedOutput.error = this.getErrorMessage(cachedOutput.debugInfo.trace);
@@ -43,12 +43,12 @@ class ExerciseService {
   }
 
   getExerciseById(id) {
+    let output;
     return this.restangular.one('exercise', id).get()
       .then((response) => {
-        const output = JSON.parse(response.data);
+        output = JSON.parse(response.data);
 
         // Parse debugInfo as it is saved in the server as a string
-        output.debugInfo = JSON.parse(output.debug_info);
         output.testCases = JSON.parse(output.test_cases);
 
         if (output.bug_lines) {
@@ -57,16 +57,17 @@ class ExerciseService {
           output.errorLines = [output.bug_line];
         }
         this.JsonResponses[id] = output;
+        return this.runSandbox(output.code_string, output.entry_function, output.testCases, id);
+      })
+      .then((sandboxOutput) => {
+        output.debugInfo = sandboxOutput.debugInfo;
         return output;
       });
   }
 
   deleteExercise(id) {
     this.clearExerciseListCache();
-    return this.restangular.one('exercise', id).remove()
-      .then((response) => {
-        console.log(response);
-      });
+    return this.restangular.one('exercise', id).remove();
   }
 
   getAllExercises() {
@@ -94,15 +95,13 @@ class ExerciseService {
 
   createExercise(data) {
     this.clearExerciseListCache();
-    return this.restangular.one('exercise').customPUT(this.getExerciseObj(data))
-      .then(this.parseDebugInfo);
+    return this.restangular.one('exercise').customPUT(this.getExerciseObj(data));
   }
 
   updateExercise(id, data) {
     this.clearExerciseListCache();
     this.clearExerciseOutputCache(id);
-    return this.restangular.one('exercise', id).customPOST(this.getExerciseObj(data))
-      .then(this.parseDebugInfo);
+    return this.restangular.one('exercise', id).customPOST(this.getExerciseObj(data));
   }
 
   validateTests(tests) {
@@ -135,11 +134,6 @@ class ExerciseService {
 
   getSoftCreate(id) {
     return this.filesUploaded[id];
-  }
-
-  parseDebugInfo(response) {
-    response.debugInfo = JSON.parse(response.debugInfo);
-    return response;
   }
 
   clearExerciseListCache() {
