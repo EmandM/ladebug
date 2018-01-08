@@ -60,8 +60,8 @@ for test_num in range({2}):
     current_test = tests[test_num]
     expected_result = expected_outputs[test_num]
 
-    output = {3}(current_test)
     print('---- Test ' + str(test_num + 1) + ' of {2} ----')
+    output = {3}(current_test)
     print('{3}(' + str(repr(current_test)) + ') => ' + str(output) + '\\n')
     
     
