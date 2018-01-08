@@ -1,10 +1,11 @@
 <md-toolbar class="md-primary odPageHeader">
   <div class="md-toolbar-tools toolbar" layout="row" layout-align="start center">
-    <md-button layout="row" class="homeButton">
-      <img src="/img/logo.png" class="button-logo" ui-sref="admin">
-      <span class="button-text" ui-sref="home">Ladebug</span>
+    <md-button layout="row" class="homeButton" ui-sref="home">
+      <img src="/img/logo.png" class="button-logo">
+      <span class="button-text">Ladebug</span>
     </md-button>
     <span flex></span>
+    <md-button ui-sref="admin" ng-if="$ctrl.isAdmin">Admin</md-button>
     <div id="signInButton" ng-show="$ctrl.authLoaded && !$ctrl.isSignedIn" class="signIn"></div>
     <md-menu md-offset="0 50" class="menu" ng-show="$ctrl.authLoaded">
       <md-button aria-label="Open logout menu" class="menuButton"

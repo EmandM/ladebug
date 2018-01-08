@@ -42,6 +42,9 @@ class headerController {
     this.userName = userInfo.getName();
     this.userImage = userInfo.getImageUrl();
     this.userEmail = userInfo.getEmail();
+    this.authService.checkIsAdmin().then((isAdmin) => {
+      this.isAdmin = isAdmin;
+    });
   }
 
   signout() {

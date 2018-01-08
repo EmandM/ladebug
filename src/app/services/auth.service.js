@@ -1,10 +1,10 @@
 import angular from 'angular';
 import forEach from 'lodash/forEach';
-import constant from 'lodash/constant';
 
 class AuthService {
-  constructor($q) {
+  constructor(restangular, $q) {
     this.currentUser = {};
+    this.restangular = restangular;
     this.$q = $q;
 
     this.checkSignedIn().then((isSignedIn) => {
@@ -16,7 +16,7 @@ class AuthService {
   }
 
   // Returns promise that checks that gapi exists.
-  loadApi() {
+  async loadApi() {
     if (!this._loadAuthPromise) {
       const deferred = this.$q.defer();
       if (window.gapi) {
@@ -30,7 +30,7 @@ class AuthService {
   }
 
   // private method
-  _loadAuthInstance() {
+  async _loadAuthInstance() {
     if (!this._authInstancePromise) {
       this._authInstancePromise = this.loadApi().then(() => {
         const deferred = this.$q.defer();
@@ -51,13 +51,18 @@ class AuthService {
     return this._authInstancePromise;
   }
 
-  checkSignedIn() {
-    return this._loadAuthInstance().then(() => this.authInstance.isSignedIn.get())
-      .catch(constant(false));
+  async checkSignedIn() {
+    try {
+      await this._loadAuthInstance();
+      return this.authInstance.isSignedIn.get();
+    } catch (e) {
+      return false;
+    }
   }
 
-  getCurrentUserId() {
-    return this.checkSignedIn().then(isSignedIn => (isSignedIn ? this.userId : -1));
+  async getCurrentUserId() {
+    const isSignedIn = await this.checkSignedIn();
+    return isSignedIn ? this.userId : -1;
   }
 
   getUserInfo() {
@@ -71,7 +76,7 @@ class AuthService {
     gapi.signin2.render(buttonId);
   }
 
-  signOut() {
+  async signOut() {
     return gapi.auth2.getAuthInstance().signOut()
       .then(() => {
         this.user = undefined;
@@ -85,6 +90,15 @@ class AuthService {
 
   removeOnSignIn(key) {
     delete this.signInListeners[key];
+  }
+
+  async checkIsAdmin() {
+    return this.restangular.one('admin')
+      .customGET('', { userId: this.userId })
+      .then((response) => {
+        console.log(response);
+        return response.data.isAdmin;
+      });
   }
 
   // private method
@@ -101,7 +115,7 @@ class AuthService {
   }
 }
 
-AuthService.$inject = ['$q'];
+AuthService.$inject = ['Restangular', '$q'];
 
 angular.module('debugapp')
   .service('AuthService', AuthService);

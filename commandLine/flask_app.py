@@ -129,7 +129,6 @@ class Tests(Resource):
     # ensure test format is correct
     def post(self):
         args = parser.parse_args()
-
         try:
             test_cases = tests.add_types(args['testCases'])
         except Exception as e:
@@ -216,6 +215,27 @@ class AllUserScores(Resource):
         response = db.scoresCollection.find({'userId': userId})
         return {'data': dumps(response)}
 
+class Admin(Resource):
+    def get(self):
+        args = parser.parse_args()
+        userId = oauth.validate_user_id(args['userId'])
+        data = db.adminCollection.find_one({'userId': userId})
+        print("\n \n UserId: " + str(userId) + ", Data: " + dumps(data) + "\n\n")
+        return {'data': {'isAdmin': False if not data else data.get('isAdmin')}}
+
+    def put(self):
+        args = parser.parse_args()
+        userId = oauth.validate_user_id(args['userId'])
+        if userId == -1 :
+            return { 'error' : 'invalid user id'}
+
+        result = db.adminCollection.insert_one({
+            'userId': userId,
+            'isAdmin': True
+        })
+        return {'created': dumps(result.userId)}, 201
+
+
 
 api.add_resource(ExercisesList, '/exercises-list')
 api.add_resource(SavedExercise, '/exercise/<string:exercise_id>')
@@ -229,6 +249,7 @@ api.add_resource(Scores, '/debug-scores')
 # Send userId in get body
 api.add_resource(SingleScore, '/scores/<string:exercise_id>')
 api.add_resource(AllUserScores, '/scores')
+api.add_resource(Admin, '/admin')
 
 if __name__ == '__main__':
     app.run(debug=True, threaded=True)
