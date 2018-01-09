@@ -1,5 +1,6 @@
 import angular from 'angular';
 import forEach from 'lodash/forEach';
+import constant from 'lodash/constant';
 
 class AuthService {
   constructor(restangular, $q) {
@@ -16,7 +17,7 @@ class AuthService {
   }
 
   // Returns promise that checks that gapi exists.
-  async loadApi() {
+  loadApi() {
     if (!this._loadAuthPromise) {
       const deferred = this.$q.defer();
       if (window.gapi) {
@@ -30,7 +31,7 @@ class AuthService {
   }
 
   // private method
-  async _loadAuthInstance() {
+  _loadAuthInstance() {
     if (!this._authInstancePromise) {
       this._authInstancePromise = this.loadApi().then(() => {
         const deferred = this.$q.defer();
@@ -51,18 +52,13 @@ class AuthService {
     return this._authInstancePromise;
   }
 
-  async checkSignedIn() {
-    try {
-      await this._loadAuthInstance();
-      return this.authInstance.isSignedIn.get();
-    } catch (e) {
-      return false;
-    }
+  checkSignedIn() {
+    return this._loadAuthInstance().then(() => this.authInstance.isSignedIn.get())
+      .catch(constant(false));
   }
 
-  async getCurrentUserId() {
-    const isSignedIn = await this.checkSignedIn();
-    return isSignedIn ? this.userId : -1;
+  getCurrentUserId() {
+    return this.checkSignedIn().then(isSignedIn => (isSignedIn ? this.userId : -1));
   }
 
   getUserInfo() {
@@ -76,7 +72,7 @@ class AuthService {
     gapi.signin2.render(buttonId);
   }
 
-  async signOut() {
+  signOut() {
     return gapi.auth2.getAuthInstance().signOut()
       .then(() => {
         this.user = undefined;
@@ -92,7 +88,7 @@ class AuthService {
     delete this.signInListeners[key];
   }
 
-  async checkIsAdmin() {
+  checkIsAdmin() {
     return this.restangular.one('admin')
       .customGET('', { userId: this.userId })
       .then((response) => {
