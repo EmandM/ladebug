@@ -65,6 +65,10 @@ class AuthService {
     return this.user;
   }
 
+  getUserEmail() {
+    return this.user.getEmail();
+  }
+
   renderSignInButton(buttonId) {
     if (!window.gapi) {
       return;
