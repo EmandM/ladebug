@@ -35,6 +35,7 @@ class headerController {
 
   loadAuth(isSignedIn) {
     this.isSignedIn = isSignedIn;
+    this.checkIsAdmin();
     if (!this.isSignedIn) {
       return;
     }
@@ -42,6 +43,9 @@ class headerController {
     this.userName = userInfo.getName();
     this.userImage = userInfo.getImageUrl();
     this.userEmail = userInfo.getEmail();
+  }
+
+  checkIsAdmin() {
     this.authService.checkIsAdmin().then((isAdmin) => {
       this.isAdmin = isAdmin;
     });
