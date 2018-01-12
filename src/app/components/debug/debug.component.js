@@ -214,7 +214,9 @@ class debugController {
     // but a score is not saved
     return this.authService.getCurrentUserId()
       .then((userId) => {
-        this.statistics.email = this.authService.getUserEmail();
+        if (userId !== -1) {
+          this.statistics.email = this.authService.getUserEmail();
+        }
         this.statistics.solution = this.codeString;
         this.statsService.putNewStats(userId, this.statistics, this.outputId);
         if (userId !== -1) {

@@ -66,7 +66,7 @@ class AuthService {
   }
 
   getUserEmail() {
-    return this.user.getEmail();
+    return this.user ? this.user.getEmail() : '';
   }
 
   renderSignInButton(buttonId) {
