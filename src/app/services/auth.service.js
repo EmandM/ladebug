@@ -10,7 +10,6 @@ class AuthService {
 
     this.checkSignedIn().then((isSignedIn) => {
       this._onAuthChange(isSignedIn);
-      this.authInstance.isSignedIn.listen(this._onAuthChange.bind(this));
     });
 
     this.signInListeners = {};
@@ -44,6 +43,7 @@ class AuthService {
           // authInstance is a GoogleAuth instance
           // NEVER RESOLVE A PROMISE WITH authInstance. EVERYTHING WILL BREAK.
           this.authInstance = authInstance;
+          authInstance.isSignedIn.listen(this._onAuthChange.bind(this));
           deferred.resolve(true);
         }, () => deferred.reject('Auth2 initialisation error'));
         return deferred.promise;
@@ -103,6 +103,7 @@ class AuthService {
 
   // private method
   _onAuthChange(isSignIn) {
+    this.isSignedIn = isSignIn;
     if (isSignIn) {
       const googleUser = this.authInstance.currentUser.get();
       this.user = googleUser.getBasicProfile();
