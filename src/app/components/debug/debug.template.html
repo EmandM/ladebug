@@ -54,7 +54,7 @@
     </div>
 
     <div class="rhs" layout="column" flex>
-      <md-card class="tests">
+      <md-card class="tests" ng-if="$ctrl.existingExercise">
         <current-test all-tests="$ctrl.tests" current-test="$ctrl.currentTrace.current_test"
           entry-function="{{$ctrl.funcName}}"></current-test>
       </md-card>
