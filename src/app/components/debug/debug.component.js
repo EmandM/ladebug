@@ -215,6 +215,7 @@ class debugController {
     return this.authService.getCurrentUserId()
       .then((userId) => {
         this.statistics.email = this.authService.getUserEmail();
+        this.statistics.solution = this.codeString;
         this.statsService.putNewStats(userId, this.statistics, this.outputId);
         if (userId !== -1) {
           return this.scoresService.updateScore(userId, this.outputId, stars);
