@@ -33,6 +33,10 @@
       box-shadow: inset 1px 1px 0px 0px $color-grey-med;
     }
 
+    .codeCell .code-block pre code {
+      padding: 0 8px;
+    }
+
     .codeCell:not(.currentLine) {
       background-color: $color-white;
     }

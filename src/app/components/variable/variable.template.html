@@ -1,8 +1,8 @@
-<div ng-if="!$ctrl.isPrimitive" class="odVariable">
+<div ng-if="!$ctrl.isPrimitive" class="odVariable code-block">
   <div layout="row" layout-align="start center" class="varContainer">
     <md-icon md-font-icon="fa" class="vIcon" ng-class="$ctrl.visible ? 'fa-chevron-down' : 'fa-chevron-right'"
       ng-click="$ctrl.toggleVisibility()"></md-icon>
-    <code class="vText" ng-if="$ctrl.hasName && !$ctrl.nameAsHeading"><pre>{{$ctrl.variable.name}}:</pre></code>
+    <pre><code class="vText" ng-if="$ctrl.hasName && !$ctrl.nameAsHeading">{{$ctrl.variable.name}}:</code></pre>
     <span class="vText hName" ng-if="$ctrl.hasName && $ctrl.nameAsHeading">{{$ctrl.variable.name}}:</span>
     <span class="vValue vText">{{$ctrl.variable.type}}</span>
     <span class="vValue vText" ng-if="$ctrl.variable.type === 'list'">({{$ctrl.variable.value.length}})</span>
@@ -13,11 +13,11 @@
   </div>
 </div>
 
-<div layout="row" layout-align="start center" ng-if="$ctrl.isPrimitive" class="odVariable pText">
-  <code class="pName" ng-if="$ctrl.hasName && !$ctrl.nameAsHeading"><pre>{{$ctrl.variable.name}}:</pre></code>
+<div layout="row" layout-align="start center" ng-if="$ctrl.isPrimitive" class="odVariable pText code-block">
+  <pre><code class="pName" ng-if="$ctrl.hasName && !$ctrl.nameAsHeading">{{$ctrl.variable.name}}:</code></pre>
   <span class="hName" ng-if="$ctrl.hasName && $ctrl.nameAsHeading">{{$ctrl.variable.name}}:</span>
-  <code ng-if="$ctrl.isString"><pre>"</pre></code>
-  <code ng-class="$ctrl.getClass()"><pre>{{$ctrl.variable.value}}</pre></code>
-  <code ng-if="$ctrl.isString"><pre>"</pre></code>
+  <pre><code ng-if="$ctrl.isString">"</code></pre>
+  <pre><code ng-class="$ctrl.getClass()">{{$ctrl.variable.value}}</code></pre>
+  <pre><code ng-if="$ctrl.isString">"</code></pre>
   <span flex></span>
 </div>
