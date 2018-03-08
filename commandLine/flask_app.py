@@ -149,6 +149,7 @@ class Stats(Resource):
         args = parser.parse_args()
         userId = oauth.validate_user_id(args['userId'])
         result = db.statsCollection.insert_one({
+            'dateTime': str(now),
             'userId': userId,
             'exerciseId': args['exerciseId'],
             'stats': args['stats']
