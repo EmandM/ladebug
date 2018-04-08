@@ -1,7 +1,8 @@
-import map from 'lodash/map';
+import { map } from 'lodash';
+import { IVariable } from '../../types';
 
 export default class VarHelper {
-  static objToVar(obj, name, type) {
+  public static objToVar(obj: any, name: string, type?: string): IVariable {
     if (!type && !obj) {
       return VarHelper.createVariable('None', 'None', true, name);
     }
@@ -14,12 +15,12 @@ export default class VarHelper {
       return VarHelper.createVariable(obj, type, true, name);
     }
 
-    const value = map(obj, (val, key) => VarHelper.objToVar(val, key));
+    const value = map(obj, (val, key) => this.objToVar(val, key.toString()));
 
     return VarHelper.createVariable(value, type, false, name);
   }
 
-  static createVariable(value, type, isPrimitive, name) {
+  public static createVariable(value: any, type: string, isPrimitive: boolean, name: string): IVariable {
     return {
       type,
       name,
