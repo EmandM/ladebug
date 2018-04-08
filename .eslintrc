@@ -1,6 +1,6 @@
 {
   "plugins": ["lodash"],
-  "extends": ["airbnb-base", "plugin:lodash/recommended"],
+  "extends": ["airbnb-base"],
   "env": {
       "browser": true,
       "node": true

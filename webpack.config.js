@@ -1,7 +1,7 @@
 // Modules
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 /**
@@ -19,6 +19,12 @@ module.exports = (function () {
    * This is the object where all configuration gets set
    */
   const config = {};
+  config.stats = {
+    entrypoints: false,
+    children: false
+  };
+
+  config.mode = isTest ? 'testing' : isProd ? 'production' : 'development';
 
   /**
    * Entry
@@ -68,13 +74,6 @@ module.exports = (function () {
   };
 
   /**
-     * Devtool
-     * Reference: http://webpack.github.io/docs/configuration.html#devtool
-     * Type of sourcemap to use per build type
-     */
-  config.devtool = '#inline-source-map';
-
-  /**
      * Loaders
      * Reference: http://webpack.github.io/docs/configuration.html#module-loaders
      * List: http://webpack.github.io/docs/list-of-loaders.html
@@ -89,7 +88,7 @@ module.exports = (function () {
       // Transpile .js files using babel-loader
       // Compiles ES6 and ES7 into ES5 code
       test: /\.js$/,
-      loader: 'babel-loader',
+      use: 'babel-loader',
       exclude: /node_modules/,
     }, {
       // Reference: https://github.com/webpack/extract-text-webpack-plugin
@@ -98,14 +97,7 @@ module.exports = (function () {
       // Reference: https://github.com/webpack/style-loader
       // Use style-loader in development.
       test: /\.(scss|css)$/,
-      loader: isTest ? 'null-loader' : ExtractTextPlugin.extract({
-        fallbackLoader: 'style-loader',
-        loader: [
-          { loader: 'css-loader', query: { sourceMap: true } },
-          { loader: 'postcss-loader' },
-          { loader: 'sass-loader' },
-        ],
-      }),
+      use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader', 'sass-loader'],
     }, {
       // ASSET LOADER
       // Reference: https://github.com/webpack/file-loader
@@ -114,13 +106,13 @@ module.exports = (function () {
       // Pass along the updated reference to your code
       // You can add here any file extension you want to get copied to your output
       test: /\.(png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot|mp4|swf)$/,
-      loader: 'file-loader',
+      use: 'file-loader',
     }, {
       // HTML LOADER
       // Reference: https://github.com/webpack/raw-loader
       // Allow loading html through js
       test: /\.html$/,
-      loader: 'raw-loader',
+      use: 'raw-loader',
     }],
   };
 
@@ -136,7 +128,7 @@ module.exports = (function () {
         /node_modules/,
         /\.spec\.js$/,
       ],
-      loader: 'istanbul-instrumenter-loader',
+      use: 'istanbul-instrumenter-loader',
       query: {
         esModules: true,
       },
@@ -154,24 +146,15 @@ module.exports = (function () {
         template: './src/index.html',
         inject: 'body',
       }),
-      new webpack.optimize.CommonsChunkPlugin({
-        names: ['vendor'],
-        minChunks: 2,
-      }),
-      // Reference: https://github.com/webpack/extract-text-webpack-plugin
-      // Extract css files
-      // Disabled when in test mode or not in build mode
-      new ExtractTextPlugin({
-        filename: '[name].css',
-        disable: !isProd,
-        allChunks: true,
-      }));
-  }
 
+      new MiniCssExtractPlugin({
+        filename: "[name].css",
+        chunkFilename: "[id].css"
+      }),
+    );
+  }
   if (!isProd) {
     config.plugins.push(new CopyWebpackPlugin([
-      { from: 'node_modules/**/*.html', to: '.' },
-      // { from: 'src/index.html', to: '.' },
       { from: 'node_modules/font-awesome/fonts/**', to: '.' },
       { from: 'src/img/favicon.ico', to: './src' },
     ]));
@@ -184,18 +167,16 @@ module.exports = (function () {
       // Only emit files when there are no errors
       new webpack.NoEmitOnErrorsPlugin(),
 
-      // Reference: http://webpack.github.io/docs/list-of-plugins.html#uglifyjsplugin
-      // Minify all javascript, switch loaders to minimizing mode
-      new webpack.optimize.UglifyJsPlugin({
-        sourceMap: true,
-      }),
-
       // Copy assets from the public folder
       // Reference: https://github.com/kevlened/copy-webpack-plugin
       new CopyWebpackPlugin([
         { from: 'src/img', to: './img' },
       ]));
   }
+
+  config.resolve = {
+    extensions: ['.js', '.ts'],
+  };
 
   /**
      * Dev server configuration
