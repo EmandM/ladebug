@@ -91,6 +91,13 @@ module.exports = (function () {
       use: 'babel-loader',
       exclude: /node_modules/,
     }, {
+      test: /\.ts$/,
+      exclude: /node_modules/,
+      use: [
+        'ng-annotate-loader',
+        'awesome-typescript-loader',
+      ],
+    }, {
       // Reference: https://github.com/webpack/extract-text-webpack-plugin
       // Extract css files in production builds
       //

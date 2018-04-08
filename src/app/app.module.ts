@@ -1,10 +1,10 @@
-import angular from 'angular';
+import * as angular from 'angular';
 import 'angular-animate';
 import 'angular-material';
 import 'angular-messages';
-import 'angular-ui-router';
 import 'angular-highlightjs';
 import 'restangular';
+import '@uirouter/angularjs'
 import './common/ui-codemirror.directive';
 
 angular.module('debugapp', [
