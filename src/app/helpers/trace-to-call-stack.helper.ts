@@ -1,7 +1,6 @@
-import map from 'lodash/map';
-import isArray from 'lodash/isArray';
-import toLower from 'lodash/toLower';
+import { map, isArray, toLower } from 'lodash';
 import VarHelper from './variable.helper';
+import { IFrame, ICallStack, IStackEntry, IVariable, PyHeap, PyVarObj, PyVar, PyHeapVal, PyVarType } from '../../types';
 
 export default class TraceToCallStack {
   /*
@@ -35,25 +34,22 @@ export default class TraceToCallStack {
    * Breaks any idea of referened objects vs local objects.
    */
 
-  static toStack(frame) {
-    const callStack = map(frame.stack_to_render, (stackItem) => {
-      const name = stackItem.func_name;
-      return {
-        name: name + '()',
-        variables: TraceToCallStack.matchReferences(frame.heap, stackItem.encoded_locals),
+  static toStack(frame: IFrame) {
+    const callStack: ICallStack[] = map(frame.stack_to_render, (stackItem) => ({
         id: stackItem.unique_hash,
-      };
-    });
+        name: stackItem.func_name + '()',
+        variables: TraceToCallStack.matchReferences(frame.heap, stackItem.encoded_locals),
+      }));
 
     callStack.unshift({
+      id: '0',
       name: 'Globals',
       variables: TraceToCallStack.matchReferences(frame.heap, frame.globals),
-      id: 0,
     });
     return callStack;
   }
 
-  static matchReferences(heap, variables) {
+  static matchReferences(heap: PyHeap, variables: PyVarObj): IVariable[] {
     // map is built for array type objects, we're using a bit of a hack to use it for objects
     // This hack breaks if there is a key in the object named length (map uses .length internally)
     // Get around this by changing the length value to a string
@@ -77,7 +73,7 @@ export default class TraceToCallStack {
     return vars;
   }
 
-  static getValue(value, heap) {
+  static getValue(value: PyVar, heap: PyHeap): IVariable {
     if (!isArray(value)) {
       if (value === null) {
         return VarHelper.createVariable('None', 'None', true);
@@ -86,25 +82,27 @@ export default class TraceToCallStack {
       return VarHelper.createVariable(value, typeof value, true);
     }
 
-    if (value[0] === 'REF') {
-      value = heap[value[1]];
+    let newVal: PyHeapVal;
+    if (value[0] === PyVarType.HeapReference) {
+      newVal = heap[value[1]];
     }
 
     let finalValue;
-    const type = value[0];
+    const type = newVal[0];
     let values = value.slice(1, value.length);
 
-    if (type === 'FUNCTION') {
+    if (type === PyVarType.Function) {
       // Grab the first value for the function => second value is null
       values = values.slice(0, 1);
     }
 
-    if (type === 'DICT') {
+    if (type === PyVarType.Dictionary) {
       finalValue = map(values,
         (valueArray => TraceToCallStack.addNameToVariable(valueArray[0], valueArray[1], heap)));
-    } else if (type === 'LIST' || type === 'TUPLE') { // Add index as key
+    } else if (type === PyVarType.List || type === PyVarType.Tuple) { // Add index as key
       finalValue = map(values, (variable, index) =>
-        TraceToCallStack.addNameToVariable(index, variable, heap));
+        // cast index to string for variable name
+        TraceToCallStack.addNameToVariable('' + index, variable, heap));
     } else {
       finalValue = map(values, varValue => TraceToCallStack.getValue(varValue, heap));
     }
@@ -112,7 +110,7 @@ export default class TraceToCallStack {
     return VarHelper.createVariable(finalValue, toLower(type));
   }
 
-  static addNameToVariable(name, variable, heap) {
+  static addNameToVariable(name: string, variable: PyVar, heap: PyHeap): IVariable {
     const result = TraceToCallStack.getValue(variable, heap);
     result.name = name;
     return result;

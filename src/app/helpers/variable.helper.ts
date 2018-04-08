@@ -20,7 +20,7 @@ export default class VarHelper {
     return VarHelper.createVariable(value, type, false, name);
   }
 
-  public static createVariable(value: any, type: string, isPrimitive: boolean, name: string): IVariable {
+  public static createVariable(value: any, type: string, isPrimitive: boolean = false, name?: string): IVariable {
     return {
       type,
       name,
