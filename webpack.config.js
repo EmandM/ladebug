@@ -33,7 +33,7 @@ module.exports = (function () {
    * Karma will set this when it's a test build
    */
   config.entry = isTest ? 0 : {
-    app: './src/app/app.js',
+    app: './src/app/app.ts',
     vendor: [
       'angular',
       'angular-animate',

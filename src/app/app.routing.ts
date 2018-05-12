@@ -1,8 +1,9 @@
-import angular from 'angular';
+import { StateProvider, UrlRouterProvider, StateService } from '@uirouter/angularjs';
+import { ILocationProvider } from 'angular';
 
 // Function that attaches outputId to controller
 // Useful as we have this same logic three times.
-function attachOutputId($state) {
+function attachOutputId($state: StateService) {
   const id = $state.params.outputID || $state.params.id;
   if (!id) {
     $state.go('sandbox');
@@ -11,7 +12,7 @@ function attachOutputId($state) {
   this.outputID = id;
 }
 
-function routing($urlRouterProvider, $stateProvider, $locationProvider) {
+function routing($urlRouterProvider: UrlRouterProvider, $stateProvider: StateProvider, $locationProvider: ILocationProvider) {
   $urlRouterProvider.otherwise('/');
   $locationProvider.html5Mode(true);
 
@@ -72,5 +73,4 @@ function routing($urlRouterProvider, $stateProvider, $locationProvider) {
 
 routing.$inject = ['$urlRouterProvider', '$stateProvider', '$locationProvider'];
 
-angular.module('debugapp')
-  .config(routing);
+export default routing;

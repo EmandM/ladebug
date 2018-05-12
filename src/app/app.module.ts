@@ -7,6 +7,8 @@ import 'restangular';
 import '@uirouter/angularjs'
 import './common/ui-codemirror.directive';
 
+import routing from './app.routing';
+
 angular.module('debugapp', [
   'ngAnimate',
   'ngMaterial',
@@ -15,4 +17,4 @@ angular.module('debugapp', [
   'ui.router',
   'restangular',
   'hljs',
-]);
+]).config(routing);
