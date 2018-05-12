@@ -8,6 +8,7 @@ import '@uirouter/angularjs'
 import './common/ui-codemirror.directive';
 
 import routing from './app.routing';
+import theming from './app.config';
 
 angular.module('debugapp', [
   'ngAnimate',
@@ -17,4 +18,5 @@ angular.module('debugapp', [
   'ui.router',
   'restangular',
   'hljs',
-]).config(routing);
+]).config(routing)
+  .config(theming);

@@ -9,7 +9,7 @@
     "removeComments": false,
     "noImplicitAny": false,
     "lib": ["es2015", "dom"],
-    "typeRoots" : ["./types", "./node_modules/@types"],
+    "typeRoots" : ["./types", "./node_modules/@types"]
   },
   "files": [
     "src/**/*.ts"
