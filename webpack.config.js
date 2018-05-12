@@ -1,7 +1,7 @@
 // Modules
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 /**
@@ -21,10 +21,16 @@ module.exports = (function () {
   const config = {};
   config.stats = {
     entrypoints: false,
-    children: false
+    children: false,
   };
 
-  config.mode = isTest ? 'testing' : isProd ? 'production' : 'development';
+  if (isTest) {
+    config.mode = 'testing';
+  } else if (isProd) {
+    config.mode = 'production';
+  } else {
+    config.mode = 'development';
+  }
 
   /**
    * Entry
@@ -155,8 +161,8 @@ module.exports = (function () {
       }),
 
       new MiniCssExtractPlugin({
-        filename: "[name].css",
-        chunkFilename: "[id].css"
+        filename: '[name].css',
+        chunkFilename: '[id].css',
       }),
     );
   }

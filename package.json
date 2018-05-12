@@ -4,8 +4,8 @@
     "node": "8.5.x"
   },
   "scripts": {
-    "lint": "eslint .",
-    "lint-fix": "eslint --fix .",
+    "lint": "eslint . && tslint -p .",
+    "lint-fix": "eslint --fix . && tslint -p . --fix",
     "build": "rimraf dist && webpack --bail --progress --profile",
     "dev": "webpack-dev-server",
     "start": "node express.js",

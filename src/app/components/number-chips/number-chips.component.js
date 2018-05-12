@@ -32,7 +32,7 @@ class numberChipsController {
     return every(this.ngModel, (line) => {
       const lineNum = parseInt(line);
       return (lineCount) ? // if lineCount exists
-      (lineNum <= lineCount && lineNum > 0) : // ensure less than lineCount and greater than zero
+        (lineNum <= lineCount && lineNum > 0) : // ensure less than lineCount and greater than zero
         (lineNum > 0); // else just greater than zero
     });
   }

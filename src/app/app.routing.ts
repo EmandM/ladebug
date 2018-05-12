@@ -1,4 +1,4 @@
-import { StateProvider, UrlRouterProvider, StateService } from '@uirouter/angularjs';
+import { StateProvider, StateService, UrlRouterProvider } from '@uirouter/angularjs';
 import { ILocationProvider } from 'angular';
 
 // Function that attaches outputId to controller

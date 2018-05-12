@@ -1,7 +1,7 @@
 // Add service files here
 import './exercise.service';
-import './stats.service';
 import './scores.service';
+import './stats.service';
 
 import * as angular from 'angular';
 import AuthService from './auth.service';

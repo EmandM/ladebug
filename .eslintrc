@@ -1,5 +1,4 @@
 {
-  "plugins": ["lodash"],
   "extends": ["airbnb-base"],
   "env": {
       "browser": true,
@@ -11,9 +10,20 @@
     "class-methods-use-this": 0,
     "prefer-template": 0,
     "no-underscore-dangle": 0,
-    "no-prototype-builtins": 0
+    "no-prototype-builtins": 0,
+    "import/extensions": ["error", "always", {
+      "js": "never",
+      "ts": "never"
+    }]
   },
   "globals": {
     "gapi": true
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [ ".js", ".ts"]
+      }
+    }
   }
 }

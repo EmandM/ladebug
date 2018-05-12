@@ -1,9 +1,8 @@
-import * as moment from 'moment';
-import { unitOfTime } from 'moment';
 import { forEach } from 'lodash';
+import * as moment from 'moment';
 
 export default class FormatTime {
-  static msToHumanReadable(msDuration: number): string {
+  public static msToHumanReadable(msDuration: number): string {
     const duration = moment.duration(msDuration);
     let output = '';
     const timeUnits = ['day', 'hour', 'minute', 'second'];
@@ -22,11 +21,11 @@ export default class FormatTime {
     return output;
   }
 
-  static pluralise(num: number, string: string): string {
+  public static pluralise(num: number, string: string): string {
     return (num === 1) ? string : string + 's';
   }
 
-  static unitsToMs(num: number, units: unitOfTime.DurationConstructor): number {
+  public static unitsToMs(num: number, units: moment.unitOfTime.DurationConstructor): number {
     return moment.duration(num, units).asMilliseconds();
   }
 }

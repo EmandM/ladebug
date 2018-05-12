@@ -1,18 +1,18 @@
-import { IPrimitive } from ".";
+import { IPrimitive } from '.';
 
 export interface IFrame {
   event: 'step_line' | 'call' | 'return' | 'uncaught_exception';
   func_name: '<module>' | string;
-  globals: PyVarObj;
+  globals: IPyVarObj;
   ordered_globals: string[];
   stack_to_render: IStackEntry[];
-  heap: PyHeap;
+  heap: IPyHeap;
   stdout: string;
 }
 
-export type IHeapReference = [PyVarType.HeapReference, number] //REF points to heap key
+export type IHeapReference = [PyVarType.HeapReference, number]; // REF points to heap key
 
-export interface PyVarObj { [name: string]: PyVar }
+export interface IPyVarObj { [name: string]: PyVar; }
 
 export type PyVar = IHeapReference | IPrimitive;
 
@@ -26,10 +26,10 @@ export enum PyVarType {
   Tuple = 'TUPLE',
 }
 
-export interface PyHeap { [key: number]: PyHeapVal}
+export interface IPyHeap { [key: number]: PyHeapVal;}
 
 export interface IStackEntry {
-  encoded_locals: PyVarObj;
+  encoded_locals: IPyVarObj;
   frame_id: number;
   func_name: string;
   is_highlighted: boolean;

@@ -1,14 +1,14 @@
+import '@uirouter/angularjs';
 import * as angular from 'angular';
 import 'angular-animate';
+import 'angular-highlightjs';
 import 'angular-material';
 import 'angular-messages';
-import 'angular-highlightjs';
 import 'restangular';
-import '@uirouter/angularjs'
 import './common/ui-codemirror.directive';
 
-import routing from './app.routing';
 import theming from './app.config';
+import routing from './app.routing';
 
 angular.module('debugapp', [
   'ngAnimate',

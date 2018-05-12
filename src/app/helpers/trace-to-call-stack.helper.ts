@@ -1,6 +1,6 @@
-import { map, isArray, toLower } from 'lodash';
+import { isArray, map, toLower } from 'lodash';
+import { ICallStack, IFrame, IStackEntry, IVariable, IPyHeap, PyHeapVal, PyVar, IPyVarObj, PyVarType } from '../../types';
 import VarHelper from './variable.helper';
-import { IFrame, ICallStack, IStackEntry, IVariable, PyHeap, PyVarObj, PyVar, PyHeapVal, PyVarType } from '../../types';
 
 export default class TraceToCallStack {
   /*
@@ -34,12 +34,12 @@ export default class TraceToCallStack {
    * Breaks any idea of referened objects vs local objects.
    */
 
-  static toStack(frame: IFrame) {
-    const callStack: ICallStack[] = map(frame.stack_to_render, (stackItem) => ({
-        id: stackItem.unique_hash,
-        name: stackItem.func_name + '()',
-        variables: TraceToCallStack.matchReferences(frame.heap, stackItem.encoded_locals),
-      }));
+  public static toStack(frame: IFrame) {
+    const callStack: ICallStack[] = map(frame.stack_to_render, stackItem => ({
+      id: stackItem.unique_hash,
+      name: stackItem.func_name + '()',
+      variables: TraceToCallStack.matchReferences(frame.heap, stackItem.encoded_locals),
+    }));
 
     callStack.unshift({
       id: '0',
@@ -49,7 +49,7 @@ export default class TraceToCallStack {
     return callStack;
   }
 
-  static matchReferences(heap: PyHeap, variables: PyVarObj): IVariable[] {
+  public static matchReferences(heap: IPyHeap, variables: IPyVarObj): IVariable[] {
     // map is built for array type objects, we're using a bit of a hack to use it for objects
     // This hack breaks if there is a key in the object named length (map uses .length internally)
     // Get around this by changing the length value to a string
@@ -73,7 +73,7 @@ export default class TraceToCallStack {
     return vars;
   }
 
-  static getValue(value: PyVar, heap: PyHeap): IVariable {
+  public static getValue(value: PyVar, heap: IPyHeap): IVariable {
     if (!isArray(value)) {
       if (value === null) {
         return VarHelper.createVariable('None', 'None', true);
@@ -110,7 +110,7 @@ export default class TraceToCallStack {
     return VarHelper.createVariable(finalValue, toLower(type));
   }
 
-  static addNameToVariable(name: string, variable: PyVar, heap: PyHeap): IVariable {
+  public static addNameToVariable(name: string, variable: PyVar, heap: IPyHeap): IVariable {
     const result = TraceToCallStack.getValue(variable, heap);
     result.name = name;
     return result;

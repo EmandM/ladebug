@@ -1,4 +1,4 @@
-import { IPrimitive } from ".";
+import { IPrimitive } from '.';
 
 export interface IVariable {
   type: string;

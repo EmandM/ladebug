@@ -1,5 +1,5 @@
-import { IProvider } from "restangular";
-import { material } from "angular";
+import { material } from 'angular';
+import { IProvider } from 'restangular';
 
 function theming($mdThemingProvider: material.IThemingProvider, restangularProvider: IProvider) {
   $mdThemingProvider.theme('default')
