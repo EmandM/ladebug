@@ -1,14 +1,12 @@
-import angular from 'angular';
+import { IService } from 'restangular';
 import FormatTime from '../helpers/format-time.helper';
 
 class ScoresService {
-  constructor(restangular) {
-    this.restangular = restangular;
-  }
+  constructor(private restangular: IService) {}
 
-  updateScore(userId, exerciseId, stars) {
-    if (userId === -1) {
-      return false;
+  public async updateScore(userId: string, exerciseId: string, stars: number): Promise<void> {
+    if (userId === '-1') {
+      return;
     }
 
     return this.restangular.one('scores', exerciseId).customPOST({
@@ -17,26 +15,25 @@ class ScoresService {
     });
   }
 
-  getScore(userId, exerciseId) {
-    if (userId === -1) {
-      return false;
+  public async getScore(userId, exerciseId): Promise<number> {
+    if (userId === '-1') {
+      return;
     }
-    return this.restangular.one('scores', exerciseId).customGET('', { userId })
-      .then(response => JSON.parse(response.data));
+    const response = await this.restangular.one('scores', exerciseId).customGET('', { userId });
+    return JSON.parse(response.data);
   }
 
-  getAllScores(userId) {
-    if (!userId || userId === -1) {
+  public async getAllScores(userId: string): Promise<number[]> {
+    if (!userId || userId === '-1') {
       return [];
     }
-    return this.restangular.one('scores').customGET('', { userId })
-      .then(response => JSON.parse(response.data));
+    const response = await this.restangular.one('scores').customGET('', { userId });
+    return JSON.parse(response.data);
   }
-
 
   // Score is still calculated somewhat off time
   // The time is increased based on user errors.
-  calculateStars(timeTaken, numErrors, numWrongFlags, numWrongSubmissions) {
+  public calculateStars(timeTaken: number, numErrors: number, numWrongFlags: number, numWrongSubmissions: number): number {
     // add ten seconds for every wrong flag
     const wrongFlagTime = numWrongFlags * FormatTime.unitsToMs(10, 'seconds');
     // add twenty seconds for every wrong flag
@@ -66,5 +63,4 @@ class ScoresService {
 
 ScoresService.$inject = ['Restangular'];
 
-angular.module('debugapp')
-  .service('ScoresService', ScoresService);
+export default ScoresService;

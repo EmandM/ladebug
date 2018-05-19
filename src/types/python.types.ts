@@ -8,6 +8,7 @@ export interface IFrame {
   stack_to_render: IStackEntry[];
   heap: IPyHeap;
   stdout: string;
+  exception_msg?: string;
 }
 
 export type IHeapReference = [PyVarType.HeapReference, number]; // REF points to heap key
