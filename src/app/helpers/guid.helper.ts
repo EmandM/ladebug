@@ -1,6 +1,6 @@
 import { replace } from 'lodash';
 
-export default class GuidHelper {
+export class GuidHelper {
   /*
    * Create a random id that mimics a guid.
    */

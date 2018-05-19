@@ -1,5 +1,5 @@
 import { IService } from 'restangular';
-import FormatTime from '../helpers/format-time.helper';
+import { FormatTime } from '../helpers';
 
 class ScoresService {
   constructor(private restangular: IService) {}

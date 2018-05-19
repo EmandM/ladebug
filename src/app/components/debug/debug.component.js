@@ -7,7 +7,7 @@ import includes from 'lodash/includes';
 import parseInt from 'lodash/parseInt';
 import split from 'lodash/split';
 import moment from 'moment';
-import TraceToCallStack from '../../helpers/trace-to-call-stack.helper';
+import { TraceToCallStack } from '../../helpers';
 
 import template from './debug.template.html';
 import './debug.scss';

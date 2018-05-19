@@ -1,7 +1,7 @@
 import { clone, find, map } from 'lodash';
 import { IService } from 'restangular';
 import { ICodeOutput, IExercise, IFrame, IPartialExercise, ITestCase } from '../../types';
-import GuidHelper from '../helpers/guid.helper';
+import { GuidHelper } from '../helpers';
 
 class ExerciseService {
   private jsonResponses: { [id: string]: ICodeOutput } = {};

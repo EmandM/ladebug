@@ -1,7 +1,7 @@
 import { map, replace } from 'lodash';
 import { IService } from 'restangular';
 import { IAverageStats, IExerciseStats } from '../../types';
-import { StatsHelper } from '../helpers/stats.helper';
+import { StatsHelper } from '../helpers';
 
 class StatsService {
   constructor(private restangular: IService) { }

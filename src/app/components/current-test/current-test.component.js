@@ -1,6 +1,6 @@
 import angular from 'angular';
 import isNumber from 'lodash/isNumber';
-import VarHelper from '../../helpers/variable.helper';
+import { VarHelper } from '../../helpers';
 
 import template from './current-test.template.html';
 import './current-test.scss';

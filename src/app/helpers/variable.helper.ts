@@ -1,7 +1,7 @@
 import { map } from 'lodash';
 import { IVariable } from '../../types';
 
-export default class VarHelper {
+export class VarHelper {
   public static objToVar(obj: any, name: string, type?: string): IVariable {
     if (!type && !obj) {
       return VarHelper.createVariable('None', 'None', true, name);

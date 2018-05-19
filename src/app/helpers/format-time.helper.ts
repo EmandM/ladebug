@@ -1,7 +1,7 @@
 import { forEach } from 'lodash';
 import * as moment from 'moment';
 
-export default class FormatTime {
+export class FormatTime {
   public static msToHumanReadable(msDuration: number): string {
     const duration = moment.duration(msDuration);
     let output = '';

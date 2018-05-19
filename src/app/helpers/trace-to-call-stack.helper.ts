@@ -1,8 +1,8 @@
 import { isArray, map, toLower } from 'lodash';
-import { ICallStack, IFrame, IStackEntry, IVariable, IPyHeap, PyHeapVal, PyVar, IPyVarObj, PyVarType } from '../../types';
-import VarHelper from './variable.helper';
+import { VarHelper } from '.';
+import { ICallStack, IFrame, IPyHeap, IPyVarObj, IVariable, PyHeapVal, PyVar, PyVarType } from '../../types';
 
-export default class TraceToCallStack {
+export class TraceToCallStack {
   /*
    * Frames are from the code trace retrieved from file. A frame is one base level code trace.
    * frame = {

@@ -1,6 +1,6 @@
 import angular from 'angular';
 import parseInt from 'lodash/parseInt';
-import FormatTime from '../../helpers/format-time.helper';
+import { FormatTime } from '../../helpers';
 
 import template from './complete-exercise.template.html';
 import './complete-exercise.scss';
