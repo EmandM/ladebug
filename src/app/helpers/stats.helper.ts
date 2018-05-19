@@ -39,18 +39,17 @@ export class StatsHelper {
       goToEnd: 0,
       goToStart: 0,
     };
-    let numStats = 0;
     const totalStats = reduce(stats, (count: IStats, statsData: IExerciseStats) => {
-      count.timeTaken +=
-        moment((statsData.endTime).slice(0, -5))
+      count.timeTaken += moment((statsData.endTime).slice(0, -5))
           .diff(moment((statsData.startTime).slice(0, -5)));
-      numStats += 1;
       forEach(statsData, (stat, key) => {
         if (key !== 'startTime' && key !== 'endTime') {
           count[key] += statsData[key];
         }
       });
+
       return count;
+
     }, baseStats);
     return totalStats;
   }

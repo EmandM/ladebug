@@ -2,10 +2,8 @@ import { constant, forEach } from 'lodash';
 import { IService } from 'restangular';
 
 class AuthService {
-  private currentUser: any;
   private signInListeners: { [key: string]: (isSignIn: boolean) => void };
   private authInstance: gapi.auth2.GoogleAuth;
-  private isSignedIn: boolean;
   private user: gapi.auth2.BasicProfile;
   private userId: string;
 
@@ -13,8 +11,6 @@ class AuthService {
   private authInstancePromise: Promise<boolean>;
 
   constructor(private restangular: IService) {
-    this.currentUser = {};
-
     this.checkSignedIn().then((isSignedIn) => {
       this.onAuthChange(isSignedIn);
     });
@@ -107,7 +103,6 @@ class AuthService {
   }
 
   private onAuthChange(isSignIn: boolean) {
-    this.isSignedIn = isSignIn;
     if (isSignIn) {
       const googleUser = this.authInstance.currentUser.get();
       this.user = googleUser.getBasicProfile();
