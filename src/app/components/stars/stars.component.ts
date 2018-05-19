@@ -1,21 +1,24 @@
-import angular from 'angular';
-import map from 'lodash/map';
+import * as angular from 'angular';
+import { map } from 'lodash';
 
-import template from './stars.template.html';
 import './stars.scss';
+import template from './stars.template.html';
 
-class starsController {
+class StarsController {
+  private starsArray: boolean[];
+  private score: number;
+
   constructor() {
     this.starsArray = new Array(5);
   }
 
-  $onChanges(changesObj) {
+  public $onChanges(changesObj) {
     if (changesObj.score && this.score) {
       this.updateStars(this.score);
     }
   }
 
-  updateStars(numStars) {
+  public updateStars(numStars: number) {
     this.starsArray = map(this.starsArray, (value, index) => {
       const isTrue = (index + 1) <= numStars;
       return isTrue;
@@ -23,12 +26,12 @@ class starsController {
   }
 }
 
-starsController.$inject = [];
+StarsController.$inject = [];
 
 angular.module('debugapp')
   .component('stars', {
     template,
-    controller: starsController,
+    controller: StarsController,
     bindings: {
       score: '<',
       size: '@',

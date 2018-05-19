@@ -12,7 +12,8 @@
       "max-line-length": false,
       "one-variable-per-declaration": false,
       "no-parameter-reassignment": false,
-      "object-shorthand-properties-first": false
+      "object-shorthand-properties-first": false,
+      "prefer-array-literal": false
     },
     "rulesDirectory": []
 }

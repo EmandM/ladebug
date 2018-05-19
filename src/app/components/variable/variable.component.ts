@@ -1,12 +1,18 @@
-import angular from 'angular';
+import * as angular from 'angular';
+import { IVariable } from '../../../types';
 
-import template from './variable.template.html';
 import './variable.scss';
+import template from './variable.template.html';
 
-class variableController {
+class VariableController {
+  private variable: IVariable;
+  private isString: boolean;
+  private isPrimitive: boolean;
+  private hasName: boolean;
+  private visible: boolean;
   // constructor() { }
 
-  $onChanges(changesObj) {
+  public $onChanges(changesObj) {
     if (!changesObj.variable || !this.variable) {
       return;
     }
@@ -15,7 +21,7 @@ class variableController {
     this.hasName = (this.variable.name !== undefined);
   }
 
-  getClass() {
+  public getClass() {
     if (this.isString) {
       return 'strValue';
     }
@@ -25,17 +31,17 @@ class variableController {
     return 'numValue';
   }
 
-  toggleVisibility() {
+  public toggleVisibility() {
     this.visible = !this.visible;
   }
 }
 
-variableController.$inject = [];
+VariableController.$inject = [];
 
 angular.module('debugapp')
   .component('variable', {
     template,
-    controller: variableController,
+    controller: VariableController,
     bindings: {
       variable: '<',
       nameAsHeading: '<?',

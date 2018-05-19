@@ -8,11 +8,11 @@
     "experimentalDecorators": true,
     "removeComments": false,
     "lib": ["es2015", "dom"],
-    "typeRoots" : ["./types", "./node_modules/@types"],
-    "noImplicitAny": false,
-    "noUnusedLocals": true
+    "typeRoots" : ["./src/types", "./node_modules/@types"],
+    "noImplicitAny": false
   },
   "files": [
+    "src/types/html.d.ts",
     "src/**/*.ts"
   ],
   "exclude": [

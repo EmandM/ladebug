@@ -94,7 +94,10 @@ module.exports = (function () {
       // Transpile .js files using babel-loader
       // Compiles ES6 and ES7 into ES5 code
       test: /\.js$/,
-      use: 'babel-loader',
+      use: [
+        'ng-annotate-loader',
+        'babel-loader',
+      ],
       exclude: /node_modules/,
     }, {
       test: /\.ts$/,
@@ -188,7 +191,7 @@ module.exports = (function () {
   }
 
   config.resolve = {
-    extensions: ['.js', '.ts'],
+    extensions: ['.js', '.ts', '.html'],
   };
 
   /**
