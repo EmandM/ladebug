@@ -19,12 +19,14 @@ export interface ITestCase {
 }
 
 export interface IExercise {
+  id: string;
   errorLines: number[];
   name: string;
   description: string;
   codeString: string;
   entryFunction: string;
   testCases: ITestCase[];
+  score?: number;
 }
 
 export interface IPartialExercise {
@@ -68,4 +70,15 @@ export interface IAverageStats {
   stepBack: number;
   goToEnd: number;
   goToStart: number;
+}
+
+export interface IScore {
+  exerciseId: string;
+  stars: string;
+}
+
+export interface ICodeMirrorOptions {
+  lineNumbers: boolean;
+  lineWrapping: boolean;
+  mode: string;
 }

@@ -1,4 +1,4 @@
-import angular from 'angular';
+import * as angular from 'angular';
 
 import './home.scss';
 import template from './home.template.html';

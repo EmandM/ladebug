@@ -4,7 +4,7 @@ import { ICodeOutput, IExercise, IFrame, IPartialExercise, ITestCase } from '../
 import { GuidHelper } from '../helpers';
 
 class ExerciseService {
-  private jsonResponses: { [id: string]: ICodeOutput } = {};
+  private jsonResponses: { [id: string]: ICodeOutput | (ICodeOutput & IExercise) } = {};
   private filesUploaded: { [id: string]: IPartialExercise} = {};
   private exerciseList: IExercise[];
 
@@ -34,28 +34,11 @@ class ExerciseService {
     return (errorTrace) ? errorTrace.exception_msg : undefined;
   }
 
-  public async getOutputById(id: string): Promise<ICodeOutput> {
+  public async getOutputById(id: string): Promise<ICodeOutput | (ICodeOutput & IExercise)> {
     if (!(id in this.jsonResponses)) {
       return this.getExerciseById(id);
     }
     return this.jsonResponses[id];
-  }
-
-  public async getExerciseById(id: string): Promise<ICodeOutput> {
-    let output;
-    const response = await this.restangular.one('exercise', id).get();
-    output = JSON.parse(response.data);
-
-    // Parse debugInfo as it is saved in the server as a string
-    output.testCases = JSON.parse(output.test_cases);
-
-    if (output.bug_lines) {
-      output.errorLines = JSON.parse(output.bug_lines);
-    }
-    this.jsonResponses[id] = output;
-    const sandboxOutput = await this.runSandbox(output.code_string, output.entry_function, output.testCases, id);
-    output.debugInfo = sandboxOutput.debugInfo;
-    return output;
   }
 
   public async deleteExercise(id: string): Promise<void> {
@@ -126,6 +109,31 @@ class ExerciseService {
 
   public clearExerciseOutputCache(exerciseId: string): void {
     delete this.jsonResponses[exerciseId];
+  }
+
+  private async getExerciseById(id: string): Promise<(ICodeOutput & IExercise)> {
+    const output = {} as (ICodeOutput & IExercise);
+    let response = await this.restangular.one('exercise', id).get();
+    response = JSON.parse(response.data);
+
+    // Parse debugInfo as it is saved in the server as a string
+    output.codeString = response.code_string;
+    output.name = response.name;
+    output.errorLines = response.errorLines;
+    output.description = response.description;
+    output.entryFunction = response.entry_function;
+    output.testCases = map(JSON.parse(response.test_cases), testCase => ({
+      input: testCase.input,
+      expectedOutput: testCase.expected_output,
+    }));
+
+    if (response.bug_lines) {
+      output.errorLines = JSON.parse(response.bug_lines);
+    }
+    const sandboxOutput = await this.runSandbox(response.code_string, response.entry_function, response.testCases, id);
+    output.debugInfo = sandboxOutput.debugInfo;
+    this.jsonResponses[id] = output;
+    return output;
   }
 }
 

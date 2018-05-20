@@ -1,5 +1,6 @@
 import { IService } from 'restangular';
 import { FormatTime } from '../helpers';
+import { IScore } from './../../types/ladebug.types';
 
 class ScoresService {
   constructor(private restangular: IService) {}
@@ -15,7 +16,7 @@ class ScoresService {
     });
   }
 
-  public async getScore(userId, exerciseId): Promise<number> {
+  public async getScore(userId, exerciseId): Promise<IScore> {
     if (userId === '-1') {
       return;
     }
@@ -23,7 +24,7 @@ class ScoresService {
     return JSON.parse(response.data);
   }
 
-  public async getAllScores(userId: string): Promise<number[]> {
+  public async getAllScores(userId: string): Promise<IScore[]> {
     if (!userId || userId === '-1') {
       return [];
     }
