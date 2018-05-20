@@ -10,3 +10,5 @@ angular.module('debugapp')
   .service('ExerciseService', ExerciseService)
   .service('ScoresService', ScoresService)
   .service('StatsService', StatsService);
+
+export { AuthService, ExerciseService, ScoresService, StatsService };

@@ -1,14 +1,21 @@
-import angular from 'angular';
+import * as angular from 'angular';
+import { AuthService } from '../../services';
 
-import template from './page-header.template.html';
 import './page-header.scss';
+import template from './page-header.template.html';
 
-class headerController {
-  constructor(authService, $scope, $timeout) {
-    this.authService = authService;
-    this.$scope = $scope;
-    this.$timeout = $timeout;
+class HeaderController {
+  private authServiceKey: string;
+  private authLoaded: boolean;
+  private isSignedIn: boolean;
+  private noGapi: boolean;
 
+  private userName: string;
+  private userImage: string;
+  private userEmail: string;
+  private isAdmin: boolean;
+
+  constructor(private authService: AuthService, private $scope: angular.IScope, private $timeout: angular.ITimeoutService) {
     this.authServiceKey = 'page-header';
     this.authService.addOnSignIn(this.authServiceKey, this.authChange.bind(this));
     this.authService.renderSignInButton('signInButton');
@@ -19,23 +26,22 @@ class headerController {
       });
   }
 
-  $onDestroy() {
+  public $onDestroy() {
     this.authService.removeOnSignIn(this.authServiceKey);
   }
 
-  applyScope() {
+  public applyScope() {
     this.$timeout(this.$scope.$apply(), 0);
   }
 
-  authChange(isSignedIn) {
+  public authChange(isSignedIn: boolean) {
     this.authLoaded = true;
     this.loadAuth(isSignedIn);
     this.applyScope();
   }
 
-  loadAuth(isSignedIn) {
+  public async loadAuth(isSignedIn: boolean) {
     this.isSignedIn = isSignedIn;
-    this.checkIsAdmin();
     if (!this.isSignedIn) {
       return;
     }
@@ -43,24 +49,19 @@ class headerController {
     this.userName = userInfo.getName();
     this.userImage = userInfo.getImageUrl();
     this.userEmail = userInfo.getEmail();
+    this.isAdmin = await this.authService.checkIsAdmin();
   }
 
-  checkIsAdmin() {
-    this.authService.checkIsAdmin().then((isAdmin) => {
-      this.isAdmin = isAdmin;
-    });
-  }
-
-  signout() {
+  public signout() {
     this.authService.signOut();
   }
 }
 
-headerController.$inject = ['AuthService', '$scope', '$timeout'];
+HeaderController.$inject = ['AuthService', '$scope', '$timeout'];
 
 angular.module('debugapp')
   .component('pageHeader', {
     template,
-    controller: headerController,
+    controller: HeaderController,
     bindings: {},
   });

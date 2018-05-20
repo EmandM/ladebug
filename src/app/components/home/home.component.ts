@@ -1,19 +1,19 @@
 import angular from 'angular';
 
-import template from './home.template.html';
 import './home.scss';
+import template from './home.template.html';
 
-class homeController {
+class HomeController {
   // constructor() {
   // }
 
 }
 
-homeController.$inject = [];
+HomeController.$inject = [];
 
 angular.module('debugapp')
   .component('home', {
     template,
-    controller: homeController,
+    controller: HomeController,
     bindings: {},
   });

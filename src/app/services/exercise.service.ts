@@ -10,8 +10,8 @@ class ExerciseService {
 
   public constructor(private restangular: IService) { }
 
-  public async runSandbox(pythonString: string, entryFunction: string,
-    testCases: ITestCase[], outputId: string): Promise<ICodeOutput> {
+  public async runSandbox(pythonString: string, entryFunction?: string,
+    testCases?: ITestCase[], outputId?: string): Promise<ICodeOutput> {
     const testCaseJson = JSON.stringify(testCases);
     const response = await this.restangular.one('get-output').customPOST({
       codeString: pythonString,

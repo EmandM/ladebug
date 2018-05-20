@@ -34,6 +34,7 @@ export interface IPartialExercise {
 
 export interface ICodeTrace {
   trace: any;
+  code: string;
 }
 
 export interface ICodeOutput {
