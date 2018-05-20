@@ -2,7 +2,7 @@ import angular from 'angular';
 import 'angular-animate';
 import 'angular-material';
 import 'angular-messages';
-import 'angular-ui-router';
+import '@uirouter/angularjs';
 import 'angular-highlightjs';
 import 'restangular';
 import './common/ui-codemirror.directive';
