@@ -4,6 +4,8 @@ import 'angular-animate';
 import 'angular-highlightjs';
 import 'angular-material';
 import 'angular-messages';
+import '@uirouter/angularjs';
+import 'angular-highlightjs';
 import 'restangular';
 import './common/ui-codemirror.directive';
 
