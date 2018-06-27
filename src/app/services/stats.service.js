@@ -66,6 +66,7 @@ class StatsService {
   }
 
   putNewStats(userId, stats, exerciseId) {
+    stats = JSON.stringify(stats);
     return this.restangular.one('stats').customPUT({
       userId,
       stats,

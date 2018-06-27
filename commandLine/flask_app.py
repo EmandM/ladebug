@@ -1,4 +1,4 @@
-from flask import Flask, abort
+from flask import Flask, abort, json
 import os
 from flask_restful import reqparse, Api, Resource
 from flask_cors import CORS
@@ -42,6 +42,8 @@ def add_newline(string):
         string += '\n'
     return string
 
+def get_datetime():
+    return datetime.datetime.now().isoformat()
 
 class ExercisesList(Resource):
     # get all exercises
@@ -79,7 +81,7 @@ class SavedExercise(Resource):
                 'bug_lines': args['errorLines'],
                 'code_string': code_string,
                 'description': args['description'],
-                'last_updated': datetime.datetime.now().isoformat(),
+                'last_updated': get_datetime(),
                 'entry_function': args['entryFunction'],
                 'test_cases': test_cases
             }
@@ -101,9 +103,9 @@ class SaveExercise(Resource):
             'name': args['name'],
             'bug_lines': args['errorLines'],
             'description': args['description'],
-            'created_on': datetime.datetime.now().isoformat(),
+            'created_on': get_datetime(),
             'code_string': code_string,
-            'last_updated': datetime.datetime.now().isoformat(),
+            'last_updated': get_datetime(),
             'entry_function': args['entryFunction'],
             'test_cases': tests.add_types(args['testCases'])
         })
@@ -148,11 +150,12 @@ class Stats(Resource):
     def put(self):
         args = parser.parse_args()
         userId = oauth.validate_user_id(args['userId'])
+        stats = json.loads(args['stats'])
         result = db.statsCollection.insert_one({
-            'dateTime': str(now),
+            'dateTime': get_datetime(),
             'userId': userId,
             'exerciseId': args['exerciseId'],
-            'stats': args['stats']
+            'stats': stats
         })
         return {'inserted': dumps(result.inserted_id)}, 201
 
