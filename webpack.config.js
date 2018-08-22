@@ -73,6 +73,7 @@ module.exports = (function () {
     chunkFilename: isProd ? '[name].[hash].js' : '[name].bundle.js',
   };
 
+
   /**
      * Loaders
      * Reference: http://webpack.github.io/docs/configuration.html#module-loaders
@@ -115,6 +116,7 @@ module.exports = (function () {
       use: 'raw-loader',
     }],
   };
+  config.devtool = 'source-map';
 
   // ISTANBUL LOADER
   // https://github.com/deepsweet/istanbul-instrumenter-loader
