@@ -67,7 +67,7 @@ $ python3 ./commandLine/flask_app.py
 
 ```
 
-# License
+# License and Copyright
 
-[MIT](/LICENSE)
+[Copyright](/LICENSE)
 
