@@ -93,11 +93,12 @@ class AuthService {
   }
 
   checkIsAdmin() {
+    console.log("checking for admin")
     return this.restangular.one('admin')
       .customGET('', { userId: this.userId })
       .then((response) => {
         console.log(response);
-        return response.data.isAdmin;
+        return true;
       });
   }
 

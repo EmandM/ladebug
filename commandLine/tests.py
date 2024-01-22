@@ -19,9 +19,9 @@ def load_value(val):
 
     if new_val is None:
         return new_val, 'None'
-
+    
     # else return type name
-    return new_val, val_type.__name__
+    return new_val, type(new_val).__name__
 
 
 def load(json_test_cases):

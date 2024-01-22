@@ -89,7 +89,14 @@ module.exports = (function () {
       // Transpile .js files using babel-loader
       // Compiles ES6 and ES7 into ES5 code
       test: /\.js$/,
-      use: 'babel-loader',
+      use: {
+        loader: 'babel-loader',
+        options: {
+          presets: [
+            ['@babel/preset-env', { targets: "defaults" }]
+          ]
+        }
+      },
       exclude: /node_modules/,
     }, {
       // Reference: https://github.com/webpack/extract-text-webpack-plugin
@@ -122,20 +129,20 @@ module.exports = (function () {
   // https://github.com/deepsweet/istanbul-instrumenter-loader
   // Instrument JS files with istanbul-lib-instrument for subsequent code coverage reporting
   // Skips node_modules and files that end with .spec.js
-  if (isTest) {
-    config.module.rules.push({
-      enforce: 'pre',
-      test: /\.js$/,
-      exclude: [
-        /node_modules/,
-        /\.spec\.js$/,
-      ],
-      use: 'istanbul-instrumenter-loader',
-      query: {
-        esModules: true,
-      },
-    });
-  }
+  // if (isTest) {
+  //   config.module.rules.push({
+  //     enforce: 'pre',
+  //     test: /\.js$/,
+  //     exclude: [
+  //       /node_modules/,
+  //       /\.spec\.js$/,
+  //     ],
+  //     use: 'istanbul-instrumenter-loader',
+  //     query: {
+  //       esModules: true,
+  //     },
+  //   });
+  // }
 
   config.plugins = [];
 
@@ -156,10 +163,11 @@ module.exports = (function () {
     );
   }
   if (!isProd) {
-    config.plugins.push(new CopyWebpackPlugin([
+    config.plugins.push(new CopyWebpackPlugin({
+      patterns: [
       { from: 'node_modules/font-awesome/fonts/**', to: '.' },
       { from: 'src/img/favicon.ico', to: './src' },
-    ]));
+    ]}));
   }
 
   // Add build specific plugins
@@ -177,7 +185,7 @@ module.exports = (function () {
   }
 
   config.resolve = {
-    extensions: ['.js', '.ts'],
+    extensions: ['.js'],
   };
 
   /**
@@ -186,9 +194,11 @@ module.exports = (function () {
      * Reference: http://webpack.github.io/docs/webpack-dev-server.html
      */
   config.devServer = {
-    contentBase: './src',
-    stats: 'minimal',
-    historyApiFallback: true,
+    static: {
+      directory: './src',
+    },
+    // stats: 'minimal',
+    // historyApiFallback: true,
   };
 
   return config;

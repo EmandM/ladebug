@@ -12,9 +12,9 @@ class codeBlockController {
   // }
 
   $onChanges(changesObj) {
-    if (changesObj.codeString) {
+    if (changesObj.codeString && changesObj.codeString.currentValue) {
       // Split the code by newline characters to have reference to each line.
-      this.codeByLines = split(this.codeString, '\n');
+      this.codeByLines = split(changesObj.codeString.currentValue, '\n');
       this.calculateCommentBlockLines();
     }
   }

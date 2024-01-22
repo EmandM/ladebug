@@ -47,6 +47,7 @@ class debugController {
   $onInit() {
     this.exerciseService.getOutputById(this.outputId)
       .then((response) => {
+        console.log("response", response)
         this.codeString = response.debugInfo.code;
         this.codeTrace = response.debugInfo.trace;
         if (response.name) {

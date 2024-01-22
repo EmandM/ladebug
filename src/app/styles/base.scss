@@ -28,4 +28,11 @@
     vertical-align: top;
 
   }
+
+  .icon {
+    display: inline-block;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+  }
 }

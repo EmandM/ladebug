@@ -1,4 +1,4 @@
-from flask import Flask, abort, json
+from flask import Flask, abort, json, request
 import os
 from flask_restful import reqparse, Api, Resource
 from flask_cors import CORS
@@ -27,13 +27,12 @@ parser.add_argument('exerciseId')
 parser.add_argument('entryFunction')
 parser.add_argument('testCases')
 
-MONGO_URL = os.environ.get('MONGO_URL')
-if not MONGO_URL:
-    MONGO_URL = "mongodb://localhost:27017/heroku_ddnsv6wr"
+# MONGO_URL = os.environ.get('MONGO_URL')
+# if not MONGO_URL:
+#     MONGO_URL = "mongodb://localhost:27017/heroku_ddnsv6wr"
 
-client = MongoClient(MONGO_URL)
-db = client.heroku_ddnsv6wr
-
+client = MongoClient('mongodb://localhost:27017/')
+db = client.debuggerTest #TODO don't forget to change this for deployment
 
 # Add final newline to string
 def add_newline(string):
@@ -185,7 +184,7 @@ class Scores(Resource):
 
 class SingleScore(Resource):
     def get(self, exercise_id):
-        args = parser.parse_args()
+        args = request.args
         userId = oauth.validate_user_id(args['userId'])
         response = db.scoresCollection.find({'userId': userId, 'exerciseId': exercise_id})
         return {'data': dumps(response)}
@@ -214,17 +213,19 @@ class SingleScore(Resource):
 
 class AllUserScores(Resource):
     def get(self):
-        args = parser.parse_args()
+        args = request.args
         userId = oauth.validate_user_id(args['userId'])
         response = db.scoresCollection.find({'userId': userId})
         return {'data': dumps(response)}
 
 class Admin(Resource):
     def get(self):
-        args = parser.parse_args()
+        args = request.args
         userId = oauth.validate_user_id(args['userId'])
+        if userId == -1 :
+            return { 'error' : 'invalid user id'}
         data = db.adminCollection.find_one({'userId': userId})
-        print("\n \n UserId: " + str(userId) + ", Data: " + dumps(data) + "\n\n")
+        print("\n \n UserId: " + str(userId) + "\n\n")
         return {'data': {'isAdmin': False if not data else data.get('isAdmin')}}
 
     def put(self):
@@ -237,7 +238,16 @@ class Admin(Resource):
             'userId': userId,
             'isAdmin': True
         })
-        return {'created': dumps(result.userId)}, 201
+        return {'created': userId}, 201
+
+class Test(Resource):
+    def get(self):
+        args = request.args
+        print(args)
+        resp = {'test': 'response'}
+        for key in args:
+            resp[key] = args[key]
+        return resp
 
 
 
@@ -249,6 +259,7 @@ api.add_resource(Tests, '/validate-tests')
 api.add_resource(Stats, '/stats')
 api.add_resource(SavedStats, '/stats/<string:exercise_id>')
 api.add_resource(Scores, '/debug-scores')
+api.add_resource(Test, '/test')
 
 # Send userId in get body
 api.add_resource(SingleScore, '/scores/<string:exercise_id>')

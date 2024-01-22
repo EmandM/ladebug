@@ -37,13 +37,18 @@ Ensure both are added to your PATH. The python installer gives the option to do 
 
 ```bash
 # Install the necessary python libraries
-$ pip install Flask Flask-Cors Flask-RESTful Werkzeug pymongo oauth2client
+$ pip install Flask Flask-Cors Flask-RESTful Werkzeug pymongo requests google-auth
 
 ```
 
 
 #### MongoDB Database
-Download and install [MongoDB](https://www.mongodb.com/download-center?jmp=tutorials&_ga=2.254687240.1618150711.1506248764-1727796482.1505700843)
+Download and install [MongoDB]
+```bash
+brew tap mongodb/brew  
+
+brew install mongodb-community
+```
 
 
 #### AngularJS Client
@@ -56,6 +61,9 @@ restangularProvider.setBaseUrl('http://127.0.0.1:5000');
 ### Run local installation 
 
 ```bash
+# Start the mongodb server
+$ brew services start mongodb-community
+
 # In one command prompt run
 $ npm run dev
 
